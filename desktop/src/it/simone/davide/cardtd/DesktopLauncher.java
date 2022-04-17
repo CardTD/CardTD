@@ -8,9 +8,9 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setForegroundFPS(60);
-        config.setResizable(false);
+        config.setResizable(true);
         config.setTitle("CardTD");
-        //config.setWindowedMode(CardTDGame.SCREEN_WIDTH, CardTDGame.SCREEN_HEIGHT);
+        //config.setWindowedMode(Lwjgl3ApplicationConfiguration.getDisplayMode().width-100, Lwjgl3ApplicationConfiguration.getDisplayMode().height-100);
         config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
         new Lwjgl3Application(new CardTDGame(), config);
     }
