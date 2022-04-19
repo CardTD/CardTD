@@ -114,3 +114,8 @@ Thumbs.db
 /ios/IOSLauncher.app
 /ios/IOSLauncher.app.dSYM
 core/src/it/simone/davide/cardtd/screens/Test.java
+android/debug.jks
+android/debug/android-debug.apk
+android/debug/output.json
+android/release/android-release.apk
+android/release/output.json
