@@ -33,14 +33,13 @@ public class CardTDGame extends Game {
     }
 
     private void loadAssets() {
+
         //load main menu bg
         assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
 
         //load font for the title
-        FreeTypeFontLoaderParameter titleParam = new FreeTypeFontLoaderParameter();
-        titleParam.fontFileName = StaticVariables.MAIN_FONT;
-        titleParam.fontParameters.size = StaticVariables.TITLE_FONT_SIZE;
-        assetManager.load(StaticVariables.MAIN_FONT, BitmapFont.class, titleParam);
+         FontType.loadFonts();
+
 
     }
 }

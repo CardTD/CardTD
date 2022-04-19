@@ -3,9 +3,6 @@ package it.simone.davide.cardtd.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -13,23 +10,42 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
+import it.simone.davide.cardtd.FontType;
+import it.simone.davide.cardtd.LabelAdapter;
 import it.simone.davide.cardtd.StaticVariables;
 
 public class MainMenu implements Screen {
 
-    private Stage fillstage;
-    private Stage fitstage;
+    /**
+     * Stage che si estende su tutta la schermata
+     */
+    private final Stage fillstage;
+
+    /**
+     * Stage che si estende solo per la dimensione specificata del gioco
+     */
+    private final Stage fitstage;
 
     public MainMenu() {
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
 
-        Texture bg = CardTDGame.assetManager.<Texture>get(StaticVariables.MAIN_MENU_IMG);
+        //faccio in modo che il bg si estende su tutto lo schermo e lo setto
+        Texture bg = CardTDGame.assetManager.get(StaticVariables.MAIN_MENU_IMG);
         Table table = new Table();
         table.setFillParent(true);
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
-
         fillstage.addActor(table);
+
+        //inserisco le 3 label
+        LabelAdapter logo = new LabelAdapter(StaticVariables.GAMENAME, FontType.LOGO);
+        logo.toStage(fitstage, StaticVariables.SCREEN_WIDTH / 2f - logo.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - logo.getHeight() / 2 + 200);
+
+        LabelAdapter options = new LabelAdapter("options", FontType.OPTIONS);
+        options.toStage(fillstage, Gdx.graphics.getWidth() - options.getWidth() - 20, Gdx.graphics.getHeight() / 2f - options.getHeight() / 2);
+
+        LabelAdapter deck = new LabelAdapter("Make Deck", FontType.OPTIONS);
+        deck.toStage(fillstage, 20, Gdx.graphics.getHeight() / 2 - deck.getHeight() / 2);
 
     }
 
@@ -45,26 +61,11 @@ public class MainMenu implements Screen {
         fillstage.draw();
         fillstage.act(delta);
         fillstage.draw();
-        Batch stageBatch = fillstage.getBatch();
-        stageBatch.begin();
-        BitmapFont title = CardTDGame.assetManager.get(StaticVariables.MAIN_FONT, BitmapFont.class);
-        GlyphLayout layout = new GlyphLayout(title, "Make Deck");
-        title.draw(fillstage.getBatch(), "Make Deck", 10, Gdx.graphics.getHeight() / 2);
-
-        layout = new GlyphLayout(title, "Options");
-        title.draw(fillstage.getBatch(), "Options", Gdx.graphics.getWidth() - layout.width - 10, Gdx.graphics.getHeight() / 2);
-
-        stageBatch.end();
 
         //render the game menu
         fitstage.getViewport().apply();
         fitstage.act(delta);
         fitstage.draw();
-        stageBatch = fitstage.getBatch();
-        stageBatch.begin();
-        layout = new GlyphLayout(title, StaticVariables.GAMENAME);
-        title.draw(fitstage.getBatch(), StaticVariables.GAMENAME, StaticVariables.SCREEN_WIDTH / 2 - layout.width / 2, StaticVariables.SCREEN_HEIGHT / 2 - layout.height / 2 + 200);
-        stageBatch.end();
 
     }
 
