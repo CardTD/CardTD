@@ -11,7 +11,8 @@ public class LabelAdapter extends Label {
     public LabelAdapter(String text, FontType fontType) {
 
         super(text, new LabelStyle(fontType.getBitMapFont(), fontType.getColor()));
-
+        this.text = text;
+        this.fontType = fontType;
     }
 
     public void toStage(Stage stage, float x, float y) {
@@ -19,6 +20,12 @@ public class LabelAdapter extends Label {
         stage.addActor(this);
         setPosition(x, y);
 
+    }
+
+    public void reset() {
+
+        setText(text);
+        setColor(fontType.getColor());
     }
 
 }

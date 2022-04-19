@@ -1,5 +1,6 @@
 package it.simone.davide.cardtd;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
@@ -13,12 +14,13 @@ import java.util.List;
 public class FontType {
 
     private static List<FontType> fontTypes = new ArrayList();
+
     public static FontType LOGO, OPTIONS;
 
     static {
 
         LOGO = new FontType("LOGO", "Rundown.ttf", 150, Color.WHITE);
-        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.WHITE);
+        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.BLACK);
         fontTypes.add(LOGO);
         fontTypes.add(OPTIONS);
     }
@@ -56,7 +58,6 @@ public class FontType {
             titleParam.fontParameters.size = fontType.size;
 
             CardTDGame.assetManager.load( fontType.fontName, BitmapFont.class, titleParam);
-
 
         }
 

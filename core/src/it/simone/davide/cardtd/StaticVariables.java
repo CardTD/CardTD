@@ -10,5 +10,5 @@ public class StaticVariables {
     public static final String GAMENAME = "CardTD";
 
     public static final String MAIN_MENU_IMG = "mainmenu.png";
-
+    
 }

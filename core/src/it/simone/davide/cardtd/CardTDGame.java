@@ -9,16 +9,16 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
-import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 public class CardTDGame extends Game {
 
     public static AssetManager assetManager;
+    public static Game INSTANCE;
 
     @Override
     public void create() {
-
+        INSTANCE = this;
         assetManager = new AssetManager();
 
         // set the font loaders
@@ -38,8 +38,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
 
         //load font for the title
-         FontType.loadFonts();
-
+        FontType.loadFonts();
 
     }
 }
