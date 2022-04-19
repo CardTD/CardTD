@@ -1,9 +1,9 @@
-package it.simone.davide.cardtd;
+package it.simone.davide.cardtd.fontmanagement;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
+import it.simone.davide.cardtd.CardTDGame;
 
 import java.util.ArrayList;
 import java.util.List;

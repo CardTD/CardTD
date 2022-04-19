@@ -1,4 +1,4 @@
-package it.simone.davide.cardtd;
+package it.simone.davide.cardtd.fontmanagement;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;

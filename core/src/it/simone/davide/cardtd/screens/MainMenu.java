@@ -16,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
-import it.simone.davide.cardtd.FontType;
-import it.simone.davide.cardtd.LabelAdapter;
+import it.simone.davide.cardtd.fontmanagement.FontType;
+import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.StaticVariables;
 
 public class MainMenu implements Screen {
