@@ -1,6 +1,4 @@
 # CardTD
- 
-Ho rimosso android perchè dava problemi
 
 HTML non è compatibile con le librerie FreeType e Bullet
 
