@@ -41,7 +41,7 @@ public class MainMenu implements Screen {
         LabelAdapter logo = new LabelAdapter(StaticVariables.GAMENAME, FontType.LOGO);
         logo.toStage(fitstage, StaticVariables.SCREEN_WIDTH / 2f - logo.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - logo.getHeight() / 2 + 200);
 
-        LabelAdapter options = new LabelAdapter("options", FontType.OPTIONS);
+        LabelAdapter options = new LabelAdapter("Options", FontType.OPTIONS);
         options.toStage(fillstage, Gdx.graphics.getWidth() - options.getWidth() - 20, Gdx.graphics.getHeight() / 2f - options.getHeight() / 2);
 
         LabelAdapter deck = new LabelAdapter("Make Deck", FontType.OPTIONS);
@@ -60,7 +60,6 @@ public class MainMenu implements Screen {
         fillstage.getViewport().apply();
         fillstage.draw();
         fillstage.act(delta);
-        fillstage.draw();
 
         //render the game menu
         fitstage.getViewport().apply();
