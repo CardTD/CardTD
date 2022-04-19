@@ -16,9 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
+import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
-import it.simone.davide.cardtd.StaticVariables;
 
 public class MainMenu implements Screen {
 
@@ -47,7 +47,6 @@ public class MainMenu implements Screen {
         //inserisco le 3 label
         LabelAdapter logo = new LabelAdapter(StaticVariables.GAMENAME, FontType.LOGO);
         logo.toStage(fitstage, StaticVariables.SCREEN_WIDTH / 2f - logo.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - logo.getHeight() / 2 + 200);
-
         final LabelAdapter options = new LabelAdapter("Options", FontType.OPTIONS);
         options.toStage(fillstage, Gdx.graphics.getWidth() - options.getWidth() - 50, Gdx.graphics.getHeight() / 2f - options.getHeight() / 2);
         options.setOrigin(options.getWidth(), options.getHeight());
@@ -106,7 +105,7 @@ public class MainMenu implements Screen {
             }
         });
 
-        deck.toStage(fillstage, 50, Gdx.graphics.getHeight() / 2 - deck.getHeight() / 2);
+        deck.toStage(fillstage, 50, Gdx.graphics.getHeight() / 2f - deck.getHeight() / 2);
         Gdx.input.setInputProcessor(fillstage);
     }
 

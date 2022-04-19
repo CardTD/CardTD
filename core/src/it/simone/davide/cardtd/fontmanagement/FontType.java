@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class FontType {
 
-    private static List<FontType> fontTypes = new ArrayList();
+    private static final List<FontType> fontTypes = new ArrayList<>();
 
     public static FontType LOGO, OPTIONS;
 

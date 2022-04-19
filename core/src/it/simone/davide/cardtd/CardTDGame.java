@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import it.simone.davide.cardtd.fontmanagement.FontType;
+import it.simone.davide.cardtd.screens.DeckMenu;
 import it.simone.davide.cardtd.screens.MainMenu;
+import it.simone.davide.cardtd.screens.Test;
 
 public class CardTDGame extends Game {
 
@@ -29,14 +31,17 @@ public class CardTDGame extends Game {
 
         loadAssets();
         assetManager.finishLoading();
-        setScreen(new MainMenu());
+        setScreen(new DeckMenu());
 
     }
 
     private void loadAssets() {
 
+
         //load main menu bg
         assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
+
+        assetManager.load(StaticVariables.CARDSLOT, Texture.class);
 
         //load font for the title
         FontType.loadFonts();
