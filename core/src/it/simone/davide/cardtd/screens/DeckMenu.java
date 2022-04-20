@@ -127,7 +127,6 @@ public class DeckMenu implements Screen, InputProcessor {
 
                 super.dragStart(event, x, y, pointer);
                 Card c = ((Card) event.getTarget());
-                System.out.println(c);
                 if (!c.isSelected() && !c.getName().equals("blank")) {
                     hoverCard = c.getHoverCard();
 

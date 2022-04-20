@@ -92,9 +92,7 @@ public class Deck {
     public void fixDeck() {
 
         for (int i = 1; i < cards.size(); i++) {
-            System.out.println(cards.get(i).getName() + "  " + cards.get(i - 1).getName());
             if (!cards.get(i).getName().equals("blank") && cards.get(i - 1).getName().equals("blank")) {
-                System.out.println("swap");
                 swapElem(cards.get(i), cards.get(i - 1));
 
             }
