@@ -20,7 +20,7 @@ public class FontType {
     static {
 
         LOGO = new FontType("LOGO", "Rundown.ttf", 150, Color.WHITE);
-        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.BLACK);
+        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.WHITE);
         fontTypes.add(LOGO);
         fontTypes.add(OPTIONS);
     }
