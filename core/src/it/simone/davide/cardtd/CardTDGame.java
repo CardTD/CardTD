@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.screens.DeckMenu;
 import it.simone.davide.cardtd.screens.MainMenu;
-import it.simone.davide.cardtd.screens.Test;
 
 public class CardTDGame extends Game {
 
