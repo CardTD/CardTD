@@ -2,12 +2,14 @@ package it.simone.davide.cardtd.deck;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class Card extends Image implements Cloneable {
 
     private String name;
     private Texture texture;
     private int cost;
+    private boolean isSelected = false;
 
     public Card(String name, Texture texture, int cost) {
         super(texture);
@@ -30,12 +32,17 @@ public class Card extends Image implements Cloneable {
 
         if (selected) {
             getColor().a = 0.5f;
+            isSelected = true;
 
         } else {
             getColor().a = 1f;
-
+            isSelected = false;
         }
 
+    }
+
+    public boolean isSelected() {
+        return isSelected;
     }
 
     @Override
@@ -62,6 +69,7 @@ public class Card extends Image implements Cloneable {
                 "name='" + name + '\'' +
                 ", texture=" + texture +
                 ", cost=" + cost +
+                ", isSelected=" + isSelected +
                 '}';
     }
 
@@ -83,5 +91,13 @@ public class Card extends Image implements Cloneable {
         result = 31 * result + texture.hashCode();
         result = 31 * result + cost;
         return result;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }

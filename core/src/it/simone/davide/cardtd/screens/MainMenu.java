@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
+import it.simone.davide.cardtd.deck.Card;
+import it.simone.davide.cardtd.deck.Deck;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 
@@ -60,7 +62,16 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                CardTDGame.INSTANCE.setScreen(new DeckMenu());
+                Deck playerDeck = new Deck(12);
+                for (int i = 0; i < 12; i++) {
+
+                    Card c = StaticVariables.BLANK_CARD.clone();
+
+                    playerDeck.addCard(c);
+
+                }
+
+                CardTDGame.INSTANCE.setScreen(new DeckMenu(playerDeck));
             }
 
             @Override

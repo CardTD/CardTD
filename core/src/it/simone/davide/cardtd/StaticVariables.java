@@ -33,8 +33,21 @@ public class StaticVariables {
         ALL_CARDS.add(new Card("1", new Texture("cards/2.png"), 10));
         ALL_CARDS.add(new Card("4", new Texture("cards/3.png"), 10));
         ALL_CARDS.add(new Card("3", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("4", new Texture("cards/1.png"), 10));
+        ALL_CARDS.add(new Card("5", new Texture("cards/2.png"), 10));
+        ALL_CARDS.add(new Card("6", new Texture("cards/3.png"), 10));
+        ALL_CARDS.add(new Card("7", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("8", new Texture("cards/1.png"), 10));
+        ALL_CARDS.add(new Card("9", new Texture("cards/2.png"), 10));
+        ALL_CARDS.add(new Card("10", new Texture("cards/3.png"), 10));
+        ALL_CARDS.add(new Card("11", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("12", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("13", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("14", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("15", new Texture("cards/4.png"), 10));
 
     }
+
 
 
 

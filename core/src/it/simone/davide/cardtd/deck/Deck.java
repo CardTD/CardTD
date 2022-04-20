@@ -89,7 +89,7 @@ public class Deck {
 
     }
 
-    private void fixDeck() {
+    public void fixDeck() {
 
         for (int i = 1; i < cards.size(); i++) {
             System.out.println(cards.get(i).getName() + "  " + cards.get(i - 1).getName());
@@ -103,20 +103,7 @@ public class Deck {
 
     }
 
-    public void fixPostionsAndPutEvent(EventListener listener) {
-        fixDeck();
-        for (Card d : cards) {
-            if (d.getName().equals("blank")) {
-                for (EventListener l : d.getListeners()) {
 
-                    d.removeListener(l);
-                }
-            } else {
 
-                d.addListener(listener);
-            }
 
-        }
-
-    }
 }

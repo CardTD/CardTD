@@ -31,7 +31,7 @@ public class CardTDGame extends Game {
 
         loadAssets();
         assetManager.finishLoading();
-        setScreen(new DeckMenu());
+        setScreen(new MainMenu());
 
     }
 
