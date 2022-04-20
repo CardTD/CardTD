@@ -42,6 +42,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
 
         assetManager.load(StaticVariables.CARDSLOT, Texture.class);
+        assetManager.load(StaticVariables.NAVE, Texture.class);
 
         //load font for the title
         FontType.loadFonts();
