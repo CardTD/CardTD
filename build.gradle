@@ -114,31 +114,6 @@ project(":ios") {
     }
 }
 
-project(":html") {
-    apply plugin: "java-library"
-    apply plugin: "gwt"
-    apply plugin: "war"
-    apply plugin: "org.gretty"
-
-
-    dependencies {
-        implementation project(":core")
-        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-ai:$aiVersion:sources"
-        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
-        api "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
-        api "com.badlogicgames.ashley:ashley:$ashleyVersion:sources"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-html:1.3.0"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-html:1.3.0:sources"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.3.0:sources"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.1.0:sources"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.1.0:sources"
-        
-    }
-}
-
 project(":core") {
     apply plugin: "java-library"
 
