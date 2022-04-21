@@ -16,6 +16,7 @@ public class Card extends Image implements Cloneable {
         this.name = name;
         this.texture = texture;
         this.cost = cost;
+        setSize(100,150);
     }
 
     public void changeCard(Card card) {

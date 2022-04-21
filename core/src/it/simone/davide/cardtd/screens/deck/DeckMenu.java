@@ -1,4 +1,4 @@
-package it.simone.davide.cardtd.screens;
+package it.simone.davide.cardtd.screens.deck;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,17 +7,24 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.deck.Card;
 import it.simone.davide.cardtd.deck.Deck;
+import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +32,22 @@ import java.util.List;
 public class DeckMenu implements Screen, InputProcessor {
 
     private final Deck playerDeck;
-    private Stage stage;
+    private Stage deckStage, fillstage;
     private List<Card> allCards;
 
     public DeckMenu(final Deck playerDeck) {
+
         this.playerDeck = playerDeck;
-        stage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
+        deckStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
+        deckStage.addActor(new Image(CardTDGame.assetManager.<Texture>get(StaticVariables.DECKMENU)));
+
+        fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+
+        Texture bg = CardTDGame.assetManager.get(StaticVariables.DECKBG);
+        Table table = new Table();
+        table.setFillParent(true);
+        table.background(new TextureRegionDrawable(new TextureRegion(bg)));
+        fillstage.addActor(table);
         allCards = new ArrayList<>();
 
         for (Card i : StaticVariables.ALL_CARDS) {
@@ -53,7 +70,7 @@ public class DeckMenu implements Screen, InputProcessor {
                     hoverCard = c.getHoverCard();
 
                     changePos(Gdx.input.getX(), Gdx.input.getY());
-                    stage.addActor(hoverCard);
+                    deckStage.addActor(hoverCard);
                     c.setSelected(true);
                 }
 
@@ -66,12 +83,14 @@ public class DeckMenu implements Screen, InputProcessor {
 
                     changePos(Gdx.input.getX(), Gdx.input.getY());
                     Card nu = overlaps();
+
                     if (nu != null) {
+
                         int i = playerDeck.getFirstIndexValid();
 
                         if (i != -1) {
 
-                            hoverCard.setPosition(i * 100, nu.getY());
+                            hoverCard.setPosition(8 + i * hoverCard.getWidth() + i * 6, 467);
                         }
 
                     }
@@ -102,7 +121,7 @@ public class DeckMenu implements Screen, InputProcessor {
             }
 
             public void changePos(int x, int y) {
-                Vector3 i = stage.getCamera().unproject(new Vector3(x, y, 0));
+                Vector3 i = deckStage.getCamera().unproject(new Vector3(x, y, 0));
                 hoverCard.setPosition(i.x - hoverCard.getWidth() / 2, i.y - hoverCard.getHeight() / 2);
 
             }
@@ -131,7 +150,7 @@ public class DeckMenu implements Screen, InputProcessor {
                     hoverCard = c.getHoverCard();
 
                     changePos(Gdx.input.getX(), Gdx.input.getY());
-                    stage.addActor(hoverCard);
+                    deckStage.addActor(hoverCard);
                     c.setSelected(true);
                 }
 
@@ -182,7 +201,7 @@ public class DeckMenu implements Screen, InputProcessor {
             }
 
             public void changePos(int x, int y) {
-                Vector3 i = stage.getCamera().unproject(new Vector3(x, y, 0));
+                Vector3 i = deckStage.getCamera().unproject(new Vector3(x, y, 0));
                 hoverCard.setPosition(i.x - hoverCard.getWidth() / 2, i.y - hoverCard.getHeight() / 2);
 
             }
@@ -201,8 +220,8 @@ public class DeckMenu implements Screen, InputProcessor {
         for (int i = 0; i < 12; i++) {
 
             Card c = playerDeck.getCard(i);
-            c.setPosition(i * 100, StaticVariables.SCREEN_HEIGHT - c.getHeight() - 10);
-            stage.addActor(c);
+            c.setPosition(8 + i * c.getWidth() + i * 6, 467);
+            deckStage.addActor(c);
 
             c.addListener(upToDown);
             c.addListener(new ClickListener() {
@@ -229,8 +248,8 @@ public class DeckMenu implements Screen, InputProcessor {
         for (int i = 0; i < allCards.size(); i++) {
 
             Card c = allCards.get(i);
-            c.setPosition(i * 100, StaticVariables.SCREEN_HEIGHT - c.getHeight() - 200);
-            stage.addActor(c);
+            c.setPosition(42 + i * c.getWidth() + i * 10, 360 - 150 - 10);
+            deckStage.addActor(c);
 
             c.addListener(downToUp);
             c.addListener(new ClickListener() {
@@ -256,7 +275,7 @@ public class DeckMenu implements Screen, InputProcessor {
         }
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(stage);
+        inputMultiplexer.addProcessor(deckStage);
         inputMultiplexer.addProcessor(this);
         Gdx.input.setInputProcessor(inputMultiplexer);
 
@@ -276,14 +295,19 @@ public class DeckMenu implements Screen, InputProcessor {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(delta);
-        stage.draw();
+        fillstage.getViewport().apply();
+        fillstage.act(delta);
+        fillstage.draw();
+
+        deckStage.getViewport().apply();
+        deckStage.act(delta);
+        deckStage.draw();
 
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        deckStage.getViewport().update(width, height, true);
     }
 
     @Override

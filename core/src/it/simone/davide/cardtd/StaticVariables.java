@@ -17,8 +17,9 @@ public class StaticVariables {
 
     public static final String MAIN_MENU_IMG = "mainmenu.png";
     public static final String NAVE = "nave.png";
-
-    public static final String CARDSLOT = "cardSlot.png";
+    public static final String DECKMENU = "deckmenu.png";
+    public static final String CARDSLOT = "blank.png";
+    public static final String DECKBG = "assi.png";
 
     public static final List<Card> ALL_CARDS;
 
@@ -30,27 +31,15 @@ public class StaticVariables {
 
         ALL_CARDS = new ArrayList<>();
 
-        ALL_CARDS.add(new Card("un", new Texture("cards/1.png"), 10));
-        ALL_CARDS.add(new Card("1", new Texture("cards/2.png"), 10));
-        ALL_CARDS.add(new Card("4", new Texture("cards/3.png"), 10));
-        ALL_CARDS.add(new Card("3", new Texture("cards/4.png"), 10));
-        ALL_CARDS.add(new Card("4", new Texture("cards/1.png"), 10));
-        ALL_CARDS.add(new Card("5", new Texture("cards/2.png"), 10));
-        ALL_CARDS.add(new Card("6", new Texture("cards/3.png"), 10));
-        ALL_CARDS.add(new Card("7", new Texture("cards/4.png"), 10));
-        ALL_CARDS.add(new Card("8", new Texture("cards/1.png"), 10));
-        ALL_CARDS.add(new Card("9", new Texture("cards/2.png"), 10));
-        ALL_CARDS.add(new Card("10", new Texture("cards/3.png"), 10));
-        ALL_CARDS.add(new Card("11", new Texture("cards/4.png"), 10));
-        ALL_CARDS.add(new Card("12", new Texture("cards/4.png"), 10));
-        ALL_CARDS.add(new Card("13", new Texture("cards/4.png"), 10));
-        ALL_CARDS.add(new Card("14", new Texture("cards/4.png"), 10));
-        ALL_CARDS.add(new Card("15", new Texture("cards/4.png"), 10));
+        ALL_CARDS.add(new Card("un", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("1", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("4", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("3", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("2", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("5", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("6", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("7", new Texture("cardsample.png"), 10));
 
     }
-
-
-
-
 
 }

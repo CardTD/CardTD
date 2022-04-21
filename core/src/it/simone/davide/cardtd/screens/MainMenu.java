@@ -22,6 +22,7 @@ import it.simone.davide.cardtd.deck.Card;
 import it.simone.davide.cardtd.deck.Deck;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
+import it.simone.davide.cardtd.screens.deck.DeckMenu;
 
 import java.util.Random;
 import java.util.Timer;
