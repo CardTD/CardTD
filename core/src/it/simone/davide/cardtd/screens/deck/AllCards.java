@@ -9,34 +9,41 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.deck.Card;
-import it.simone.davide.cardtd.deck.Deck;
 
-class CurrentDeck {
+import java.util.ArrayList;
+import java.util.List;
 
-    private Deck playerDeck;
+class AllCards {
+
+    private List<Card> allCards = new ArrayList<>();
+    private CurrentDeck currentDeck;
     private Stage stage;
-    private AllCards allCards;
 
-    public CurrentDeck(Deck playerDeck, Stage stage) {
-        this.playerDeck = playerDeck;
+    public AllCards(Stage stage) {
+
         this.stage = stage;
+
+        for (Card i : StaticVariables.ALL_CARDS) {
+            allCards.add(new Card(i.getName(), i.getTexture(), i.getCost()));
+
+        }
 
     }
 
-    public void setIntegrationWith(AllCards allCards) {
-        this.allCards = allCards;
+    public void setIntegrationWith(CurrentDeck currentDeck) {
+        this.currentDeck = currentDeck;
         toStage();
     }
 
     private void toStage() {
 
-        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < allCards.size(); i++) {
 
-            Card c = playerDeck.getCard(i);
-            c.setPosition(8 + i * c.getWidth() + i * 6, 467);
+            Card c = allCards.get(i);
+            c.setPosition(42 + i * c.getWidth() + i * 10, 360 - 150 - 10);
             stage.addActor(c);
 
-            c.addListener(getUpToDownListener());
+            c.addListener(getDownToUpListener());
             c.addListener(new ClickListener() {
 
                 @Override
@@ -45,24 +52,24 @@ class CurrentDeck {
 
                     Card c = ((Card) event.getTarget());
                     if (!c.getName().equals("blank") && !c.isSelected()) {
+                        int r = currentDeck.getFirstIndexValid();
+                        if (r != -1) {
+                            Card playerCard = currentDeck.getCard(r);
+                            playerCard.changeCard(c);
+                            c.setSelected(true);
+                        }
 
-                        Card r = allCards.getCard(c);
-                        r.setSelected(false);
-
-                        c.changeCard(StaticVariables.BLANK_CARD.clone());
-                        playerDeck.fixDeck();
                     }
 
                 }
             });
 
         }
-
     }
 
-    private DragListener getUpToDownListener() {
+    private DragListener getDownToUpListener() {
 
-        DragListener upToDown = new DragListener() {
+        DragListener downToUp = new DragListener() {
 
             Card hoverCard;
 
@@ -70,8 +77,10 @@ class CurrentDeck {
             public void dragStart(InputEvent event, float x, float y, int pointer) {
 
                 super.dragStart(event, x, y, pointer);
+
                 Card c = ((Card) event.getTarget());
-                if (!c.isSelected() && !c.getName().equals("blank")) {
+                if (!c.isSelected()) {
+
                     hoverCard = c.getHoverCard();
 
                     changePos(Gdx.input.getX(), Gdx.input.getY());
@@ -84,10 +93,21 @@ class CurrentDeck {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
-
                 if (hoverCard != null) {
 
                     changePos(Gdx.input.getX(), Gdx.input.getY());
+                    Card nu = currentDeck.overlaps(hoverCard);
+
+                    if (nu != null) {
+
+                        int i = currentDeck.getFirstIndexValid();
+
+                        if (i != -1) {
+
+                            hoverCard.setPosition(8 + i * hoverCard.getWidth() + i * 6, 467);
+                        }
+
+                    }
                 }
 
             }
@@ -96,25 +116,14 @@ class CurrentDeck {
             public void dragStop(InputEvent event, float x, float y, int pointer) {
                 super.dragStop(event, x, y, pointer);
                 Card c = ((Card) event.getTarget());
-
                 if (hoverCard != null) {
 
                     hoverCard.remove();
 
-                    Card nu = allCards.overlaps(hoverCard);
+                    Card nu = currentDeck.overlaps(hoverCard);
                     if (nu != null) {
 
-                        Card r = allCards.getCard(c);
-
-                        if (r != null) {
-
-                            r.setSelected(false);
-                            c.setSelected(false);
-                            c.changeCard(StaticVariables.BLANK_CARD.clone());
-
-                        }
-
-                        playerDeck.fixDeck();
+                        nu.changeCard(hoverCard);
 
                     } else {
 
@@ -132,32 +141,29 @@ class CurrentDeck {
             }
 
         };
-        return upToDown;
+        return downToUp;
     }
 
-    public int getFirstIndexValid() {
+    public Card getCard(Card c) {
+        for (Card i : allCards) {
 
-        for (int i = 0; i < playerDeck.getCards().size(); i++) {
+            if (c.equals(i)) {
 
-            if (playerDeck.getCards().get(i).getName().equals("blank")) {
                 return i;
+
             }
+
         }
-        return -1;
-    }
-
-    public Card getCard(int i) {
-
-        return playerDeck.getCards().get(i);
-
+        return null;
     }
 
     public Card overlaps(Card card) {
-        for (Card c : playerDeck.getCards()) {
+        for (Card c : allCards) {
             if (new Rectangle(c.getX(), c.getY(), c.getWidth(), c.getHeight()).overlaps(new Rectangle(card.getX(), card.getY(), card.getWidth(), card.getHeight()))) {
                 return c;
             }
         }
         return null;
     }
+
 }
