@@ -15,9 +15,10 @@ import java.util.List;
 
 class AllCards {
 
-    private List<Card> allCards = new ArrayList<>();
+    private final List<Card> allCards = new ArrayList<>();
     private CurrentDeck currentDeck;
-    private Stage stage;
+    private final Stage stage;
+    private final int offsetX = 42, cardGap = 10, offsetY = 360 - 150 - 10;
 
     public AllCards(Stage stage) {
 
@@ -40,7 +41,7 @@ class AllCards {
         for (int i = 0; i < allCards.size(); i++) {
 
             Card c = allCards.get(i);
-            c.setPosition(42 + i * c.getWidth() + i * 10, 360 - 150 - 10);
+            c.setPosition(offsetX + i * c.getWidth() + i * cardGap, offsetY);
             stage.addActor(c);
 
             c.addListener(getDownToUpListener());
@@ -69,7 +70,7 @@ class AllCards {
 
     private DragListener getDownToUpListener() {
 
-        DragListener downToUp = new DragListener() {
+        return new DragListener() {
 
             Card hoverCard;
 
@@ -141,7 +142,6 @@ class AllCards {
             }
 
         };
-        return downToUp;
     }
 
     public Card getCard(Card c) {

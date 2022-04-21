@@ -13,9 +13,10 @@ import it.simone.davide.cardtd.deck.Deck;
 
 class CurrentDeck {
 
-    private Deck playerDeck;
-    private Stage stage;
+    private final Deck playerDeck;
+    private final Stage stage;
     private AllCards allCards;
+    private final int offsetX = 8, cardGap = 6, offsetY = 467;
 
     public CurrentDeck(Deck playerDeck, Stage stage) {
         this.playerDeck = playerDeck;
@@ -33,7 +34,7 @@ class CurrentDeck {
         for (int i = 0; i < 12; i++) {
 
             Card c = playerDeck.getCard(i);
-            c.setPosition(8 + i * c.getWidth() + i * 6, 467);
+            c.setPosition(offsetX + i * c.getWidth() + i * cardGap, offsetY);
             stage.addActor(c);
 
             c.addListener(getUpToDownListener());
@@ -62,7 +63,7 @@ class CurrentDeck {
 
     private DragListener getUpToDownListener() {
 
-        DragListener upToDown = new DragListener() {
+        return new DragListener() {
 
             Card hoverCard;
 
@@ -132,7 +133,6 @@ class CurrentDeck {
             }
 
         };
-        return upToDown;
     }
 
     public int getFirstIndexValid() {

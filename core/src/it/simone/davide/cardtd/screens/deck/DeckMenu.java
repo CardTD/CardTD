@@ -22,7 +22,9 @@ import it.simone.davide.cardtd.screens.MainMenu;
 
 public class DeckMenu implements Screen, InputProcessor {
 
-    private Stage deckStage, fillstage;
+    //TODO add button to back, and add other keys
+    //add animation when select the cards
+    private final Stage deckStage, fillstage;
 
     public DeckMenu(final Deck playerDeck) {
 
