@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import it.simone.davide.cardtd.StaticVariables;
@@ -44,14 +45,25 @@ class CurrentDeck {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    Card c = ((Card) event.getTarget());
+                    final Card c = ((Card) event.getTarget());
                     if (!c.getName().equals("blank") && !c.isSelected()) {
 
-                        Card r = allCards.getCard(c);
-                        r.setSelected(false);
+                        final Card r = allCards.getCard(c);
 
+                        final Card clone = c.clone();
+                        stage.addActor(clone);
+                        clone.setPosition(c.getX(), c.getY());
                         c.changeCard(StaticVariables.BLANK_CARD.clone());
+                        clone.addAction(Actions.sequence(Actions.moveTo(r.getX(), r.getY(), 0.2f), Actions.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                r.setSelected(false);
+
+                            }
+                        }), Actions.removeActor()));
+
                         playerDeck.fixDeck();
+
                     }
 
                 }

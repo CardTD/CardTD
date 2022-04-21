@@ -23,7 +23,7 @@ import it.simone.davide.cardtd.screens.MainMenu;
 public class DeckMenu implements Screen, InputProcessor {
 
     //TODO add button to back, and add other keys
-    //add animation when select the cards
+    //add integration to other cards
     private final Stage deckStage, fillstage;
 
     public DeckMenu(final Deck playerDeck) {
@@ -51,6 +51,7 @@ public class DeckMenu implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(inputMultiplexer);
 
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
+        Gdx.input.setCatchKey(Keys.ESCAPE, true);
 
     }
 
@@ -103,7 +104,7 @@ public class DeckMenu implements Screen, InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Keys.BACK) {
+        if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 
             CardTDGame.INSTANCE.setScreen(new MainMenu());
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import it.simone.davide.cardtd.StaticVariables;
@@ -16,9 +17,10 @@ import java.util.List;
 class AllCards {
 
     private final List<Card> allCards = new ArrayList<>();
+    private int rows = 1;
     private CurrentDeck currentDeck;
     private final Stage stage;
-    private final int offsetX = 42, cardGap = 10, offsetY = 360 - 150 - 10;
+    private final float offsetX = 36.5f, cardGap = 19, offsetY = 350 + 10 - 150 - 12.5f;
 
     public AllCards(Stage stage) {
 
@@ -29,6 +31,14 @@ class AllCards {
 
         }
 
+        int i = allCards.size();
+        while (i > 10) {
+            i -= 10;
+            rows++;
+
+        }
+        System.out.println("rows: " + rows);
+
     }
 
     public void setIntegrationWith(CurrentDeck currentDeck) {
@@ -37,11 +47,22 @@ class AllCards {
     }
 
     private void toStage() {
-
-        for (int i = 0; i < allCards.size(); i++) {
+        float offX = 0;
+        for (int i = 0; i < Math.min(20, allCards.size()); i++) {
 
             Card c = allCards.get(i);
-            c.setPosition(offsetX + i * c.getWidth() + i * cardGap, offsetY);
+            float offY = offsetY;
+
+            if (i > 9) {
+                offY -= 25+150;
+
+            }
+            if (i == 10) {
+                offX = 0;
+
+            }
+
+            c.setPosition(offsetX + offX * c.getWidth() + offX * cardGap, offY);
             stage.addActor(c);
 
             c.addListener(getDownToUpListener());
@@ -51,12 +72,22 @@ class AllCards {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
 
-                    Card c = ((Card) event.getTarget());
+                    final Card c = ((Card) event.getTarget());
                     if (!c.getName().equals("blank") && !c.isSelected()) {
                         int r = currentDeck.getFirstIndexValid();
                         if (r != -1) {
-                            Card playerCard = currentDeck.getCard(r);
-                            playerCard.changeCard(c);
+                            final Card playerCard = currentDeck.getCard(r);
+                            final Card clone = c.clone();
+                            stage.addActor(clone);
+                            clone.setPosition(c.getX(), c.getY());
+                            playerCard.setName(c.getName());
+                            clone.addAction(Actions.sequence(Actions.moveTo(playerCard.getX(), playerCard.getY(), 0.2f), Actions.run(new Runnable() {
+                                @Override
+                                public void run() {
+                                    playerCard.changeCard(c);
+                                }
+                            }), Actions.removeActor()));
+
                             c.setSelected(true);
                         }
 
@@ -64,7 +95,7 @@ class AllCards {
 
                 }
             });
-
+            offX++;
         }
     }
 
