@@ -26,18 +26,24 @@ public class OptionsMenu implements Screen {
 
     public OptionsMenu() {
         skin = new Skin();
-        skin.add("sliderBack", new Texture(Gdx.files.internal("assets/slider-after.png")));
+        skin.add("sliderBack", new Texture(Gdx.files.internal("assets/background.png")));
+        skin.add("sliderKnob", new Texture(Gdx.files.internal("assets/dotpiccolopiccolo.png")));
+        skin.add("sliderAfter", new Texture(Gdx.files.internal("assets/background.png")));
+        skin.add("sliderBefore", new Texture(Gdx.files.internal("assets/dotpiccolopiccolo.png")));
         stage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         Gdx.input.setInputProcessor(stage);
 
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("background.wav"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("Background.wav"));
         music.setVolume(0.1f);
         music.setLooping(true);
         music.play();
 
 
         uiSliderStyle.background = skin.getDrawable("sliderBack");
+        uiSliderStyle.knob = skin.getDrawable("sliderKnob");
+        uiSliderStyle.knobAfter = skin.getDrawable("sliderAfter");
+        uiSliderStyle.knobBefore = skin.getDrawable("sliderBefore");
 
     }
 
@@ -54,6 +60,7 @@ public class OptionsMenu implements Screen {
                     }
                 }
         );
+        audioSlider.setPosition(StaticVariables.SCREEN_WIDTH - 500, StaticVariables.SCREEN_HEIGHT - 500);
         stage.addActor(audioSlider);
 
     }
