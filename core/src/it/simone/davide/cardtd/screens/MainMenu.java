@@ -1,6 +1,7 @@
 package it.simone.davide.cardtd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,7 +19,6 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
-import it.simone.davide.cardtd.deck.Card;
 import it.simone.davide.cardtd.deck.Deck;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
@@ -39,6 +39,8 @@ public class MainMenu implements Screen {
      * Stage che si estende solo per la dimensione specificata del gioco
      */
     private final Stage fitstage;
+
+    private Deck playerDeck = new Deck(12);
 
     private static long getRandomLong(long min, long max) {
         Random rand = new Random();
@@ -96,16 +98,21 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                Preferences prefs = Gdx.app.getPreferences("deck");
 
-                Deck playerDeck = new Deck(12);
                 for (int i = 0; i < 12; i++) {
+                    String r = prefs.getString(i + "", "blank");
+                    if (r .equals("blank") ) {
 
-                    Card c = StaticVariables.BLANK_CARD.clone();
+                        playerDeck.addCard(StaticVariables.BLANK_CARD.clone());
+                    } else {
 
-                    playerDeck.addCard(c);
+                        playerDeck.addCard(StaticVariables.getCardByName(r).clone());
+
+                    }
 
                 }
-
+                prefs.flush();
                 CardTDGame.INSTANCE.setScreen(new DeckMenu(playerDeck));
             }
 

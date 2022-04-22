@@ -28,10 +28,12 @@ public class CardTDGame extends Game {
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
         loadAssets();
+
         assetManager.finishLoading();
         setScreen(new MainMenu());
 
     }
+
 
     private void loadAssets() {
 

@@ -38,11 +38,21 @@ class AllCards {
 
         }
 
-
     }
 
     public void setIntegrationWith(CurrentDeck currentDeck) {
         this.currentDeck = currentDeck;
+        for (Card c : currentDeck.getPlayerDeck().getCards()) {
+            for (Card a : allCards) {
+
+                if (c.equals(a)) {
+
+                    a.setSelected(true);
+                }
+            }
+
+        }
+
         toStage();
     }
 

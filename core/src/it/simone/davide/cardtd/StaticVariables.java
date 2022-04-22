@@ -28,6 +28,15 @@ public class StaticVariables {
 
     public static final Card BLANK_CARD;
 
+    //get card by name
+    public static Card getCardByName(String name){
+        for(Card c : ALL_CARDS){
+            if(c.getName().equals(name))
+                return c;
+        }
+        return null;
+    }
+
     static {
         Texture i = CardTDGame.assetManager.get(CARDSLOT);
         BLANK_CARD = new Card("blank", i, 10);

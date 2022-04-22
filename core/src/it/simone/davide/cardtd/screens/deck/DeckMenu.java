@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,12 +21,16 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
+import it.simone.davide.cardtd.deck.Card;
 import it.simone.davide.cardtd.deck.Deck;
 import it.simone.davide.cardtd.screens.MainMenu;
+
+import java.util.List;
 
 public class DeckMenu implements Screen, InputProcessor {
 
     private final Stage deckStage, fillstage;
+    private CurrentDeck currentDeck;
 
     //TODO add back button
     //TODO add scrolling
@@ -54,17 +59,18 @@ public class DeckMenu implements Screen, InputProcessor {
 
         Button back = new Button(b, bp);
         back.setSize(80, 80);
-        back.setPosition(1180,635);
-        back.addListener(new ClickListener(){
+        back.setPosition(1180, 635);
+        back.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                CardTDGame.INSTANCE.setScreen(new MainMenu());
+                onExit();
             }
         });
         deckStage.addActor(back);
 
+        this.currentDeck = currentDeck;
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(deckStage);
         inputMultiplexer.addProcessor(this);
@@ -79,6 +85,20 @@ public class DeckMenu implements Screen, InputProcessor {
     public void show() {
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+    }
+
+    public void onExit() {
+        CardTDGame.INSTANCE.setScreen(new MainMenu());
+
+        Preferences prefs = Gdx.app.getPreferences("deck");
+        List<Card> r = currentDeck.getPlayerDeck().getCards();
+        for (int i = 0; i < 12; i++) {
+
+            prefs.putString(i + "", r.get(i).getName());
+        }
+
+        prefs.flush();
 
     }
 
@@ -126,7 +146,7 @@ public class DeckMenu implements Screen, InputProcessor {
     public boolean keyDown(int keycode) {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
 
-            CardTDGame.INSTANCE.setScreen(new MainMenu());
+            onExit();
 
         }
 
