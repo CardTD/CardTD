@@ -2,7 +2,6 @@ package it.simone.davide.cardtd.deck;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class Card extends Image implements Cloneable {
 
@@ -16,6 +15,13 @@ public class Card extends Image implements Cloneable {
         this.name = name;
         this.texture = texture;
         this.cost = cost;
+        setSize(100, 150);
+    }
+
+    public void setName(String name) {
+
+        this.name = name;
+
     }
 
     public void changeCard(Card card) {

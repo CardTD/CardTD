@@ -62,16 +62,7 @@ public class Deck {
         return cards.get(i);
     }
 
-    public int getFirstIndexValid() {
 
-        for (int i = 0; i < cards.size(); i++) {
-
-            if (cards.get(i).getName().equals("blank")) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     @Override
     public String toString() {
@@ -100,6 +91,7 @@ public class Deck {
         }
 
     }
+
 
 
 
