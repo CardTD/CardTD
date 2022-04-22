@@ -21,6 +21,9 @@ public class StaticVariables {
     public static final String CARDSLOT = "blank.png";
     public static final String DECKBG = "assi.png";
 
+    public static final String BACKBUTTON = "back.png";
+    public static final String BACKBUTTON_PRESSED = "backpressend.png";
+
     public static final List<Card> ALL_CARDS;
 
     public static final Card BLANK_CARD;
