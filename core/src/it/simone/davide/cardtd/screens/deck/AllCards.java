@@ -14,7 +14,7 @@ import it.simone.davide.cardtd.deck.Card;
 import java.util.ArrayList;
 import java.util.List;
 
-class AllCards {
+class AllCards{
 
     private final List<Card> allCards = new ArrayList<>();
     private int rows = 1;

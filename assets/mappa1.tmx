@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="256" height="144" tilewidth="5" tileheight="5" infinite="0" nextlayerid="9" nextobjectid="17">
+ <objectgroup id="5" name="toprotect">
+  <object id="13" x="968" y="288" width="236" height="146"/>
+ </objectgroup>
+ <objectgroup id="6" name="ostacoli">
+  <object id="14" x="440" y="416" width="142" height="94"/>
+ </objectgroup>
+ <objectgroup id="8" name="percorso">
+  <object id="16" x="1" y="324" width="951" height="85"/>
+ </objectgroup>
+</map>

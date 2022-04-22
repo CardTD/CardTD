@@ -14,6 +14,8 @@ import it.simone.davide.cardtd.deck.Deck;
 
 class CurrentDeck {
 
+    //TODO make extend Deck
+
     private final Deck playerDeck;
     private final Stage stage;
     private AllCards allCards;

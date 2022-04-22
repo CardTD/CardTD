@@ -1,6 +1,7 @@
 package it.simone.davide.cardtd.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
@@ -24,6 +26,8 @@ import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.screens.deck.DeckMenu;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,6 +45,8 @@ public class MainMenu implements Screen {
     private final Stage fitstage;
 
     private Deck playerDeck = new Deck(12);
+
+    private List<? super InputListener> toDispose= new ArrayList<>();
 
     private static long getRandomLong(long min, long max) {
         Random rand = new Random();
@@ -98,11 +104,12 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                toDispose.add(this);
                 Preferences prefs = Gdx.app.getPreferences("deck");
 
                 for (int i = 0; i < 12; i++) {
                     String r = prefs.getString(i + "", "blank");
-                    if (r .equals("blank") ) {
+                    if (r.equals("blank")) {
 
                         playerDeck.addCard(StaticVariables.BLANK_CARD.clone());
                     } else {
@@ -137,7 +144,7 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
+                toDispose.add(this);
                 CardTDGame.INSTANCE.setScreen(new OptionsMenu());
             }
 
@@ -159,7 +166,23 @@ public class MainMenu implements Screen {
         });
 
         deck.toStage(fillstage, 50, Gdx.graphics.getHeight() / 2f - deck.getHeight() / 2);
-        Gdx.input.setInputProcessor(fillstage);
+
+        final LabelAdapter play = new LabelAdapter("Play", FontType.OPTIONS);
+        play.toStage(fitstage, StaticVariables.SCREEN_WIDTH / 2 - play.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2 - play.getHeight() / 2);
+        play.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                toDispose.add(this);
+                CardTDGame.INSTANCE.setScreen(new FirstMap());
+            }
+        });
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(fitstage);
+        inputMultiplexer.addProcessor(fillstage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+
     }
 
     @Override
@@ -209,7 +232,15 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
+
+        for (InputListener clickListener : (List<InputListener>)toDispose) {
+
+            fitstage.removeListener(clickListener);
+            fillstage.removeListener(clickListener);
+        }
         fitstage.dispose();
+        fillstage.dispose();
+
 
     }
 }

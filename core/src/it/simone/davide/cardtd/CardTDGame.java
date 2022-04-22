@@ -34,9 +34,7 @@ public class CardTDGame extends Game {
 
     }
 
-
     private void loadAssets() {
-
 
         //load main menu bg
         assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
@@ -47,7 +45,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.DECKBG, Texture.class);
         assetManager.load(StaticVariables.BACKBUTTON, Texture.class);
         assetManager.load(StaticVariables.BACKBUTTON_PRESSED, Texture.class);
-
+        assetManager.load(StaticVariables.FIRSTMAP, Texture.class);
 
         //load font for the title
         FontType.loadFonts();
