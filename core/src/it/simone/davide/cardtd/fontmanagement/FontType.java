@@ -13,14 +13,14 @@ import java.util.List;
  */
 public class FontType {
 
-    private static List<FontType> fontTypes = new ArrayList();
+    private static final List<FontType> fontTypes = new ArrayList<>();
 
     public static FontType LOGO, OPTIONS;
 
     static {
 
         LOGO = new FontType("LOGO", "Rundown.ttf", 150, Color.WHITE);
-        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.BLACK);
+        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.WHITE);
         fontTypes.add(LOGO);
         fontTypes.add(OPTIONS);
     }

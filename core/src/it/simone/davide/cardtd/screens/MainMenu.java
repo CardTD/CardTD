@@ -10,15 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
+import it.simone.davide.cardtd.StaticVariables;
+import it.simone.davide.cardtd.deck.Card;
+import it.simone.davide.cardtd.deck.Deck;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
-import it.simone.davide.cardtd.StaticVariables;
+
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainMenu implements Screen {
 
@@ -32,7 +39,20 @@ public class MainMenu implements Screen {
      */
     private final Stage fitstage;
 
+    private static long getRandomLong(long min, long max) {
+        Random rand = new Random();
+        return rand.nextLong() % (max - min) + min;
+    }
+
+    private static float nextFloat(float min, float max) {
+        Random rand = new Random();
+        return rand.nextFloat() * (max - min) + min;
+    }
+
+    float y = getRandomLong(600, 800), time = nextFloat(10, 20);
+
     public MainMenu() {
+
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
 
@@ -44,10 +64,25 @@ public class MainMenu implements Screen {
 
         fillstage.addActor(table);
 
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+                final Image nave = new Image((Texture) CardTDGame.assetManager.get(StaticVariables.NAVE));
+                nave.setPosition(-500, 600);
+                nave.setScale(nextFloat(0.2f, 0.5f));
+
+                float y = getRandomLong(600, 800), time = nextFloat(10, 20);
+
+                nave.addAction(Actions.sequence(Actions.moveTo(-500, y, 0), Actions.moveTo(Gdx.graphics.getWidth() + nave.getImageWidth(), y, time)));
+                fillstage.addActor(nave);
+            }
+        }, 1, 15000);
+
         //inserisco le 3 label
         LabelAdapter logo = new LabelAdapter(StaticVariables.GAMENAME, FontType.LOGO);
         logo.toStage(fitstage, StaticVariables.SCREEN_WIDTH / 2f - logo.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - logo.getHeight() / 2 + 200);
-
         final LabelAdapter options = new LabelAdapter("Options", FontType.OPTIONS);
         options.toStage(fillstage, Gdx.graphics.getWidth() - options.getWidth() - 50, Gdx.graphics.getHeight() / 2f - options.getHeight() / 2);
         options.setOrigin(options.getWidth(), options.getHeight());
@@ -55,13 +90,22 @@ public class MainMenu implements Screen {
         final LabelAdapter deck = new LabelAdapter("Make Deck", FontType.OPTIONS);
 
         final RepeatAction hoverAction = Actions.forever(Actions.sequence(Actions.fadeOut(0.5f), Actions.fadeIn(0.5f)));
-        options.setDebug(true);
+
         deck.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                CardTDGame.INSTANCE.setScreen(new DeckMenu());
+                Deck playerDeck = new Deck(12);
+                for (int i = 0; i < 12; i++) {
+
+                    Card c = StaticVariables.BLANK_CARD.clone();
+
+                    playerDeck.addCard(c);
+
+                }
+
+                CardTDGame.INSTANCE.setScreen(new DeckMenu(playerDeck));
             }
 
             @Override
@@ -106,7 +150,7 @@ public class MainMenu implements Screen {
             }
         });
 
-        deck.toStage(fillstage, 50, Gdx.graphics.getHeight() / 2 - deck.getHeight() / 2);
+        deck.toStage(fillstage, 50, Gdx.graphics.getHeight() / 2f - deck.getHeight() / 2);
         Gdx.input.setInputProcessor(fillstage);
     }
 
@@ -121,6 +165,7 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //render the responsive screen
         fillstage.getViewport().apply();
+
         fillstage.act(delta);
 
         fillstage.draw();
