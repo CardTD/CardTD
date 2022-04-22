@@ -4,15 +4,57 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import it.simone.davide.cardtd.StaticVariables;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 
 public class OptionsMenu implements Screen {
-    @Override
-    public void show() {
 
-        Music music = Gdx.audio.newMusic(Gdx.files.internal("background.wav"));
-        music.setVolume(0.2f);
+    SliderStyle uiSliderStyle = new SliderStyle();
+    float audioVolume;
+
+    private Stage stage;
+    Skin skin;
+    Music music;
+    Slider audioSlider;
+
+    public OptionsMenu() {
+        skin = new Skin();
+        skin.add("sliderBack", new Texture(Gdx.files.internal("assets/slider-after.png")));
+        stage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
+        Gdx.input.setInputProcessor(stage);
+
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("background.wav"));
+        music.setVolume(0.1f);
         music.setLooping(true);
         music.play();
+
+
+        uiSliderStyle.background = skin.getDrawable("sliderBack");
+
+    }
+
+    @Override
+    public void show() {
+        audioSlider = new Slider(0, 1, 0.005f, false, uiSliderStyle);
+
+        audioSlider.addListener(
+                new ChangeListener() {
+                    //@Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        audioVolume = audioSlider.getValue();
+                        music.setVolume(audioVolume);
+                    }
+                }
+        );
+        stage.addActor(audioSlider);
 
     }
 
@@ -20,6 +62,9 @@ public class OptionsMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
