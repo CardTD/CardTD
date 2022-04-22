@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -22,9 +23,10 @@ import it.simone.davide.cardtd.screens.MainMenu;
 
 public class DeckMenu implements Screen, InputProcessor {
 
-    //TODO add button to back, and add other keys
-    //add integration to other cards
     private final Stage deckStage, fillstage;
+
+    //TODO add back button
+    //TODO add scrolling
 
     public DeckMenu(final Deck playerDeck) {
 
@@ -44,6 +46,9 @@ public class DeckMenu implements Screen, InputProcessor {
 
         currentDeck.setIntegrationWith(allCards);
         allCards.setIntegrationWith(currentDeck);
+
+        Button back = new Button();
+        // deckStage.addActor(back);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(deckStage);

@@ -47,13 +47,14 @@ class CurrentDeck {
 
                     final Card c = ((Card) event.getTarget());
                     if (!c.getName().equals("blank") && !c.isSelected()) {
-
                         final Card r = allCards.getCard(c);
 
                         final Card clone = c.clone();
                         stage.addActor(clone);
                         clone.setPosition(c.getX(), c.getY());
                         c.changeCard(StaticVariables.BLANK_CARD.clone());
+
+                        playerDeck.fixDeck();
                         clone.addAction(Actions.sequence(Actions.moveTo(r.getX(), r.getY(), 0.2f), Actions.run(new Runnable() {
                             @Override
                             public void run() {
@@ -62,7 +63,7 @@ class CurrentDeck {
                             }
                         }), Actions.removeActor()));
 
-                        playerDeck.fixDeck();
+
 
                     }
 
@@ -167,6 +168,20 @@ class CurrentDeck {
     public Card overlaps(Card card) {
         for (Card c : playerDeck.getCards()) {
             if (new Rectangle(c.getX(), c.getY(), c.getWidth(), c.getHeight()).overlaps(new Rectangle(card.getX(), card.getY(), card.getWidth(), card.getHeight()))) {
+                return c;
+            }
+        }
+        return null;
+    }
+
+    public Deck getPlayerDeck() {
+        return playerDeck;
+    }
+
+    //return a card by name
+    public Card getCardByName(String name){
+        for(Card c : playerDeck.getCards()){
+            if(c.getName().equals(name)){
                 return c;
             }
         }

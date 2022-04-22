@@ -37,7 +37,7 @@ class AllCards {
             rows++;
 
         }
-        System.out.println("rows: " + rows);
+
 
     }
 
@@ -54,7 +54,7 @@ class AllCards {
             float offY = offsetY;
 
             if (i > 9) {
-                offY -= 25+150;
+                offY -= 25 + 150;
 
             }
             if (i == 10) {
@@ -84,7 +84,12 @@ class AllCards {
                             clone.addAction(Actions.sequence(Actions.moveTo(playerCard.getX(), playerCard.getY(), 0.2f), Actions.run(new Runnable() {
                                 @Override
                                 public void run() {
-                                    playerCard.changeCard(c);
+                                    Card r = currentDeck.getCardByName(c.getName());
+                                    if (r != null) {
+
+                                        r.changeCard(c);
+                                    }
+
                                 }
                             }), Actions.removeActor()));
 

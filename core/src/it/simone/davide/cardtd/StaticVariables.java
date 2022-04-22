@@ -31,10 +31,10 @@ public class StaticVariables {
 
         ALL_CARDS = new ArrayList<>();
 
-        ALL_CARDS.add(new Card("1", new Texture("cardsample.png"), 10));
-        ALL_CARDS.add(new Card("2", new Texture("cardsample.png"), 10));
-        ALL_CARDS.add(new Card("3", new Texture("cardsample.png"), 10));
-        ALL_CARDS.add(new Card("4", new Texture("cardsample.png"), 10));
+        ALL_CARDS.add(new Card("1", new Texture("1.png"), 10));
+        ALL_CARDS.add(new Card("2", new Texture("2.png"), 10));
+        ALL_CARDS.add(new Card("3", new Texture("3.png"), 10));
+        ALL_CARDS.add(new Card("4", new Texture("4.png"), 10));
         ALL_CARDS.add(new Card("5", new Texture("cardsample.png"), 10));
         ALL_CARDS.add(new Card("6", new Texture("cardsample.png"), 10));
         ALL_CARDS.add(new Card("7", new Texture("cardsample.png"), 10));
