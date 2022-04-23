@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import it.simone.davide.cardtd.StaticVariables;
-import it.simone.davide.cardtd.deck.Card;
+import it.simone.davide.cardtd.classes.Card;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ class AllCards{
         this.stage = stage;
 
         for (Card i : StaticVariables.ALL_CARDS) {
-            allCards.add(new Card(i.getName(), i.getTexture(), i.getCost()));
+            allCards.add(i.clone());
 
         }
 

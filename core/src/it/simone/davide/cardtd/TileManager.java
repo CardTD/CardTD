@@ -6,26 +6,20 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TileManager {
 
-    private TiledMap tiledMap;
-
     private ArrayList<Rectangle> obstacles, toProtect, path;
-    private Rectangle selected;
+    private Rectangle deck;
+    List<Image> placed;
 
-    public TileManager() {
-
-    }
-
-    public void load(String filename) {
-        this.tiledMap = new TmxMapLoader().load(filename);
-
+    public TileManager(TiledMap tiledMap, List<Image> placed) {
+        this.placed = placed;
         MapObjects t = tiledMap.getLayers().get("percorso").getObjects();
         path = new ArrayList<>();
         for (MapObject m : t) {
@@ -61,6 +55,7 @@ public class TileManager {
             }
 
         }
+        deck = new Rectangle(0, 0, 480, 180);
 
     }
 
@@ -89,6 +84,9 @@ public class TileManager {
             shapeRenderer.end();
 
         }
+        shapeRenderer.begin(ShapeType.Line);
+        shapeRenderer.rect(deck.x, deck.y, deck.width, deck.height);
+        shapeRenderer.end();
 
     }
 
@@ -97,7 +95,7 @@ public class TileManager {
         for (Rectangle i : path) {
 
             if (i.overlaps(r)) {
-                selected = i;
+
                 return false;
 
             }
@@ -106,7 +104,7 @@ public class TileManager {
         for (Rectangle i : toProtect) {
 
             if (i.overlaps(r)) {
-                selected = i;
+
                 return false;
 
             }
@@ -114,13 +112,26 @@ public class TileManager {
         for (Rectangle i : obstacles) {
 
             if (i.overlaps(r)) {
-                selected = i;
+
                 return false;
 
             }
         }
 
-        selected = null;
+        for (Image p : placed) {
+            Rectangle i = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
+            if (i.overlaps(r)) {
+
+                return false;
+
+            }
+        }
+        if (deck.overlaps(r)) {
+
+            return false;
+
+        }
+
         return true;
     }
 

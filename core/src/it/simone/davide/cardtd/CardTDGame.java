@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.screens.MainMenu;
 
@@ -26,6 +28,7 @@ public class CardTDGame extends Game {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+        assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 
         loadAssets();
 
@@ -46,7 +49,9 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.BACKBUTTON, Texture.class);
         assetManager.load(StaticVariables.BACKBUTTON_PRESSED, Texture.class);
         assetManager.load(StaticVariables.FIRSTMAP, Texture.class);
-
+        assetManager.load(StaticVariables.TOWER, Texture.class);
+        assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
+        assetManager.load(StaticVariables.IN_GAME_DECK, Texture.class);
         //load font for the title
         FontType.loadFonts();
 

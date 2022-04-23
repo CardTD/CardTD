@@ -1,20 +1,22 @@
-package it.simone.davide.cardtd.deck;
+package it.simone.davide.cardtd.classes;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Card extends Image implements Cloneable {
 
     private String name;
-    private Texture texture;
+    private Texture cardTexture, placedTexture;
     private int cost;
     private boolean isSelected = false;
 
-    public Card(String name, Texture texture, int cost) {
-        super(texture);
+    public Card(String name, Texture cardtexture, Texture placedTexture) {
+        super(cardtexture);
         this.name = name;
-        this.texture = texture;
+        this.cardTexture = cardtexture;
         this.cost = cost;
+        this.placedTexture=placedTexture;
         setSize(100, 150);
     }
 
@@ -24,11 +26,20 @@ public class Card extends Image implements Cloneable {
 
     }
 
+    public Texture getPlacedTexture() {
+        return placedTexture;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        super.setColor(color);
+    }
+
     public void changeCard(Card card) {
 
         this.name = card.name;
-        this.texture = card.texture;
-        this.cost = card.cost;
+        this.cardTexture = card.cardTexture;
+        this.placedTexture = card.placedTexture;
 
         setDrawable(card.getDrawable());
 
@@ -53,11 +64,11 @@ public class Card extends Image implements Cloneable {
 
     @Override
     public Card clone() {
-        return new Card(name, texture, cost);
+        return new Card(name, cardTexture, placedTexture);
     }
 
     public Card getHoverCard() {
-        Card x = new Card(name, texture, cost);
+        Card x = new Card(name, cardTexture, placedTexture);
 
         x.getColor().a = 0.5f;
 
@@ -73,7 +84,7 @@ public class Card extends Image implements Cloneable {
     public String toString() {
         return "Card{" +
                 "name='" + name + '\'' +
-                ", texture=" + texture +
+                ", texture=" + cardTexture +
                 ", cost=" + cost +
                 ", isSelected=" + isSelected +
                 '}';
@@ -88,19 +99,19 @@ public class Card extends Image implements Cloneable {
 
         if (cost != card.cost) return false;
         if (!getName().equals(card.getName())) return false;
-        return texture.toString().equals(card.texture.toString());
+        return cardTexture.toString().equals(card.cardTexture.toString());
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
-        result = 31 * result + texture.hashCode();
+        result = 31 * result + cardTexture.hashCode();
         result = 31 * result + cost;
         return result;
     }
 
-    public Texture getTexture() {
-        return texture;
+    public Texture getCardTexture() {
+        return cardTexture;
     }
 
     public int getCost() {

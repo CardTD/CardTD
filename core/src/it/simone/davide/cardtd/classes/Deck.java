@@ -1,6 +1,4 @@
-package it.simone.davide.cardtd.deck;
-
-import com.badlogic.gdx.scenes.scene2d.EventListener;
+package it.simone.davide.cardtd.classes;
 
 import java.util.ArrayList;
 import java.util.List;

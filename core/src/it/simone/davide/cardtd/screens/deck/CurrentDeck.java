@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import it.simone.davide.cardtd.StaticVariables;
-import it.simone.davide.cardtd.deck.Card;
-import it.simone.davide.cardtd.deck.Deck;
+import it.simone.davide.cardtd.classes.Card;
+import it.simone.davide.cardtd.classes.Deck;
 
 class CurrentDeck {
 

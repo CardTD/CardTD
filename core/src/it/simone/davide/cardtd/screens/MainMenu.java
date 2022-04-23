@@ -7,9 +7,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
@@ -21,13 +21,12 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
-import it.simone.davide.cardtd.deck.Deck;
+import it.simone.davide.cardtd.classes.Deck;
+import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.screens.deck.DeckMenu;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -44,9 +43,7 @@ public class MainMenu implements Screen {
      */
     private final Stage fitstage;
 
-    private Deck playerDeck = new Deck(12);
-
-    private List<? super InputListener> toDispose= new ArrayList<>();
+    public static Deck playerDeck = new Deck(12);
 
     private static long getRandomLong(long min, long max) {
         Random rand = new Random();
@@ -100,27 +97,27 @@ public class MainMenu implements Screen {
 
         final RepeatAction hoverAction = Actions.forever(Actions.sequence(Actions.fadeOut(0.5f), Actions.fadeIn(0.5f)));
 
+        Preferences prefs = Gdx.app.getPreferences("deck");
+
+        for (int i = 0; i < 12; i++) {
+            String r = prefs.getString(i + "", "blank");
+            if (r.equals("blank")) {
+
+                playerDeck.addCard(StaticVariables.BLANK_CARD.clone());
+            } else {
+
+                playerDeck.addCard(StaticVariables.getCardByName(r).clone());
+
+            }
+
+        }
+        prefs.flush();
+
         deck.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                toDispose.add(this);
-                Preferences prefs = Gdx.app.getPreferences("deck");
-
-                for (int i = 0; i < 12; i++) {
-                    String r = prefs.getString(i + "", "blank");
-                    if (r.equals("blank")) {
-
-                        playerDeck.addCard(StaticVariables.BLANK_CARD.clone());
-                    } else {
-
-                        playerDeck.addCard(StaticVariables.getCardByName(r).clone());
-
-                    }
-
-                }
-                prefs.flush();
-                CardTDGame.INSTANCE.setScreen(new DeckMenu(playerDeck));
+                CardTDGame.INSTANCE.setScreen(new DeckMenu());
             }
 
             @Override
@@ -144,7 +141,7 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                toDispose.add(this);
+
                 CardTDGame.INSTANCE.setScreen(new OptionsMenu());
             }
 
@@ -174,8 +171,8 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                toDispose.add(this);
-                CardTDGame.INSTANCE.setScreen(new FirstMap());
+
+                CardTDGame.INSTANCE.setScreen(new Level(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
             }
         });
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -233,14 +230,8 @@ public class MainMenu implements Screen {
     @Override
     public void dispose() {
 
-        for (InputListener clickListener : (List<InputListener>)toDispose) {
-
-            fitstage.removeListener(clickListener);
-            fillstage.removeListener(clickListener);
-        }
         fitstage.dispose();
         fillstage.dispose();
-
 
     }
 }

@@ -21,8 +21,8 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
-import it.simone.davide.cardtd.deck.Card;
-import it.simone.davide.cardtd.deck.Deck;
+import it.simone.davide.cardtd.classes.Card;
+import it.simone.davide.cardtd.classes.Deck;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class DeckMenu implements Screen, InputProcessor {
     //TODO add back button
     //TODO add scrolling
 
-    public DeckMenu(final Deck playerDeck) {
+    public DeckMenu() {
 
         deckStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         deckStage.addActor(new Image(CardTDGame.assetManager.<Texture>get(StaticVariables.DECKMENU)));
@@ -48,7 +48,7 @@ public class DeckMenu implements Screen, InputProcessor {
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
         fillstage.addActor(table);
 
-        CurrentDeck currentDeck = new CurrentDeck(playerDeck, deckStage);
+        CurrentDeck currentDeck = new CurrentDeck(MainMenu.playerDeck, deckStage);
         AllCards allCards = new AllCards(deckStage);
 
         currentDeck.setIntegrationWith(allCards);

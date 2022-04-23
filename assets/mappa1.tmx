@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.2" orientation="orthogonal" renderorder="right-down" width="256" height="144" tilewidth="5" tileheight="5" infinite="0" nextlayerid="9" nextobjectid="17">
+ <editorsettings>
+  <export target="mappa1.tmx" format="tmx"/>
+ </editorsettings>
+ <imagelayer id="7" name="Livello immagine 1">
+  <image source="mappa1.png" width="1280" height="720"/>
+ </imagelayer>
  <objectgroup id="5" name="toprotect">
   <object id="13" x="968" y="288" width="236" height="146"/>
  </objectgroup>
