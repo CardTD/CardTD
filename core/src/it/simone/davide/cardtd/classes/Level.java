@@ -22,6 +22,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
+import it.simone.davide.cardtd.classes.enemies.ToasterBot;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
@@ -109,6 +110,8 @@ public class Level implements Screen {
                 }
             });
         }
+        addEnemy(EnemyState.IDLE, 0, 0);
+        addEnemy(EnemyState.RUN, 100, 0);
         Gdx.input.setInputProcessor(mainStage);
     }
 
@@ -116,6 +119,14 @@ public class Level implements Screen {
     public void show() {
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+    }
+
+    public void addEnemy(EnemyState state, int x, int y) {
+        Enemy s = new ToasterBot(0, 0, 0, 0);
+        s.setCurrentState(state);
+        s.setPosition(x, y);
+        mainStage.addActor(s);
 
     }
 

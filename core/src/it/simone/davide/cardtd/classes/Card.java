@@ -3,6 +3,7 @@ package it.simone.davide.cardtd.classes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import it.simone.davide.cardtd.classes.enemies.ToasterBot;
 
 public class Card extends Image implements Cloneable {
 
