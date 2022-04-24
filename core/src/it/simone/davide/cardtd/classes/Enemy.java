@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.enums.EnemyState;
@@ -19,6 +20,7 @@ public abstract class Enemy extends Image implements Cloneable, Damageable {
     protected float time = 0f;
     private int hp, damage, speed, moneyonkill, attackDimension;
     private boolean remove = false;
+    private Path path;
 
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
         this.hp = hp;
@@ -41,6 +43,10 @@ public abstract class Enemy extends Image implements Cloneable, Damageable {
 
     }
 
+    public void setPath(Path path) {
+        this.path = path;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -52,8 +58,10 @@ public abstract class Enemy extends Image implements Cloneable, Damageable {
                 currentRegion = animations.get(EnemyState.IDLE).getKeyFrame(time, true);
                 break;
             case RUN:
-                //TODO cambia questo metodo con uno simile usato nei bullet ma andando tra nodi e nodi
-                setPosition(getX() + getSpeed() * delta, getY());
+
+                Vector2 v = path.move(delta, getX(), getY());
+
+                setPosition(v.x, v.y);
                 currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                 break;
             case DEATH:

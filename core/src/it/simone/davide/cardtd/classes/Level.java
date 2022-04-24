@@ -3,8 +3,11 @@ package it.simone.davide.cardtd.classes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -20,10 +23,12 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
+import it.simone.davide.cardtd.enums.EnemyState;
 import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class Level implements Screen {
@@ -95,10 +100,10 @@ public abstract class Level implements Screen {
 
                     } else {
                         building.setColor(Color.WHITE);
-                       Build b= new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1, mainStage,1);
-                       b.place((int)building.getX(),(int) building.getY());
-                       placedStructures.add(b);
-                       mainStage.addActor(b);
+                        Build b = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1, mainStage, 1, (int) building.getX(), (int) building.getY());
+
+                        placedStructures.add(b);
+                        mainStage.addActor(b);
                     }
 
                 }
@@ -124,9 +129,94 @@ public abstract class Level implements Screen {
 
     }
 
-    public abstract void addEnemy(EnemyType enemyType);
+    public void addEnemy(EnemyType enemyType) {
+        Enemy s = ((Enemy) StaticVariables.ENEMIES.get(enemyType)).clone();
+        s.setPosition(0, 360);
+        s.setPath(getPath(enemyType));
+        enemies.add(s);
+        mainStage.addActor(s);
 
-    public abstract void render(float delta);
+    }
+
+    public abstract Path getPath(EnemyType enemyType);
+
+    @Override
+    public void render(float delta) {
+
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        fillstage.getViewport().apply();
+        fillstage.act(delta);
+        fillstage.draw();
+
+        mainStage.getViewport().apply();
+
+        for (Enemy e : enemies) {
+
+            if (e.getX() + e.getAttackDimension() >= tileManager.getToProtect().getX()) {
+                e.setCurrentState(EnemyState.ATTACK);
+
+            }
+
+        }
+        mainStage.act(delta);
+        mainStage.draw();
+        ShapeRenderer s = new ShapeRenderer();
+        s.setProjectionMatrix(mainStage.getCamera().combined);
+        tileManager.render(s);
+
+        for (Build b : placedStructures) {
+
+            s.begin(ShapeType.Line);
+            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
+            s.end();
+
+            for (Enemy e : enemies) {
+
+                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
+                    b.setTarget(e);
+
+                    break;
+                }
+                b.setTarget(null);
+            }
+
+        }
+
+        Iterator<Enemy> i = enemies.iterator();
+
+        for (; i.hasNext(); ) {
+            Enemy e = i.next();
+            if (e.canRemove()) {
+                e.remove();
+            }
+        }
+
+        for (Build b : placedStructures) {
+
+            s.begin(ShapeType.Line);
+            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
+            s.end();
+
+            for (Enemy e : enemies) {
+
+                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
+                    b.setTarget(e);
+
+                    break;
+                }
+                b.setTarget(null);
+            }
+
+        }
+
+        for (Build b : placedStructures) {
+
+            b.hitEnemies(enemies);
+        }
+
+    }
 
     @Override
     public void resize(int width, int height) {

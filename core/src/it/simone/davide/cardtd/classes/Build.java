@@ -6,27 +6,33 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Build extends Actor {
+public class Build extends Image {
 
-    int attackRange, attackSpeed, damage;
-    Texture texture, bulletTexture;
-    Enemy target = null;
-    List<Bullet> bulletList = new ArrayList<>();
-    Rectangle attackRangeRect;
-    Stage stage;
-    float time = 0;
+    private int attackRange, attackSpeed, damage;
+    private Texture texture, bulletTexture;
+    private Enemy target = null;
+    private List<Bullet> bulletList = new ArrayList<>();
+    private Rectangle attackRangeRect;
+    private Stage stage;
+    private float time = 0;
 
-    public Build(Texture texture, Texture bulletTexture, int attackRange, int attackSpeed, Stage stage, int damage) {
+    public Build(Texture texture, Texture bulletTexture, int attackRange, int attackSpeed, Stage stage, int damage, int x, int y) {
+       super(texture);
+
         this.texture = texture;
         this.bulletTexture = bulletTexture;
         this.attackRange = attackRange;
         this.attackSpeed = attackSpeed;
         this.stage = stage;
         this.damage = damage;
+
+        place(x, y);
     }
 
     @Override
