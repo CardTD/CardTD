@@ -11,8 +11,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import it.simone.davide.cardtd.classes.Enemy;
+import it.simone.davide.cardtd.classes.enemies.ToasterBot;
+import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.screens.MainMenu;
+
+import java.util.HashMap;
+
+import static it.simone.davide.cardtd.StaticVariables.ENEMIES;
 
 public class CardTDGame extends Game {
 
@@ -33,8 +40,15 @@ public class CardTDGame extends Game {
         loadAssets();
 
         assetManager.finishLoading();
+        loadEnemyAndCard();
         setScreen(new MainMenu());
 
+    }
+
+    private void loadEnemyAndCard() {
+        ENEMIES= new HashMap<>();
+        ENEMIES.put(EnemyType.ToasterBot, new ToasterBot(1, 1, 50, 200, 240));
+        ENEMIES.put(EnemyType.StrongToasterBot, new ToasterBot(2, 2, 1, 100, 240));
     }
 
     private void loadAssets() {

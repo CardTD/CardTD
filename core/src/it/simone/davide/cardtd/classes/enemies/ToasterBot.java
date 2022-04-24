@@ -4,16 +4,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import it.simone.davide.cardtd.classes.Enemy;
-import it.simone.davide.cardtd.classes.EnemyState;
+import it.simone.davide.cardtd.enums.EnemyState;
 
 public class ToasterBot extends Enemy {
-    public ToasterBot(int hp, int damage, int speed, int moneyonkill) {
-        super(hp, damage, speed, moneyonkill);
+    public ToasterBot(int hp, int damage, int speed, int moneyonkill, int attackdim) {
+        super(hp, damage, speed, moneyonkill, attackdim);
     }
 
     @Override
     public void loadAnimations() {
-        int rows = 1, cols=5;
+        int rows = 1, cols = 5;
         Texture texture = new Texture("cards/toaster/idle.png");
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
                 cols, texture.getHeight() / rows);
@@ -28,7 +28,7 @@ public class ToasterBot extends Enemy {
 
         animations.put(EnemyState.IDLE, anim);
 
-        cols=8;
+        cols = 8;
 
         texture = new Texture("cards/toaster/run.png");
         tmp = TextureRegion.split(texture, texture.getWidth() /
@@ -44,7 +44,7 @@ public class ToasterBot extends Enemy {
 
         animations.put(EnemyState.RUN, anim);
 
-        cols=11;
+        cols = 11;
 
         texture = new Texture("cards/toaster/attack.png");
         tmp = TextureRegion.split(texture, texture.getWidth() /
@@ -60,12 +60,12 @@ public class ToasterBot extends Enemy {
 
         animations.put(EnemyState.ATTACK, anim);
 
-        setCurrentState(EnemyState.ATTACK);
+        setCurrentState(EnemyState.RUN);
     }
 
     @Override
     public Enemy clone() {
-        return new ToasterBot(getHp(), getDamage(), getSpeed(), getMoneyonkill());
+        return new ToasterBot(getHp(), getDamage(), getSpeed(), getMoneyonkill(), getAttackDimension());
     }
 
 }

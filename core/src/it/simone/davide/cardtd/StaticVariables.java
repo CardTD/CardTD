@@ -2,9 +2,12 @@ package it.simone.davide.cardtd;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.simone.davide.cardtd.classes.Card;
+import it.simone.davide.cardtd.classes.Enemy;
+import it.simone.davide.cardtd.enums.EnemyType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StaticVariables {
 
@@ -28,6 +31,7 @@ public class StaticVariables {
     public static final String TMXMAP = "mappa1.tmx";
     public static final String IN_GAME_DECK = "ingamedeck.png";
     public static final List<Card> ALL_CARDS;
+    public static Map<EnemyType, ? super Enemy> ENEMIES;
 
     public static final Card BLANK_CARD;
 

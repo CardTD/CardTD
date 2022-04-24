@@ -23,6 +23,7 @@ import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Deck;
 import it.simone.davide.cardtd.classes.Level;
+import it.simone.davide.cardtd.classes.levels.FirstMap;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.screens.deck.DeckMenu;
@@ -172,7 +173,7 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                CardTDGame.INSTANCE.setScreen(new Level(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
+                CardTDGame.INSTANCE.setScreen(new FirstMap(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
             }
         });
         InputMultiplexer inputMultiplexer = new InputMultiplexer();

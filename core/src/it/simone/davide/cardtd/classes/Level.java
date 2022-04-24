@@ -3,10 +3,8 @@ package it.simone.davide.cardtd.classes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
@@ -22,17 +20,18 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
-import it.simone.davide.cardtd.classes.enemies.ToasterBot;
+import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level implements Screen {
+public abstract class Level implements Screen {
 
-    private final Stage mainStage, fillstage;
-    private TileManager tileManager;
-    private List<Image> placedStructures = new ArrayList<>();
+    protected final Stage mainStage, fillstage;
+    protected TileManager tileManager;
+    protected List<Build> placedStructures = new ArrayList<>();
+    protected List<Enemy> enemies = new ArrayList<>();
 
     public Level(Texture map, TiledMap tiledmap) {
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
@@ -96,7 +95,10 @@ public class Level implements Screen {
 
                     } else {
                         building.setColor(Color.WHITE);
-                        placedStructures.add(building);
+                       Build b= new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1, mainStage);
+                       b.place((int)building.getX(),(int) building.getY());
+                       placedStructures.add(b);
+                       mainStage.addActor(b);
                     }
 
                 }
@@ -110,9 +112,8 @@ public class Level implements Screen {
                 }
             });
         }
-        addEnemy(EnemyState.IDLE, 0, 0);
-        addEnemy(EnemyState.RUN, 100, 0);
-        addEnemy(EnemyState.ATTACK, 200, 0);
+        addEnemy(EnemyType.ToasterBot);
+
         Gdx.input.setInputProcessor(mainStage);
     }
 
@@ -123,31 +124,9 @@ public class Level implements Screen {
 
     }
 
-    public void addEnemy(EnemyState state, int x, int y) {
-        Enemy s = new ToasterBot(0, 0, 0, 0);
-        s.setCurrentState(state);
-        s.setPosition(x, y);
-        mainStage.addActor(s);
+    public abstract void addEnemy(EnemyType enemyType);
 
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        fillstage.getViewport().apply();
-        fillstage.act(delta);
-        fillstage.draw();
-
-        mainStage.getViewport().apply();
-        mainStage.act(delta);
-        mainStage.draw();
-        ShapeRenderer s = new ShapeRenderer();
-        s.setProjectionMatrix(mainStage.getCamera().combined);
-        tileManager.render(s);
-
-    }
+    public abstract void render(float delta);
 
     @Override
     public void resize(int width, int height) {
