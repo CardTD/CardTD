@@ -13,13 +13,14 @@ public class ToasterBot extends Enemy {
 
     @Override
     public void loadAnimations() {
+        int rows = 1, cols=5;
         Texture texture = new Texture("cards/toaster/idle.png");
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
-                5, texture.getHeight() / 1);
-        TextureRegion[] frames = new TextureRegion[5 * 1];
+                cols, texture.getHeight() / rows);
+        TextureRegion[] frames = new TextureRegion[cols * rows];
         int index = 0;
-        for (int i = 0; i < 1; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 frames[index++] = tmp[i][j];
             }
         }
@@ -27,20 +28,39 @@ public class ToasterBot extends Enemy {
 
         animations.put(EnemyState.IDLE, anim);
 
+        cols=8;
+
         texture = new Texture("cards/toaster/run.png");
         tmp = TextureRegion.split(texture, texture.getWidth() /
-                8, texture.getHeight() / 1);
-        frames = new TextureRegion[8 * 1];
+                cols, texture.getHeight() / rows);
+        frames = new TextureRegion[cols * rows];
         index = 0;
-        for (int i = 0; i < 1; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
                 frames[index++] = tmp[i][j];
             }
         }
         anim = new Animation(0.2f, frames);
 
         animations.put(EnemyState.RUN, anim);
-        setCurrentState(EnemyState.RUN);
+
+        cols=11;
+
+        texture = new Texture("cards/toaster/attack.png");
+        tmp = TextureRegion.split(texture, texture.getWidth() /
+                cols, texture.getHeight() / rows);
+        frames = new TextureRegion[cols * rows];
+        index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        anim = new Animation(0.2f, frames);
+
+        animations.put(EnemyState.ATTACK, anim);
+
+        setCurrentState(EnemyState.ATTACK);
     }
 
     @Override

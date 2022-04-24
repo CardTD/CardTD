@@ -112,6 +112,7 @@ public class Level implements Screen {
         }
         addEnemy(EnemyState.IDLE, 0, 0);
         addEnemy(EnemyState.RUN, 100, 0);
+        addEnemy(EnemyState.ATTACK, 200, 0);
         Gdx.input.setInputProcessor(mainStage);
     }
 

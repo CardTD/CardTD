@@ -32,7 +32,7 @@ public class DeckMenu implements Screen, InputProcessor {
     private final Stage deckStage, fillstage;
     private CurrentDeck currentDeck;
 
-    //TODO add back button
+
     //TODO add scrolling
 
     public DeckMenu() {
