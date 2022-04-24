@@ -117,7 +117,6 @@ public abstract class Level implements Screen {
                 }
             });
         }
-        addEnemy(EnemyType.ToasterBot);
 
         Gdx.input.setInputProcessor(mainStage);
     }
@@ -166,24 +165,6 @@ public abstract class Level implements Screen {
         s.setProjectionMatrix(mainStage.getCamera().combined);
         tileManager.render(s);
 
-        for (Build b : placedStructures) {
-
-            s.begin(ShapeType.Line);
-            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
-            s.end();
-
-            for (Enemy e : enemies) {
-
-                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
-                    b.setTarget(e);
-
-                    break;
-                }
-                b.setTarget(null);
-            }
-
-        }
-
         Iterator<Enemy> i = enemies.iterator();
 
         for (; i.hasNext(); ) {
@@ -201,9 +182,26 @@ public abstract class Level implements Screen {
 
             for (Enemy e : enemies) {
 
-                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
+                if (!e.isDead() && b.getAttackRangeRect().overlaps(e.getRectangle())) {
                     b.setTarget(e);
 
+                    break;
+                }
+                b.setTarget(null);
+            }
+
+        }
+
+        for (Build b : placedStructures) {
+
+            s.begin(ShapeType.Line);
+            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
+            s.end();
+
+            for (Enemy e : enemies) {
+
+                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
+                    b.setTarget(e);
                     break;
                 }
                 b.setTarget(null);

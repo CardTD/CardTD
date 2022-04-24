@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.enums.EnemyState;
@@ -12,7 +13,7 @@ import it.simone.davide.cardtd.enums.EnemyState;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Enemy extends Image implements Cloneable, Damageable {
+public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     protected Map<EnemyState, Animation<TextureRegion>> animations;
     protected EnemyState currentState;
@@ -21,8 +22,11 @@ public abstract class Enemy extends Image implements Cloneable, Damageable {
     private int hp, damage, speed, moneyonkill, attackDimension;
     private boolean remove = false;
     private Path path;
+    private float width, height;
 
+    //TODO add damage animation
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
+
         this.hp = hp;
         this.damage = damage;
         this.speed = speed;
@@ -31,6 +35,21 @@ public abstract class Enemy extends Image implements Cloneable, Damageable {
         this.attackDimension = attackDimension;
         loadAnimations();
 
+    }
+
+    @Override
+    public float getWidth() {
+        return width;
+    }
+
+    @Override
+    public float getHeight() {
+        return height;
+    }
+
+    public void setDimensions(float width, float height) {
+        this.width = width;
+        this.height = height;
     }
 
     public abstract void loadAnimations();

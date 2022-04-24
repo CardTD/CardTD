@@ -3,6 +3,7 @@ package it.simone.davide.cardtd.classes.enemies;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.enums.EnemyState;
 
@@ -14,9 +15,11 @@ public class ToasterBot extends Enemy {
     @Override
     public void loadAnimations() {
         int rows = 1, cols = 5;
-        Texture texture = new Texture("cards/toaster/idle.png");
+        Texture texture = new Texture(StaticVariables.ToasterBorIDLE);
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
                 cols, texture.getHeight() / rows);
+        setDimensions(16,16);
+        ;
         TextureRegion[] frames = new TextureRegion[cols * rows];
         int index = 0;
         for (int i = 0; i < rows; i++) {
@@ -30,7 +33,7 @@ public class ToasterBot extends Enemy {
 
         cols = 8;
 
-        texture = new Texture("cards/toaster/run.png");
+        texture = new Texture(StaticVariables.ToasterBorRun);
         tmp = TextureRegion.split(texture, texture.getWidth() /
                 cols, texture.getHeight() / rows);
         frames = new TextureRegion[cols * rows];
@@ -46,7 +49,7 @@ public class ToasterBot extends Enemy {
 
         cols = 11;
 
-        texture = new Texture("cards/toaster/attack.png");
+        texture = new Texture(StaticVariables.ToasterBorAttack);
         tmp = TextureRegion.split(texture, texture.getWidth() /
                 cols, texture.getHeight() / rows);
         frames = new TextureRegion[cols * rows];
@@ -62,7 +65,7 @@ public class ToasterBot extends Enemy {
 
         cols = 5;
 
-        texture = new Texture("cards/toaster/death.png");
+        texture = new Texture(StaticVariables.ToasterBorDeath);
         tmp = TextureRegion.split(texture, texture.getWidth() /
                 cols, texture.getHeight() / rows);
         frames = new TextureRegion[cols * rows];

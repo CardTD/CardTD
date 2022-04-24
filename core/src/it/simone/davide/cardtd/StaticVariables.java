@@ -30,6 +30,12 @@ public class StaticVariables {
     public static final String TOWER = "placedtower.png";
     public static final String TMXMAP = "mappa1.tmx";
     public static final String IN_GAME_DECK = "ingamedeck.png";
+
+    public static final String ToasterBorIDLE = "cards/toaster/idle.png";
+    public static final String ToasterBorRun = "cards/toaster/run.png";
+    public static final String ToasterBorAttack = "cards/toaster/attack.png";
+    public static final String ToasterBorDeath = "cards/toaster/death.png";
+
     public static final List<Card> ALL_CARDS;
     public static Map<EnemyType, ? super Enemy> ENEMIES;
 

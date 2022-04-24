@@ -4,10 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public class Build extends Image {
     private float time = 0;
 
     public Build(Texture texture, Texture bulletTexture, int attackRange, int attackSpeed, Stage stage, int damage, int x, int y) {
-       super(texture);
+        super(texture);
 
         this.texture = texture;
         this.bulletTexture = bulletTexture;
@@ -48,7 +46,9 @@ public class Build extends Image {
     }
 
     public void setTarget(Enemy target) {
-        this.target = target;
+        if ( this.target == null) {
+            this.target = target;
+        }
     }
 
     @Override
@@ -56,13 +56,15 @@ public class Build extends Image {
         super.act(delta);
         time += delta;
         if (target != null) {
+
             if (target.isDead()) {
                 target = null;
-
+                time = 0;
             } else if (time > attackSpeed) {
 
                 time = 0;
-                Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX(), target.getY()), 10);
+
+                Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX()+target.getWidth()/2, target.getY()+ target.getHeight()/2), 20);
                 stage.addActor(b);
                 bulletList.add(b);
             }

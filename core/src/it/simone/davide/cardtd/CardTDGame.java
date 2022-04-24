@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.classes.enemies.ToasterBot;
 import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.fontmanagement.FontType;
@@ -46,9 +45,9 @@ public class CardTDGame extends Game {
     }
 
     private void loadEnemyAndCard() {
-        ENEMIES= new HashMap<>();
+        ENEMIES = new HashMap<>();
         ENEMIES.put(EnemyType.ToasterBot, new ToasterBot(1, 1, 50, 200, 240));
-        ENEMIES.put(EnemyType.StrongToasterBot, new ToasterBot(2, 2, 1, 100, 240));
+        ENEMIES.put(EnemyType.StrongToasterBot, new ToasterBot(5, 1, 55, 200, 240));
     }
 
     private void loadAssets() {
@@ -66,6 +65,12 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.TOWER, Texture.class);
         assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
         assetManager.load(StaticVariables.IN_GAME_DECK, Texture.class);
+
+        assetManager.load(StaticVariables.ToasterBorIDLE, Texture.class);
+        assetManager.load(StaticVariables.ToasterBorAttack, Texture.class);
+        assetManager.load(StaticVariables.ToasterBorDeath, Texture.class);
+        assetManager.load(StaticVariables.ToasterBorRun, Texture.class);
+
         //load font for the title
         FontType.loadFonts();
 
