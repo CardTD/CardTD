@@ -13,13 +13,15 @@ import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.enums.EnemyState;
 import it.simone.davide.cardtd.enums.EnemyType;
 
+import java.util.Iterator;
+
 public class FirstMap extends Level {
     public FirstMap(Texture map, TiledMap tiledmap) {
         super(map, tiledmap);
     }
 
     public void addEnemy(EnemyType enemyType) {
-        Enemy s = (Enemy) StaticVariables.ENEMIES.get(enemyType);
+        Enemy s = ((Enemy) StaticVariables.ENEMIES.get(enemyType)).clone();
         s.setPosition(0, 360);
         enemies.add(s);
         mainStage.addActor(s);
@@ -67,6 +69,38 @@ public class FirstMap extends Level {
                 b.setTarget(null);
             }
 
+        }
+
+        Iterator<Enemy> i = enemies.iterator();
+
+        for (; i.hasNext(); ) {
+            Enemy e = i.next();
+            if (e.canRemove()) {
+                e.remove();
+            }
+        }
+
+        for (Build b : placedStructures) {
+
+            s.begin(ShapeType.Line);
+            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
+            s.end();
+
+            for (Enemy e : enemies) {
+
+                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
+                    b.setTarget(e);
+
+                    break;
+                }
+                b.setTarget(null);
+            }
+
+        }
+
+        for (Build b : placedStructures) {
+
+            b.hitEnemies(enemies);
         }
 
     }

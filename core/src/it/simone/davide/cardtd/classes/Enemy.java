@@ -4,19 +4,21 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.enums.EnemyState;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class Enemy extends Actor implements Cloneable {
+public abstract class Enemy extends Image implements Cloneable, Damageable {
 
     protected Map<EnemyState, Animation<TextureRegion>> animations;
     protected EnemyState currentState;
     protected TextureRegion currentRegion;
     protected float time = 0f;
     private int hp, damage, speed, moneyonkill, attackDimension;
+    private boolean remove = false;
 
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
         this.hp = hp;
@@ -26,6 +28,7 @@ public abstract class Enemy extends Actor implements Cloneable {
         animations = new HashMap<>();
         this.attackDimension = attackDimension;
         loadAnimations();
+
     }
 
     public abstract void loadAnimations();
@@ -49,6 +52,7 @@ public abstract class Enemy extends Actor implements Cloneable {
                 currentRegion = animations.get(EnemyState.IDLE).getKeyFrame(time, true);
                 break;
             case RUN:
+                //TODO cambia questo metodo con uno simile usato nei bullet ma andando tra nodi e nodi
                 setPosition(getX() + getSpeed() * delta, getY());
                 currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                 break;
@@ -71,6 +75,7 @@ public abstract class Enemy extends Actor implements Cloneable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
+
         batch.draw(currentRegion, getX(), getY());
     }
 
@@ -101,5 +106,37 @@ public abstract class Enemy extends Actor implements Cloneable {
 
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
 
+    }
+
+    @Override
+    public void damage(int damage) {
+        int oldHp = hp;
+        hp -= damage;
+        if (oldHp > 0 && hp <= 0) {
+
+            die();
+        }
+
+    }
+
+    public boolean isDead() {
+        return hp <= 0;
+    }
+
+    public void die() {
+        setCurrentState(EnemyState.DEATH);
+
+        addAction(Actions.sequence(Actions.delay(1), Actions.fadeOut(0.5f), Actions.removeActor(), Actions.run(new Runnable() {
+
+            @Override
+            public void run() {
+                remove = true;
+            }
+        })));
+        hp = 0;
+    }
+
+    public boolean canRemove() {
+        return remove;
     }
 }

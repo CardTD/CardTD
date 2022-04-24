@@ -95,7 +95,7 @@ public abstract class Level implements Screen {
 
                     } else {
                         building.setColor(Color.WHITE);
-                       Build b= new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1, mainStage);
+                       Build b= new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1, mainStage,1);
                        b.place((int)building.getX(),(int) building.getY());
                        placedStructures.add(b);
                        mainStage.addActor(b);

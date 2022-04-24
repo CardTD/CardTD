@@ -60,6 +60,22 @@ public class ToasterBot extends Enemy {
 
         animations.put(EnemyState.ATTACK, anim);
 
+        cols = 5;
+
+        texture = new Texture("cards/toaster/death.png");
+        tmp = TextureRegion.split(texture, texture.getWidth() /
+                cols, texture.getHeight() / rows);
+        frames = new TextureRegion[cols * rows];
+        index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        anim = new Animation(0.2f, frames);
+
+        animations.put(EnemyState.DEATH, anim);
+
         setCurrentState(EnemyState.RUN);
     }
 

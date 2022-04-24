@@ -7,22 +7,26 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Build extends Actor {
 
-    int attackRange, attackSpeed;
+    int attackRange, attackSpeed, damage;
     Texture texture, bulletTexture;
     Enemy target = null;
-
+    List<Bullet> bulletList = new ArrayList<>();
     Rectangle attackRangeRect;
     Stage stage;
     float time = 0;
 
-    public Build(Texture texture, Texture bulletTexture, int attackRange, int attackSpeed, Stage stage) {
+    public Build(Texture texture, Texture bulletTexture, int attackRange, int attackSpeed, Stage stage, int damage) {
         this.texture = texture;
         this.bulletTexture = bulletTexture;
         this.attackRange = attackRange;
         this.attackSpeed = attackSpeed;
         this.stage = stage;
+        this.damage = damage;
     }
 
     @Override
@@ -46,10 +50,15 @@ public class Build extends Actor {
         super.act(delta);
         time += delta;
         if (target != null) {
-            if (time > attackSpeed) {
-                time = 0;
-                stage.addActor(new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX(), target.getY()), 2));
+            if (target.isDead()) {
+                target = null;
 
+            } else if (time > attackSpeed) {
+
+                time = 0;
+                Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX(), target.getY()), 10);
+                stage.addActor(b);
+                bulletList.add(b);
             }
 
         }
@@ -58,5 +67,22 @@ public class Build extends Actor {
 
     public Rectangle getAttackRangeRect() {
         return attackRangeRect;
+    }
+
+    public void hitEnemies(List<Enemy> enemies) {
+
+        for (Bullet b : bulletList) {
+            if (!b.hasCollided) {
+                for (Enemy e : enemies) {
+
+                    if (b.getRectangle().overlaps(e.getRectangle())) {
+                        e.damage(damage);
+                        b.hasCollided = true;
+                    }
+
+                }
+            }
+
+        }
     }
 }

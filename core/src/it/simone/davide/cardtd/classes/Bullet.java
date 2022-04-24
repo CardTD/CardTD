@@ -2,14 +2,16 @@ package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Bullet extends Actor {
 
     Texture texture;
-    protected Vector2 v2Position, v2Velocity= new Vector2(), to;
+    protected Vector2 v2Position, v2Velocity = new Vector2(), to;
     float speed;
+    boolean hasCollided = false;
 
     public Bullet(Texture texture, Vector2 position, Vector2 to, float speed) {
         this.texture = texture;
@@ -42,6 +44,10 @@ public class Bullet extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         batch.draw(texture, getX(), getY());
+    }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
     }
 
 }
