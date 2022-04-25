@@ -55,7 +55,7 @@ public abstract class Level implements Screen {
 
         for (int i = 0; i < 4; i++) {
 
-            Card c = MainMenu.playerDeck.getCard(i);
+            Card c = MainMenu.playerDeck.getCard(i).clone();
             c.setPosition(12 + (c.getWidth() * i + 12 * i), 12);
             mainStage.addActor(c);
 
@@ -167,10 +167,10 @@ public abstract class Level implements Screen {
 
         Iterator<Enemy> i = enemies.iterator();
 
-        for (; i.hasNext(); ) {
+        while (i.hasNext()) {
             Enemy e = i.next();
             if (e.canRemove()) {
-                e.remove();
+                i.remove();
             }
         }
 

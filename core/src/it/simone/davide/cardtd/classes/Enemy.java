@@ -1,5 +1,6 @@
 package it.simone.davide.cardtd.classes;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -7,7 +8,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.enums.EnemyState;
 
 import java.util.HashMap;
@@ -102,8 +102,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
+        batch.setColor(Color.WHITE);
         batch.draw(currentRegion, getX(), getY());
+
     }
 
     @Override
