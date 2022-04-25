@@ -1,6 +1,7 @@
 package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -146,7 +147,24 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     }
 
     public boolean isDead() {
-        return  currentState.equals(EnemyState.DYING);
+        return currentState.equals(EnemyState.DYING);
+    }
+
+    public void loadAnimation(Texture texture, int rows, int cols, EnemyState enemyState) {
+
+        TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
+                cols, texture.getHeight() / rows);
+
+        TextureRegion[] frames = new TextureRegion[cols * rows];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        Animation<TextureRegion> anim = new Animation<>(0.2f, frames);
+
+        animations.put(enemyState, anim);
     }
 
     public void die() {
