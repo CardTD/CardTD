@@ -5,6 +5,7 @@ import it.simone.davide.cardtd.classes.Build;
 import it.simone.davide.cardtd.classes.Bullet;
 import it.simone.davide.cardtd.classes.Card;
 import it.simone.davide.cardtd.classes.Enemy;
+import it.simone.davide.cardtd.classes.bullets.PiercingBullet;
 import it.simone.davide.cardtd.classes.enemies.ToasterBot;
 import it.simone.davide.cardtd.enums.BuildType;
 import it.simone.davide.cardtd.enums.BulletType;
@@ -31,7 +32,7 @@ public class GameObjects {
 
         BULLETS = new HashMap<>();
 
-        BULLETS.put(BulletType.BLACK_CIRCLE, new Bullet(CardTDGame.assetManager.<Texture>get(StaticVariables.BLACK_CIRCLE), 20));
+        BULLETS.put(BulletType.BLACK_CIRCLE, new PiercingBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.BLACK_CIRCLE), 20));
 
         BUILDINGS = new HashMap<>();
         BUILDINGS.put(BuildType.TOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.PLACEDTOWER_PNG), BulletType.BLACK_CIRCLE, 200, 1f, 1, 0, 0));
@@ -43,6 +44,8 @@ public class GameObjects {
         CARDS.put(CardType.TOWER3, new Card("tower3", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER));
 
     }
+
+
 
     public static Card getCardByName(String name) {
         for (Card c : CARDS.values()) {

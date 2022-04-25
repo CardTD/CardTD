@@ -10,11 +10,12 @@ import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.enums.BulletType;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Build extends Image {
 
-    private float attackRange, attackSpeed, damage;
+    private float attackRange, attackSpeed;
     private Texture texture;
     private Enemy target = null;
     private List<Bullet> bulletList = new ArrayList<>();
@@ -23,6 +24,7 @@ public class Build extends Image {
     private BulletType bulletType;
     private float time = 0;
     private boolean isPlaced = false;
+    private int damage;
 
     public Build(Texture texture, BulletType bulletType, int attackRange, float attackSpeed, int damage, int x, int y) {
         super(texture);
@@ -37,7 +39,6 @@ public class Build extends Image {
         setPosition(x, y);
     }
 
-    //TODO astrarre Build
     //TODO creare le wave
     @Override
     public void setPosition(float x, float y) {
@@ -105,16 +106,12 @@ public class Build extends Image {
 
     public void hitEnemies(List<Enemy> enemies) {
 
-        for (Bullet b : bulletList) {
-            if (!b.hasCollided) {
-                for (Enemy e : enemies) {
-
-                    if (b.getRectangle().overlaps(e.getRectangle())) {
-                        e.damage(damage);
-                        b.hasCollided = true;
-                    }
-
-                }
+        Iterator<Bullet> b = bulletList.iterator();
+        while (b.hasNext()) {
+            Bullet bullet = b.next();
+            boolean remove = bullet.hitEnemies(enemies, damage);
+            if (remove) {
+                b.remove();
             }
 
         }

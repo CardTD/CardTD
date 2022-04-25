@@ -22,7 +22,7 @@ public class FirstMap extends Level {
             public void run() {
                 addEnemy(EnemyType.StrongToasterBot);
             }
-        }, 1, 5);
+        }, 1, 1);
 
     }
 
