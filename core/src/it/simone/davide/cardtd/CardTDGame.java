@@ -70,6 +70,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.ToasterBorAttack, Texture.class);
         assetManager.load(StaticVariables.ToasterBorDeath, Texture.class);
         assetManager.load(StaticVariables.ToasterBorRun, Texture.class);
+        assetManager.load(StaticVariables.ToasterBorDagamed, Texture.class);
 
         //load font for the title
         FontType.loadFonts();

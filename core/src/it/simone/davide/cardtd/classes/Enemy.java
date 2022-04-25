@@ -1,13 +1,14 @@
 package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.TimeUtils;
 import it.simone.davide.cardtd.enums.EnemyState;
 
 import java.util.HashMap;
@@ -22,10 +23,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     private int hp, damage, speed, moneyonkill, attackDimension;
     private boolean remove = false;
     private Path path;
-    private float width, height;
+    private float alpha = 2;
 
-    //TODO add damage animation
-    public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
+    public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension, Texture defaultTexture) {
 
         this.hp = hp;
         this.damage = damage;
@@ -37,26 +37,13 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
-    @Override
-    public float getWidth() {
-        return width;
-    }
-
-    @Override
-    public float getHeight() {
-        return height;
-    }
-
-    public void setDimensions(float width, float height) {
-        this.width = width;
-        this.height = height;
-    }
-
     public abstract void loadAnimations();
 
     public void setCurrentState(EnemyState currentState) {
-        if (this.currentState != currentState) {
+
+        if (!currentState.equals(this.currentState)) {
             time = 0f;
+            System.out.println("setto stato" + " " + currentState);
             this.currentState = currentState;
         }
 
@@ -66,44 +53,76 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         this.path = path;
     }
 
+    long startTime = 0;
+
     @Override
     public void act(float delta) {
         super.act(delta);
         time += delta;
+        if (currentState != null)
+            switch (currentState) {
+                case IDLE:
 
-        switch (currentState) {
-            case IDLE:
+                    currentRegion = animations.get(EnemyState.IDLE).getKeyFrame(time, true);
+                    break;
+                case RUN:
 
-                currentRegion = animations.get(EnemyState.IDLE).getKeyFrame(time, true);
-                break;
-            case RUN:
+                    Vector2 v = path.move(delta, getX(), getY());
 
-                Vector2 v = path.move(delta, getX(), getY());
+                    setPosition(v.x, v.y);
+                    currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
+                    break;
+                case DYING:
+                    long elapsedTime = 0;
+                    if (startTime != 0) {
+                        elapsedTime = TimeUtils.timeSinceMillis(startTime);
 
-                setPosition(v.x, v.y);
-                currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
-                break;
-            case DEATH:
-                currentRegion = animations.get(EnemyState.DEATH).getKeyFrame(time, true);
-                break;
+                        alpha -= elapsedTime / 1000f;
+                    }
 
-            case ATTACK:
-                currentRegion = animations.get(EnemyState.ATTACK).getKeyFrame(time, true);
-                break;
+                    startTime = TimeUtils.millis();
 
-            case DAMAGED:
-                currentRegion = animations.get(EnemyState.DAMAGED).getKeyFrame(time, true);
-                break;
+                case DEATH:
+                    currentRegion = animations.get(EnemyState.DEATH).getKeyFrame(time, true);
 
-        }
+                    break;
+
+                case ATTACK:
+                    currentRegion = animations.get(EnemyState.ATTACK).getKeyFrame(time, true);
+                    break;
+
+                case DAMAGED:
+                    if (animations.get(EnemyState.DAMAGED).isAnimationFinished(time)) {
+                        if (!isDead())
+                            setCurrentState(EnemyState.RUN);
+                    }
+                    v = path.move(delta, getX(), getY());
+
+                    setPosition(v.x, v.y);
+                    currentRegion = animations.get(EnemyState.DAMAGED).getKeyFrame(time, false);
+
+                    break;
+
+            }
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
         batch.setColor(Color.WHITE);
-        batch.draw(currentRegion, getX(), getY());
+        if (currentState == EnemyState.DYING) {
+            batch.setColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, alpha);
+
+            if (alpha <= 0) {
+                setCurrentState(EnemyState.DEATH);
+                remove();
+
+                remove = true;
+
+            }
+        }
+        if (currentRegion != null)
+            batch.draw(currentRegion, getX(), getY());
 
     }
 
@@ -138,29 +157,30 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     @Override
     public void damage(int damage) {
+
         int oldHp = hp;
         hp -= damage;
+        System.out.println(hp);
         if (oldHp > 0 && hp <= 0) {
 
             die();
+        } else {
+
+            if (currentState.equals(EnemyState.RUN)) {
+
+                setCurrentState(EnemyState.DAMAGED);
+            }
         }
 
     }
 
     public boolean isDead() {
-        return hp <= 0;
+        return currentState.equals(EnemyState.DEATH) || currentState.equals(EnemyState.DYING);
     }
 
     public void die() {
-        setCurrentState(EnemyState.DEATH);
+        setCurrentState(EnemyState.DYING);
 
-        addAction(Actions.sequence(Actions.delay(1), Actions.fadeOut(0.5f), Actions.removeActor(), Actions.run(new Runnable() {
-
-            @Override
-            public void run() {
-                remove = true;
-            }
-        })));
         hp = 0;
     }
 

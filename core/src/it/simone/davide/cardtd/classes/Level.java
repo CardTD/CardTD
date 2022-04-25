@@ -154,7 +154,9 @@ public abstract class Level implements Screen {
         for (Enemy e : enemies) {
 
             if (e.getX() + e.getAttackDimension() >= tileManager.getToProtect().getX()) {
-                e.setCurrentState(EnemyState.ATTACK);
+                if (!e.currentState.equals(EnemyState.DEATH)) {
+                    e.setCurrentState(EnemyState.ATTACK);
+                }
 
             }
 
@@ -187,27 +189,10 @@ public abstract class Level implements Screen {
 
                     break;
                 }
-                b.setTarget(null);
             }
 
         }
 
-        for (Build b : placedStructures) {
-
-            s.begin(ShapeType.Line);
-            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
-            s.end();
-
-            for (Enemy e : enemies) {
-
-                if (b.getAttackRangeRect().overlaps(e.getRectangle())) {
-                    b.setTarget(e);
-                    break;
-                }
-                b.setTarget(null);
-            }
-
-        }
 
         for (Build b : placedStructures) {
 

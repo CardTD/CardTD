@@ -35,6 +35,7 @@ public class StaticVariables {
     public static final String ToasterBorRun = "cards/toaster/run.png";
     public static final String ToasterBorAttack = "cards/toaster/attack.png";
     public static final String ToasterBorDeath = "cards/toaster/death.png";
+    public static final String ToasterBorDagamed = "cards/toaster/damaged.png";
 
     public static final List<Card> ALL_CARDS;
     public static Map<EnemyType, ? super Enemy> ENEMIES;

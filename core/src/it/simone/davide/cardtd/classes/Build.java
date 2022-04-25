@@ -46,7 +46,7 @@ public class Build extends Image {
     }
 
     public void setTarget(Enemy target) {
-        if ( this.target == null) {
+        if (this.target == null) {
             this.target = target;
         }
     }
@@ -59,14 +59,19 @@ public class Build extends Image {
 
             if (target.isDead()) {
                 target = null;
-                time = 0;
-            } else if (time > attackSpeed) {
+            } else {
+                if (!getAttackRangeRect().overlaps(target.getRectangle())) {
+                    target = null;
 
-                time = 0;
+                }
+                if (time > attackSpeed) {
 
-                Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX()+target.getWidth()/2, target.getY()+ target.getHeight()/2), 20);
-                stage.addActor(b);
-                bulletList.add(b);
+                    time = 0;
+
+                    Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2), 20);
+                    stage.addActor(b);
+                    bulletList.add(b);
+                }
             }
 
         }
