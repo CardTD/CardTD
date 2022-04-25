@@ -86,7 +86,6 @@ public class TileManager {
     public boolean canPlace(Rectangle r) {
 
         for (Rectangle i : path) {
-
             if (i.overlaps(r)) {
 
                 return false;

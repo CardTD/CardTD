@@ -12,11 +12,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -38,13 +38,14 @@ public abstract class Level implements Screen {
     protected TileManager tileManager;
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
+    private Card selectedCard;
 
     public Level(Texture map, TiledMap tiledmap) {
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         mainStage.addActor(new Image(map));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-
+//TODO ogni card ha la sua build
         Texture bg = CardTDGame.assetManager.get(StaticVariables.DECKBG);
         Table table = new Table();
         table.setFillParent(true);
@@ -54,11 +55,118 @@ public abstract class Level implements Screen {
 
         mainStage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.IN_GAME_DECK)));
 
+        mainStage.addListener(new DragListener() {
+            Build building;
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
+
+                if (selectedCard != null && selectedCard.isSelected()) {
+
+                    Build b = selectedCard.getBuild().clone();
+                    b.setPosition(event.getStageX() - b.getWidth() / 2, event.getStageY() - b.getHeight() / 2);
+                    if (tileManager.canPlace(b.getRectangle())) {
+
+                        placedStructures.add(b);
+                        mainStage.addActor(b);
+                        b.place();
+                        selectedCard.setSelected(false);
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void dragStart(InputEvent event, float x, float y, int pointer) {
+                super.dragStart(event, x, y, pointer);
+                if (selectedCard != null && selectedCard.isSelected()) {
+                    building = selectedCard.getBuild().clone();
+                    building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
+                    if (tileManager.canPlace(building.getRectangle())) {
+
+                        placedStructures.add(building);
+                        mainStage.addActor(building);
+
+                    } else {
+                        building = null;
+                    }
+
+                }
+            }
+
+            //TODO non ha senso che si possano piazzare le cose di fuori dal campo
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                super.drag(event, x, y, pointer);
+
+                if (building != null && selectedCard != null && selectedCard.isSelected()) {
+                    building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
+                    if (!tileManager.canPlace(building.getRectangle())) {
+
+                        building.setColor(Color.RED);
+                    } else {
+
+                        building.setColor(Color.GREEN);
+                    }
+                }
+
+            }
+
+            @Override
+            public void dragStop(InputEvent event, float x, float y, int pointer) {
+                super.dragStop(event, x, y, pointer);
+
+                if (building != null && selectedCard != null && selectedCard.isSelected()) {
+
+                    if (!tileManager.canPlace(building.getRectangle())) {
+                        placedStructures.remove(building);
+                        building.remove();
+
+                    } else {
+                        building.setColor(Color.WHITE);
+                        building.place();
+                        selectedCard.setSelected(false);
+                    }
+
+                }
+                building = null;
+            }//TODO elimina tutti i changepostion utilizzati
+            //TODO non ha senso che le torri sparino sui mob non ancora in mappa
+
+        });
         for (int i = 0; i < 4; i++) {
 
             Card c = MainMenu.playerDeck.getCard(i).clone();
             c.setPosition(12 + (c.getWidth() * i + 12 * i), 12);
             mainStage.addActor(c);
+
+            c.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    super.clicked(event, x, y);
+                    Card c = ((Card) event.getTarget());
+                    if (selectedCard != null) {
+
+                        if (selectedCard.equals(c)) {
+                            selectedCard.setSelected(!selectedCard.isSelected());
+
+                        } else {
+
+                            selectedCard.setSelected(false);
+                            selectedCard = c;
+                            selectedCard.setSelected(true);
+                        }
+
+                    } else {
+
+                        selectedCard = c;
+                        selectedCard.setSelected(true);
+                    }
+                }
+            });
 
             c.addListener(new DragListener() {
 
@@ -71,28 +179,28 @@ public abstract class Level implements Screen {
 
                     if (!c.isSelected()) {
 
-                        building = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 200, 1f, mainStage, 1, 0, 0);
-
+                        building = c.getBuild().clone();
+                        building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
                         placedStructures.add(building);
                         mainStage.addActor(building);
 
-                        changePos(Gdx.input.getX(), Gdx.input.getY());
-
+                        c.setSelected(true);
                     }
                 }
 
                 @Override
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
-                    changePos(Gdx.input.getX(), Gdx.input.getY());
-                    System.out.println(building.getX() + " " + building.getY() + " " + building.getWidth() + " " + building.getHeight());
+                    if (building != null) {
+                        building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
 
-                    if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
+                        if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
 
-                        building.setColor(Color.RED);
-                    } else {
+                            building.setColor(Color.RED);
+                        } else {
 
-                        building.setColor(Color.GREEN);
+                            building.setColor(Color.GREEN);
+                        }
                     }
 
                 }
@@ -100,25 +208,24 @@ public abstract class Level implements Screen {
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     super.dragStop(event, x, y, pointer);
-                    if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
+                    Card c = ((Card) event.getTarget());
+                    if (building != null) {
 
-                        placedStructures.remove(building);
-                        building.remove();
-                        building = null;
-                    } else {
-                        building.setColor(Color.WHITE);
-                        building.place();
+                        if (!tileManager.canPlace(building.getRectangle())) {
+
+                            placedStructures.remove(building);
+                            building.remove();
+                            building = null;
+                        } else {
+                            building.setColor(Color.WHITE);
+                            building.place();
+
+                        }
+                        c.setSelected(false);
                     }
 
                 }
 
-                public void changePos(int x, int y) {
-                    Vector3 i = mainStage.getCamera().unproject(new Vector3(x, y, 0));
-                    int xx = (int) (i.x - building.getWidth() / 2), yy = (int) (i.y - building.getHeight() / 2);
-
-                    building.setPosition(xx / 5 * 5, yy / 5 * 5);
-
-                }
             });
         }
 
