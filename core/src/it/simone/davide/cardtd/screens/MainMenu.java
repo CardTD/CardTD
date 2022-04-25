@@ -20,9 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
+import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Deck;
-import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.classes.levels.FirstMap;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
@@ -107,7 +107,7 @@ public class MainMenu implements Screen {
                 playerDeck.addCard(StaticVariables.BLANK_CARD.clone());
             } else {
 
-                playerDeck.addCard(StaticVariables.getCardByName(r).clone());
+                playerDeck.addCard(GameObjects.getCardByName(r).clone());
 
             }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.classes.Level;
@@ -32,7 +33,7 @@ public class FirstMap extends Level {
 
     @Override
     public Path getPath(EnemyType enemyType) {
-        return new Path(((Enemy) StaticVariables.ENEMIES.get(enemyType)).getSpeed(), new Vector2(1000, 0));
+        return new Path(((Enemy) GameObjects.ENEMIES.get(enemyType)).getSpeed(), new Vector2(1000, 0));
     }
 
 }

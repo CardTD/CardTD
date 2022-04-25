@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Card;
 
@@ -27,7 +28,7 @@ class AllCards{
 
         this.stage = stage;
 
-        for (Card i : StaticVariables.ALL_CARDS) {
+        for (Card i : GameObjects.CARDS.values()) {
             allCards.add(i.clone());
 
         }

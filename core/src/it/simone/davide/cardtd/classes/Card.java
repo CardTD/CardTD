@@ -3,25 +3,26 @@ package it.simone.davide.cardtd.classes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import it.simone.davide.cardtd.CardTDGame;
-import it.simone.davide.cardtd.StaticVariables;
+import it.simone.davide.cardtd.GameObjects;
+import it.simone.davide.cardtd.enums.BuildType;
 
 public class Card extends Image implements Cloneable {
 
     private String name;
-    private Texture cardTexture, placedTexture;
+    private Texture cardTexture;
     private int cost;
     private boolean isSelected = false;
     private Build build;
+    private BuildType buildType;
 
-    public Card(String name, Texture cardtexture, Texture placedTexture) {
+    public Card(String name, Texture cardtexture, BuildType buildType) {
         super(cardtexture);
         this.name = name;
         this.cardTexture = cardtexture;
         this.cost = cost;
-        this.placedTexture = placedTexture;
+        this.buildType = buildType;
         setSize(100, 150);
-        build = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 200, 1f, 1, 0,0);
+        build = GameObjects.BUILDINGS.get(buildType);
 
     }
 
@@ -35,10 +36,6 @@ public class Card extends Image implements Cloneable {
         return build;
     }
 
-    public Texture getPlacedTexture() {
-        return placedTexture;
-    }
-
     @Override
     public void setColor(Color color) {
         super.setColor(color);
@@ -48,7 +45,9 @@ public class Card extends Image implements Cloneable {
 
         this.name = card.name;
         this.cardTexture = card.cardTexture;
-        this.placedTexture = card.placedTexture;
+        this.cost = card.cost;
+        this.buildType = card.buildType;
+        this.build = card.build;
 
         setDrawable(card.getDrawable());
 
@@ -74,11 +73,11 @@ public class Card extends Image implements Cloneable {
     @Override
     public Card clone() {
 
-        return new Card(name, cardTexture, placedTexture);
+        return new Card(name, cardTexture, buildType);
     }
 
     public Card getHoverCard() {
-        Card x = new Card(name, cardTexture, placedTexture);
+        Card x = new Card(name, cardTexture, buildType);
 
         x.getColor().a = 0.5f;
 
@@ -110,22 +109,18 @@ public class Card extends Image implements Cloneable {
         if (getCost() != card.getCost()) return false;
         if (isSelected() != card.isSelected()) return false;
         if (!getName().equals(card.getName())) return false;
-        if (!getCardTexture().equals(card.getCardTexture())) return false;
-        return getPlacedTexture().equals(card.getPlacedTexture());
+        if (!cardTexture.equals(card.cardTexture)) return false;
+        return buildType == card.buildType;
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
-        result = 31 * result + getCardTexture().hashCode();
-        result = 31 * result + getPlacedTexture().hashCode();
+        result = 31 * result + cardTexture.hashCode();
         result = 31 * result + getCost();
         result = 31 * result + (isSelected() ? 1 : 0);
+        result = 31 * result + buildType.hashCode();
         return result;
-    }
-
-    public Texture getCardTexture() {
-        return cardTexture;
     }
 
     public int getCost() {

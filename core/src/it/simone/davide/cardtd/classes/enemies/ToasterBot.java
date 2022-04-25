@@ -1,6 +1,7 @@
 package it.simone.davide.cardtd.classes.enemies;
 
 import com.badlogic.gdx.graphics.Texture;
+import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.enums.EnemyState;
@@ -15,23 +16,23 @@ public class ToasterBot extends Enemy {
     public void loadAnimations() {
         int rows = 1, cols = 5;
 
-        loadAnimation(new Texture(StaticVariables.ToasterBorIDLE), rows, cols, EnemyState.IDLE);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorIDLE), rows, cols, EnemyState.IDLE);
 
         cols = 8;
 
-        loadAnimation(new Texture(StaticVariables.ToasterBorRun), rows, cols, EnemyState.RUN);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorRun), rows, cols, EnemyState.RUN);
 
         cols = 11;
 
-        loadAnimation(new Texture(StaticVariables.ToasterBorAttack), rows, cols, EnemyState.ATTACK);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorAttack), rows, cols, EnemyState.ATTACK);
 
         cols = 5;
 
-        loadAnimation(new Texture(StaticVariables.ToasterBorDeath), rows, cols, EnemyState.DYING);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorDeath), rows, cols, EnemyState.DYING);
 
         cols = 2;
 
-        loadAnimation(new Texture(StaticVariables.ToasterBorDagamed), rows, cols, EnemyState.DAMAGED);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorDagamed), rows, cols, EnemyState.DAMAGED);
 
         setCurrentState(EnemyState.RUN);
     }

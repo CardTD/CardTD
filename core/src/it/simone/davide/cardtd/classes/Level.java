@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
+import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
 import it.simone.davide.cardtd.enums.EnemyState;
@@ -240,7 +241,7 @@ public abstract class Level implements Screen {
     }
 
     public void addEnemy(EnemyType enemyType) {
-        Enemy s = ((Enemy) StaticVariables.ENEMIES.get(enemyType)).clone();
+        Enemy s = ((Enemy) GameObjects.ENEMIES.get(enemyType)).clone();
         Vector2 i = getStartPostision(enemyType);
         s.setPosition(i.x, i.y);
         s.setPath(getPath(enemyType));

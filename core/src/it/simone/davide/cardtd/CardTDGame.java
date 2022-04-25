@@ -11,14 +11,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import it.simone.davide.cardtd.classes.enemies.ToasterBot;
-import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.screens.MainMenu;
-
-import java.util.HashMap;
-
-import static it.simone.davide.cardtd.StaticVariables.ENEMIES;
 
 public class CardTDGame extends Game {
 
@@ -39,15 +33,9 @@ public class CardTDGame extends Game {
         loadAssets();
 
         assetManager.finishLoading();
-        loadEnemyAndCard();
+        new GameObjects();
         setScreen(new MainMenu());
 
-    }
-
-    private void loadEnemyAndCard() {
-        ENEMIES = new HashMap<>();
-        ENEMIES.put(EnemyType.ToasterBot, new ToasterBot(1, 1, 50, 200, 240));
-        ENEMIES.put(EnemyType.StrongToasterBot, new ToasterBot(5, 1, 55, 200, 240));
     }
 
     private void loadAssets() {
@@ -62,7 +50,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.BACKBUTTON, Texture.class);
         assetManager.load(StaticVariables.BACKBUTTON_PRESSED, Texture.class);
         assetManager.load(StaticVariables.FIRSTMAP, Texture.class);
-        assetManager.load(StaticVariables.TOWER, Texture.class);
+        assetManager.load(StaticVariables.PLACEDTOWER_PNG, Texture.class);
         assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
         assetManager.load(StaticVariables.IN_GAME_DECK, Texture.class);
 
@@ -71,6 +59,8 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.ToasterBorDeath, Texture.class);
         assetManager.load(StaticVariables.ToasterBorRun, Texture.class);
         assetManager.load(StaticVariables.ToasterBorDagamed, Texture.class);
+        assetManager.load(StaticVariables.TOWER, Texture.class);
+        assetManager.load(StaticVariables.BLACK_CIRCLE, Texture.class);
 
         //load font for the title
         FontType.loadFonts();

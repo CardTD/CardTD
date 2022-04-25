@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import it.simone.davide.cardtd.GameObjects;
+import it.simone.davide.cardtd.enums.BulletType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +15,20 @@ import java.util.List;
 public class Build extends Image {
 
     private float attackRange, attackSpeed, damage;
-    private Texture texture, bulletTexture;
+    private Texture texture;
     private Enemy target = null;
     private List<Bullet> bulletList = new ArrayList<>();
     private Circle attackRangeCircle;
-
+    private Bullet bullet;
+    private BulletType bulletType;
     private float time = 0;
     private boolean isPlaced = false;
 
-    public Build(Texture texture, Texture bulletTexture, int attackRange, float attackSpeed, int damage, int x, int y) {
+    public Build(Texture texture, BulletType bulletType, int attackRange, float attackSpeed, int damage, int x, int y) {
         super(texture);
-        debug();
         this.texture = texture;
-        this.bulletTexture = bulletTexture;
+        this.bulletType = bulletType;
+        bullet = (Bullet) GameObjects.BULLETS.get(bulletType).clone();
         this.attackRange = attackRange;
         this.attackSpeed = attackSpeed;
 
@@ -34,6 +37,8 @@ public class Build extends Image {
         setPosition(x, y);
     }
 
+    //TODO astrarre Build
+    //TODO creare le wave
     @Override
     public void setPosition(float x, float y) {
         x = (int) x / 5 * 5;
@@ -80,7 +85,9 @@ public class Build extends Image {
                 if (time > attackSpeed) {
 
                     time = 0;
-                    Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2) - bulletTexture.getWidth() / 2, (int) (getY() + getHeight() / 2) - bulletTexture.getHeight() / 2), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2), 20);
+
+                    Bullet b = (Bullet) bullet.clone();
+                    b.setVelocity(new Vector2((int) (getX() + getWidth() / 2) - bullet.getWidth() / 2, (int) (getY() + getHeight() / 2) - bullet.getHeight() / 2), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2));
                     getStage().addActor(b);
                     bulletList.add(b);
 
@@ -115,7 +122,7 @@ public class Build extends Image {
 
     public Build clone() {
 
-        return new Build(texture, bulletTexture, (int) attackRange, attackSpeed, (int) damage, (int) getX(), (int) getY());
+        return new Build(texture, bulletType, (int) attackRange, attackSpeed, (int) damage, (int) getX(), (int) getY());
 
     }
 }

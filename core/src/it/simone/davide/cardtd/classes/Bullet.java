@@ -1,10 +1,8 @@
 package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class Bullet extends Image {
@@ -14,15 +12,10 @@ public class Bullet extends Image {
     float speed;
     boolean hasCollided = false;
 
-    public Bullet(Texture texture, Vector2 position, Vector2 to, float speed) {
+    public Bullet(Texture texture, float speed) {
         super(texture);
         this.texture = texture;
-        this.v2Position = position;
-        setPosition(position.x, position.y);
         this.speed = speed;
-        this.to = to;
-
-        setVelocity();
     }
 
     @Override
@@ -32,8 +25,11 @@ public class Bullet extends Image {
 
     }
 
-    public void setVelocity() {
+    public void setVelocity(Vector2 position, Vector2 to) {
+        this.v2Position = position;
+        setPosition(position.x, position.y);
 
+        this.to = to;
 // The .set() is setting the distance from the starting position to end position
         v2Velocity.set(to.x - v2Position.x, to.y - v2Position.y);
         v2Velocity.nor(); // Normalizes the value to be used
@@ -42,9 +38,12 @@ public class Bullet extends Image {
         v2Velocity.y *= speed;
     }
 
-
     public Rectangle getRectangle() {
         return new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());
     }
 
+    @Override
+    protected Object clone() {
+        return new Bullet(texture, speed);
+    }
 }

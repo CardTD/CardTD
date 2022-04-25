@@ -55,12 +55,9 @@ public class Deck {
         return cards.size() == nunOfCards;
     }
 
-
     public Card getCard(int i) {
         return cards.get(i);
     }
-
-
 
     @Override
     public String toString() {
@@ -89,9 +86,5 @@ public class Deck {
         }
 
     }
-
-
-
-
 
 }
