@@ -5,8 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Bullet extends Actor {
+public class Bullet extends Image {
 
     Texture texture;
     protected Vector2 v2Position, v2Velocity = new Vector2(), to;
@@ -14,6 +15,7 @@ public class Bullet extends Actor {
     boolean hasCollided = false;
 
     public Bullet(Texture texture, Vector2 position, Vector2 to, float speed) {
+        super(texture);
         this.texture = texture;
         this.v2Position = position;
         setPosition(position.x, position.y);
@@ -40,11 +42,6 @@ public class Bullet extends Actor {
         v2Velocity.y *= speed;
     }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        batch.draw(texture, getX(), getY());
-    }
 
     public Rectangle getRectangle() {
         return new Rectangle(getX(), getY(), texture.getWidth(), texture.getHeight());

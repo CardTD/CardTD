@@ -1,8 +1,8 @@
 package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -16,13 +16,14 @@ public class Build extends Image {
     private Texture texture, bulletTexture;
     private Enemy target = null;
     private List<Bullet> bulletList = new ArrayList<>();
-    private Rectangle attackRangeRect;
+    private Circle attackRangeCircle;
     private Stage stage;
     private float time = 0;
+    private boolean isPlaced = false;
 
     public Build(Texture texture, Texture bulletTexture, int attackRange, float attackSpeed, Stage stage, int damage, int x, int y) {
         super(texture);
-
+        debug();
         this.texture = texture;
         this.bulletTexture = bulletTexture;
         this.attackRange = attackRange;
@@ -30,19 +31,22 @@ public class Build extends Image {
         this.stage = stage;
         this.damage = damage;
 
-        place(x, y);
+        setPosition(x, y);
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-        batch.draw(texture, getX(), getY());
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+        attackRangeCircle = new Circle((int) (x + getWidth() / 2), (int) (y + getHeight() / 2), attackRange);
+
     }
 
-    public void place(int x, int y) {
-        setPosition(x, y);
-        attackRangeRect = new Rectangle((int) (getX() + getWidth() / 2) - attackRange / 2, (int) (getY() + getHeight() / 2) - attackRange / 2, attackRange, attackRange);
+    public boolean isPlaced() {
+        return isPlaced;
+    }
 
+    public void place() {
+        isPlaced = true;
     }
 
     public void setTarget(Enemy target) {
@@ -53,24 +57,27 @@ public class Build extends Image {
 
     @Override
     public void act(float delta) {
-        super.act(delta);
-        time += delta;
+        if (isPlaced) {
+            super.act(delta);
+            time += delta;
 
-        if (target != null && target.isDead()) {
-            target = null;
-        }
+            if (target != null && target.isDead()) {
+                target = null;
+            }
 
-        if (target != null && !getAttackRangeRect().overlaps(target.getRectangle())) {
-            target = null;
+            if (target != null && !Intersector.overlaps(getAttackRangeCircle(), target.getRectangle())) {
+                target = null;
 
-        }
-        if (target != null) {
-            if (time > attackSpeed) {
+            }
+            if (target != null) {
+                if (time > attackSpeed) {
 
-                time = 0;
-                Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2), 20);
-                stage.addActor(b);
-                bulletList.add(b);
+                    time = 0;
+                    Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2) - bulletTexture.getWidth() / 2, (int) (getY() + getHeight() / 2) - bulletTexture.getHeight() / 2), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2), 20);
+                    stage.addActor(b);
+                    bulletList.add(b);
+
+                }
 
             }
 
@@ -78,8 +85,8 @@ public class Build extends Image {
 
     }
 
-    public Rectangle getAttackRangeRect() {
-        return attackRangeRect;
+    public Circle getAttackRangeCircle() {
+        return attackRangeCircle;
     }
 
     public void hitEnemies(List<Enemy> enemies) {

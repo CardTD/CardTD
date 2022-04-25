@@ -7,7 +7,6 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.classes.Build;
 
 import java.util.ArrayList;
@@ -105,8 +104,9 @@ public class TileManager {
         }
 
         for (Build p : placed) {
+
             Rectangle i = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
-            if (i.overlaps(r)) {
+            if (p.isPlaced() && i.overlaps(r)) {
 
                 return false;
 

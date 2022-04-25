@@ -9,12 +9,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
@@ -62,19 +62,21 @@ public abstract class Level implements Screen {
 
             c.addListener(new DragListener() {
 
-                Image building;
+                Build building;
 
                 @Override
                 public void dragStart(InputEvent event, float x, float y, int pointer) {
                     super.dragStart(event, x, y, pointer);
                     Card c = ((Card) event.getTarget());
-                    building = new Image(c.getPlacedTexture());
-                    building.debug();
 
                     if (!c.isSelected()) {
 
-                        changePos(Gdx.input.getX(), Gdx.input.getY());
+                        building = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 200, 1f, mainStage, 1, 0, 0);
+
+                        placedStructures.add(building);
                         mainStage.addActor(building);
+
+                        changePos(Gdx.input.getX(), Gdx.input.getY());
 
                     }
                 }
@@ -83,6 +85,8 @@ public abstract class Level implements Screen {
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
                     changePos(Gdx.input.getX(), Gdx.input.getY());
+                    System.out.println(building.getX() + " " + building.getY() + " " + building.getWidth() + " " + building.getHeight());
+
                     if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
 
                         building.setColor(Color.RED);
@@ -90,6 +94,7 @@ public abstract class Level implements Screen {
 
                         building.setColor(Color.GREEN);
                     }
+
                 }
 
                 @Override
@@ -97,14 +102,12 @@ public abstract class Level implements Screen {
                     super.dragStop(event, x, y, pointer);
                     if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
 
-                        building.addAction(Actions.removeActor());
-
+                        placedStructures.remove(building);
+                        building.remove();
+                        building = null;
                     } else {
                         building.setColor(Color.WHITE);
-                        Build b = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1f, mainStage, 1, (int) building.getX(), (int) building.getY());
-
-                        placedStructures.add(b);
-                        mainStage.addActor(b);
+                        building.place();
                     }
 
                 }
@@ -146,9 +149,6 @@ public abstract class Level implements Screen {
     @Override
     public void render(float delta) {
 
-        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         fillstage.getViewport().apply();
         fillstage.act(delta);
         fillstage.draw();
@@ -168,6 +168,8 @@ public abstract class Level implements Screen {
         }
         mainStage.act(delta);
         mainStage.draw();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         ShapeRenderer s = new ShapeRenderer();
         s.setProjectionMatrix(mainStage.getCamera().combined);
         tileManager.render(s);
@@ -182,14 +184,16 @@ public abstract class Level implements Screen {
         }
 
         for (Build b : placedStructures) {
-
-            s.begin(ShapeType.Line);
-            s.rect(b.getAttackRangeRect().x, b.getAttackRangeRect().y, b.getAttackRangeRect().width, b.getAttackRangeRect().height);
-            s.end();
+            if (!b.isPlaced()) {
+                s.begin(ShapeType.Filled);
+                s.setColor(0, 100 / 255f, 0, 0.5f);
+                s.circle(b.getAttackRangeCircle().x, b.getAttackRangeCircle().y, b.getAttackRangeCircle().radius);
+                s.end();
+            }
 
             for (Enemy e : enemies) {
 
-                if (!e.isDead() && b.getAttackRangeRect().overlaps(e.getRectangle())) {
+                if (!e.isDead() && Intersector.overlaps(b.getAttackRangeCircle(), e.getRectangle())) {
                     b.setTarget(e);
 
                     break;
