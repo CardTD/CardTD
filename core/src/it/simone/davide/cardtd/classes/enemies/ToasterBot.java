@@ -11,7 +11,7 @@ import it.simone.davide.cardtd.enums.EnemyState;
 public class ToasterBot extends Enemy {
     public ToasterBot(int hp, int damage, int speed, int moneyonkill, int attackdim) {
 
-        super(hp, damage, speed, moneyonkill, attackdim, CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorDagamed));
+        super(hp, damage, speed, moneyonkill, attackdim);
     }
 
     @Override

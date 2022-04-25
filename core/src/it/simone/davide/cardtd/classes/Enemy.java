@@ -1,14 +1,12 @@
 package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
 import it.simone.davide.cardtd.enums.EnemyState;
 
@@ -25,8 +23,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     private boolean remove = false;
     private Path path;
     private float alpha = 2;
+    private long startTime = 0;
 
-    public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension, Texture defaultTexture) {
+    public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
 
         this.hp = hp;
         this.damage = damage;
@@ -37,8 +36,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         loadAnimations();
 
     }
-
-    public abstract void loadAnimations();
 
     public void setCurrentState(EnemyState currentState) {
 
@@ -53,8 +50,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public void setPath(Path path) {
         this.path = path;
     }
-
-    long startTime = 0;
 
     @Override
     public void act(float delta) {
@@ -167,6 +162,14 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     @Override
     public abstract Enemy clone();
+
+    public abstract void loadAnimations();
+
+    @Override
+    public abstract float getHeight();
+
+    @Override
+    public abstract float getWidth();
 
     public int getHp() {
         return hp;
