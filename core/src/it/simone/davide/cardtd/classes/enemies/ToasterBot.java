@@ -78,7 +78,7 @@ public class ToasterBot extends Enemy {
         }
         anim = new Animation(0.2f, frames);
 
-        animations.put(EnemyState.DEATH, anim);
+        animations.put(EnemyState.DYING, anim);
 
         cols = 2;
 

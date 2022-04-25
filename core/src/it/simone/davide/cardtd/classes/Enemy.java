@@ -78,8 +78,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
                     startTime = TimeUtils.millis();
 
-                case DEATH:
-                    currentRegion = animations.get(EnemyState.DEATH).getKeyFrame(time, true);
+                    currentRegion = animations.get(EnemyState.DYING).getKeyFrame(time, true);
 
                     break;
 
@@ -110,7 +109,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
             batch.setColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, alpha);
 
             if (alpha <= 0) {
-                setCurrentState(EnemyState.DEATH);
+
                 remove();
 
                 remove = true;
@@ -147,7 +146,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     }
 
     public boolean isDead() {
-        return currentState.equals(EnemyState.DEATH) || currentState.equals(EnemyState.DYING);
+        return  currentState.equals(EnemyState.DYING);
     }
 
     public void die() {
