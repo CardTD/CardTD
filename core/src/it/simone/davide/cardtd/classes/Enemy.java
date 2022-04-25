@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.TimeUtils;
 import it.simone.davide.cardtd.enums.EnemyState;
 
@@ -43,7 +44,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
         if (!currentState.equals(this.currentState)) {
             time = 0f;
-            System.out.println("setto stato" + " " + currentState);
+
             this.currentState = currentState;
         }
 
@@ -73,7 +74,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                     break;
                 case DYING:
-                    long elapsedTime = 0;
+                    long elapsedTime;
                     if (startTime != 0) {
                         elapsedTime = TimeUtils.timeSinceMillis(startTime);
 
@@ -126,29 +127,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
-    @Override
-    public abstract Enemy clone();
-
-    public int getHp() {
-        return hp;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getMoneyonkill() {
-        return moneyonkill;
-    }
-
-    public int getAttackDimension() {
-        return attackDimension;
-    }
-
     public Rectangle getRectangle() {
 
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
@@ -156,11 +134,10 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     }
 
     @Override
-    public void damage(int damage) {
+    public void damage(float damage) {
 
         int oldHp = hp;
         hp -= damage;
-        System.out.println(hp);
         if (oldHp > 0 && hp <= 0) {
 
             die();
@@ -187,4 +164,28 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public boolean canRemove() {
         return remove;
     }
+
+    @Override
+    public abstract Enemy clone();
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public int getMoneyonkill() {
+        return moneyonkill;
+    }
+
+    public int getAttackDimension() {
+        return attackDimension;
+    }
+
 }

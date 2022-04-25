@@ -12,7 +12,7 @@ import java.util.List;
 
 public class Build extends Image {
 
-    private int attackRange, attackSpeed, damage;
+    private float attackRange, attackSpeed, damage;
     private Texture texture, bulletTexture;
     private Enemy target = null;
     private List<Bullet> bulletList = new ArrayList<>();
@@ -20,7 +20,7 @@ public class Build extends Image {
     private Stage stage;
     private float time = 0;
 
-    public Build(Texture texture, Texture bulletTexture, int attackRange, int attackSpeed, Stage stage, int damage, int x, int y) {
+    public Build(Texture texture, Texture bulletTexture, int attackRange, float attackSpeed, Stage stage, int damage, int x, int y) {
         super(texture);
 
         this.texture = texture;
@@ -55,23 +55,23 @@ public class Build extends Image {
     public void act(float delta) {
         super.act(delta);
         time += delta;
+
+        if (target != null && target.isDead()) {
+            target = null;
+        }
+
+        if (target != null && !getAttackRangeRect().overlaps(target.getRectangle())) {
+            target = null;
+
+        }
         if (target != null) {
+            if (time > attackSpeed) {
 
-            if (target.isDead()) {
-                target = null;
-            } else {
-                if (!getAttackRangeRect().overlaps(target.getRectangle())) {
-                    target = null;
+                time = 0;
+                Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2), 20);
+                stage.addActor(b);
+                bulletList.add(b);
 
-                }
-                if (time > attackSpeed) {
-
-                    time = 0;
-
-                    Bullet b = new Bullet(bulletTexture, new Vector2((int) (getX() + getWidth() / 2), (int) (getY() + getHeight() / 2)), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2), 20);
-                    stage.addActor(b);
-                    bulletList.add(b);
-                }
             }
 
         }

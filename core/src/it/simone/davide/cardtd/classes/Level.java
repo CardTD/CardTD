@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -100,7 +101,7 @@ public abstract class Level implements Screen {
 
                     } else {
                         building.setColor(Color.WHITE);
-                        Build b = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1, mainStage, 1, (int) building.getX(), (int) building.getY());
+                        Build b = new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), new Texture("bullet.png"), 500, 1f, mainStage, 1, (int) building.getX(), (int) building.getY());
 
                         placedStructures.add(b);
                         mainStage.addActor(b);
@@ -130,12 +131,15 @@ public abstract class Level implements Screen {
 
     public void addEnemy(EnemyType enemyType) {
         Enemy s = ((Enemy) StaticVariables.ENEMIES.get(enemyType)).clone();
-        s.setPosition(0, 360);
+        Vector2 i = getStartPostision(enemyType);
+        s.setPosition(i.x, i.y);
         s.setPath(getPath(enemyType));
         enemies.add(s);
         mainStage.addActor(s);
 
     }
+
+    public abstract Vector2 getStartPostision(EnemyType enemyType);
 
     public abstract Path getPath(EnemyType enemyType);
 
@@ -154,8 +158,9 @@ public abstract class Level implements Screen {
         for (Enemy e : enemies) {
 
             if (e.getX() + e.getAttackDimension() >= tileManager.getToProtect().getX()) {
-                if (!e.currentState.equals(EnemyState.DEATH)) {
+                if (!e.isDead()) {
                     e.setCurrentState(EnemyState.ATTACK);
+
                 }
 
             }
@@ -192,7 +197,6 @@ public abstract class Level implements Screen {
             }
 
         }
-
 
         for (Build b : placedStructures) {
 

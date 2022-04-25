@@ -15,14 +15,19 @@ public class FirstMap extends Level {
     public FirstMap(Texture map, TiledMap tiledmap) {
         super(map, tiledmap);
 
-        Timer timer = new Timer();
+       /* Timer timer = new Timer();
         timer.scheduleTask(new Task() {
             @Override
             public void run() {
                 addEnemy(EnemyType.StrongToasterBot);
             }
-        }, 1, 2);
+        }, 1, 2);*/
+        addEnemy(EnemyType.StrongToasterBot);
+    }
 
+    @Override
+    public Vector2 getStartPostision(EnemyType enemyType) {
+        return new Vector2(-100,360);
     }
 
     @Override

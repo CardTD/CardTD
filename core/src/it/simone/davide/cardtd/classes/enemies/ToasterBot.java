@@ -100,6 +100,16 @@ public class ToasterBot extends Enemy {
     }
 
     @Override
+    public float getHeight() {
+        return 66;
+    }
+
+    @Override
+    public float getWidth() {
+        return 100;
+    }
+
+    @Override
     public Enemy clone() {
         return new ToasterBot(getHp(), getDamage(), getSpeed(), getMoneyonkill(), getAttackDimension());
     }
