@@ -37,10 +37,10 @@ public class OptionsMenu implements Screen {
 
     public OptionsMenu() {
         skin = new Skin();
-        skin.add("sliderBack", new Texture(Gdx.files.internal("assets/background.png")));
+      /*  skin.add("sliderBack", new Texture(Gdx.files.internal("assets/background.png")));
         skin.add("sliderKnob", new Texture(Gdx.files.internal("assets/dotpiccolopiccolo.png")));
         skin.add("sliderAfter", new Texture(Gdx.files.internal("assets/background.png")));
-        skin.add("sliderBefore", new Texture(Gdx.files.internal("assets/dotpiccolopiccolo.png")));
+        skin.add("sliderBefore", new Texture(Gdx.files.internal("assets/dotpiccolopiccolo.png")));*/
         stage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         Gdx.input.setInputProcessor(stage);
 
