@@ -11,18 +11,22 @@ import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.classes.Path;
 import it.simone.davide.cardtd.enums.EnemyType;
 
+import java.util.ArrayList;
+
 public class FirstMap extends Level {
     public FirstMap(Texture map, TiledMap tiledmap) {
         super(map, tiledmap);
 
-       Timer timer = new Timer();
+        final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
+
+        Timer timer = new Timer();
         timer.scheduleTask(new Task() {
             @Override
             public void run() {
-                addEnemy(EnemyType.StormHead);
+                addEnemy(enemies.get((int) (Math.random() * enemies.size())));
 
             }
-        }, 1, 10);
+        }, 1, 5);
 
     }
 
