@@ -73,7 +73,6 @@ public abstract class Level implements Screen {
 
                 }
 
-
                 return true;
 
             }
@@ -109,8 +108,10 @@ public abstract class Level implements Screen {
                         building.setColor(Color.WHITE);
                         building.place();
                         selectedCard.setSelected(false);
+                        selectedCard = null;
                     }
                     building = null;
+
                 }
 
             }
@@ -136,11 +137,13 @@ public abstract class Level implements Screen {
                         @Override
                         public void run() {
 
-
                             if (selectedCard != null) {
 
                                 if (selectedCard.equals(c)) {
                                     selectedCard.setSelected(!selectedCard.isSelected());
+                                    if(!selectedCard.isSelected()){
+                                        selectedCard=null;
+                                    }
 
                                 } else {
 
@@ -170,7 +173,7 @@ public abstract class Level implements Screen {
                     super.dragStart(event, x, y, pointer);
                     Card c = ((Card) event.getTarget());
 
-                    if (!c.isSelected()&& selectedCard==null) {
+                    if (!c.isSelected() && selectedCard == null) {
 
                         building = c.getBuild().clone();
                         building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
@@ -184,7 +187,7 @@ public abstract class Level implements Screen {
                 @Override
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
-                    if (building != null && selectedCard==null) {
+                    if (building != null && selectedCard == null) {
                         building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
 
                         if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
@@ -202,7 +205,7 @@ public abstract class Level implements Screen {
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     super.dragStop(event, x, y, pointer);
                     Card c = ((Card) event.getTarget());
-                    if (building != null && selectedCard==null) {
+                    if (building != null && selectedCard == null) {
 
                         if (!tileManager.canPlace(building.getRectangle())) {
 
