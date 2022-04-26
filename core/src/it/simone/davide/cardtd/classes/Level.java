@@ -19,6 +19,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
@@ -46,7 +48,6 @@ public abstract class Level implements Screen {
         mainStage.addActor(new Image(map));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-//TODO ogni card ha la sua build
         Texture bg = CardTDGame.assetManager.get(StaticVariables.DECKBG);
         Table table = new Table();
         table.setFillParent(true);
@@ -60,42 +61,21 @@ public abstract class Level implements Screen {
             Build building;
 
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchUp(event, x, y, pointer, button);
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
 
-                if (selectedCard != null && selectedCard.isSelected()) {
-
-                    Build b = selectedCard.getBuild().clone();
-                    b.setPosition(event.getStageX() - b.getWidth() / 2, event.getStageY() - b.getHeight() / 2);
-                    if (tileManager.canPlace(b.getRectangle())) {
-
-                        placedStructures.add(b);
-                        mainStage.addActor(b);
-                        b.place();
-                        selectedCard.setSelected(false);
-
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void dragStart(InputEvent event, float x, float y, int pointer) {
-                super.dragStart(event, x, y, pointer);
                 if (selectedCard != null && selectedCard.isSelected()) {
                     building = selectedCard.getBuild().clone();
                     building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
-                    if (tileManager.canPlace(building.getRectangle())) {
 
-                        placedStructures.add(building);
-                        mainStage.addActor(building);
-
-                    } else {
-                        building = null;
-                    }
+                    placedStructures.add(building);
+                    mainStage.addActor(building);
 
                 }
+
+
+                return true;
+
             }
 
             //TODO non ha senso che si possano piazzare le cose di fuori dal campo
@@ -117,11 +97,10 @@ public abstract class Level implements Screen {
             }
 
             @Override
-            public void dragStop(InputEvent event, float x, float y, int pointer) {
-                super.dragStop(event, x, y, pointer);
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchUp(event, x, y, pointer, button);
 
                 if (building != null && selectedCard != null && selectedCard.isSelected()) {
-
                     if (!tileManager.canPlace(building.getRectangle())) {
                         placedStructures.remove(building);
                         building.remove();
@@ -131,10 +110,12 @@ public abstract class Level implements Screen {
                         building.place();
                         selectedCard.setSelected(false);
                     }
-
+                    building = null;
                 }
-                building = null;
-            }//TODO elimina tutti i changepostion utilizzati
+
+            }
+
+            //TODO elimina tutti i changepostion utilizzati
             //TODO non ha senso che le torri sparino sui mob non ancora in mappa
 
         });
@@ -148,24 +129,35 @@ public abstract class Level implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    Card c = ((Card) event.getTarget());
-                    if (selectedCard != null) {
+                    final Card c = ((Card) event.getTarget());
 
-                        if (selectedCard.equals(c)) {
-                            selectedCard.setSelected(!selectedCard.isSelected());
+                    Timer timer = new Timer();
+                    timer.scheduleTask(new Task() {
+                        @Override
+                        public void run() {
 
-                        } else {
 
-                            selectedCard.setSelected(false);
-                            selectedCard = c;
-                            selectedCard.setSelected(true);
+                            if (selectedCard != null) {
+
+                                if (selectedCard.equals(c)) {
+                                    selectedCard.setSelected(!selectedCard.isSelected());
+
+                                } else {
+
+                                    selectedCard.setSelected(false);
+                                    selectedCard = c;
+                                    selectedCard.setSelected(true);
+                                }
+
+                            } else {
+
+                                selectedCard = c;
+                                selectedCard.setSelected(true);
+                            }
+
                         }
+                    }, 0.01f);
 
-                    } else {
-
-                        selectedCard = c;
-                        selectedCard.setSelected(true);
-                    }
                 }
             });
 
@@ -178,7 +170,7 @@ public abstract class Level implements Screen {
                     super.dragStart(event, x, y, pointer);
                     Card c = ((Card) event.getTarget());
 
-                    if (!c.isSelected()) {
+                    if (!c.isSelected()&& selectedCard==null) {
 
                         building = c.getBuild().clone();
                         building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
@@ -192,7 +184,7 @@ public abstract class Level implements Screen {
                 @Override
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
-                    if (building != null) {
+                    if (building != null && selectedCard==null) {
                         building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
 
                         if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
@@ -210,7 +202,7 @@ public abstract class Level implements Screen {
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     super.dragStop(event, x, y, pointer);
                     Card c = ((Card) event.getTarget());
-                    if (building != null) {
+                    if (building != null && selectedCard==null) {
 
                         if (!tileManager.canPlace(building.getRectangle())) {
 

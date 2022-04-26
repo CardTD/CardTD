@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
 import it.simone.davide.cardtd.GameObjects;
-import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.classes.Path;
@@ -28,7 +27,7 @@ public class FirstMap extends Level {
 
     @Override
     public Vector2 getStartPostision(EnemyType enemyType) {
-        return new Vector2(-100,360);
+        return new Vector2(-100, 360);
     }
 
     @Override

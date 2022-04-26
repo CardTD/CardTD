@@ -42,6 +42,8 @@ public class Build extends Image {
     //TODO creare le wave
     @Override
     public void setPosition(float x, float y) {
+        if (isPlaced)
+            return;
         x = (int) x / 5 * 5;
         y = (int) y / 5 * 5;
         super.setPosition(x, y);
