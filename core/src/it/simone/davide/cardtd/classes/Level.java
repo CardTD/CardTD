@@ -70,7 +70,13 @@ public abstract class Level implements Screen {
 
                     placedStructures.add(building);
                     mainStage.addActor(building);
+                    if (!tileManager.canPlace(building.getRectangle())) {
 
+                        building.setColor(Color.RED);
+                    } else {
+
+                        building.setColor(Color.GREEN);
+                    }
                 }
 
                 return true;
