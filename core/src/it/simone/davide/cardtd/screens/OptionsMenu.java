@@ -83,8 +83,8 @@ public class OptionsMenu implements Screen {
 
         uiSliderStyle.background = skin.getDrawable("sliderBack");
         uiSliderStyle.knob = skin.getDrawable("sliderKnob");
-        uiSliderStyle.knobAfter = skin.getDrawable("sliderAfter");
-        uiSliderStyle.knobBefore = skin.getDrawable("sliderBefore");
+       /* uiSliderStyle.knobAfter = skin.getDrawable("sliderAfter");
+        uiSliderStyle.knobBefore = skin.getDrawable("sliderBefore");*/
 
     }
 
