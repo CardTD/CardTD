@@ -89,15 +89,6 @@ public class Card extends Image implements Cloneable {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return "Card{" +
-                "name='" + name + '\'' +
-                ", texture=" + cardTexture +
-                ", cost=" + cost +
-                ", isSelected=" + isSelected +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {

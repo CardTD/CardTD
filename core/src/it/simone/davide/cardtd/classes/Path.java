@@ -30,22 +30,20 @@ public class Path {
 
             float movimento = speed * delta;
 
-            current.x-= movimento;
-            current.y-= movimento;
-            if (current.x  < 0 && current.y < 0) {
+            current.x -= movimento;
+            current.y -= movimento;
+            if (current.x < 0 && current.y < 0) {
 
                 currentPoint++;
             }
             float movX = x, movY = y;
-            if (current.x  > 0) {
+            if (current.x > 0) {
                 movX = x + movimento;
             }
-            if (current.y  > 0) {
+            if (current.y > 0) {
                 movY = y + movimento;
             }
             return new Vector2(movX, movY);
-
-        } else {
 
         }
         return new Vector2(x, y);

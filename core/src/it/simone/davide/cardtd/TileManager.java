@@ -14,9 +14,11 @@ import java.util.List;
 
 public class TileManager {
 
-    private ArrayList<Rectangle> obstacles, path;
-    private Rectangle deck, toProtect;
-    private List<Build> placed;
+    private final ArrayList<Rectangle> obstacles;
+    private final ArrayList<Rectangle> path;
+    private final Rectangle deck;
+    private Rectangle toProtect;
+    private final List<Build> placed;
 
     public TileManager(TiledMap tiledMap, List<Build> placed) {
         this.placed = placed;
@@ -84,6 +86,8 @@ public class TileManager {
     }
 
     public boolean canPlace(Rectangle r) {
+        if (r.x < 0 || r.y < 0 || r.x + r.width > StaticVariables.SCREEN_WIDTH || r.y + r.height > StaticVariables.SCREEN_HEIGHT)
+            return false;
 
         for (Rectangle i : path) {
             if (i.overlaps(r)) {

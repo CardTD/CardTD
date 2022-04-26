@@ -15,16 +15,17 @@ import java.util.List;
 
 public class Build extends Image {
 
-    private float attackRange, attackSpeed;
-    private Texture texture;
+    private final float attackRange;
+    private final float attackSpeed;
+    private final Texture texture;
     private Enemy target = null;
-    private List<Bullet> bulletList = new ArrayList<>();
+    private final List<Bullet> bulletList = new ArrayList<>();
     private Circle attackRangeCircle;
-    private Bullet bullet;
-    private BulletType bulletType;
+    private final Bullet bullet;
+    private final BulletType bulletType;
     private float time = 0;
     private boolean isPlaced = false;
-    private int damage;
+    private final int damage;
 
     public Build(Texture texture, BulletType bulletType, int attackRange, float attackSpeed, int damage, int x, int y) {
         super(texture);
@@ -111,17 +112,17 @@ public class Build extends Image {
         Iterator<Bullet> b = bulletList.iterator();
         while (b.hasNext()) {
             Bullet bullet = b.next();
-            boolean remove = bullet.hitEnemies(enemies, damage);
-            if (remove) {
+            bullet.hitEnemies(enemies, damage);
+
+            if (!getStage().getActors().contains(bullet, true)) {
                 b.remove();
             }
-
         }
     }
 
     public Build clone() {
 
-        return new Build(texture, bulletType, (int) attackRange, attackSpeed, (int) damage, (int) getX(), (int) getY());
+        return new Build(texture, bulletType, (int) attackRange, attackSpeed, damage, (int) getX(), (int) getY());
 
     }
 }

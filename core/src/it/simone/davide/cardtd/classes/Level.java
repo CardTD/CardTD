@@ -141,8 +141,8 @@ public abstract class Level implements Screen {
 
                                 if (selectedCard.equals(c)) {
                                     selectedCard.setSelected(!selectedCard.isSelected());
-                                    if(!selectedCard.isSelected()){
-                                        selectedCard=null;
+                                    if (!selectedCard.isSelected()) {
+                                        selectedCard = null;
                                     }
 
                                 } else {

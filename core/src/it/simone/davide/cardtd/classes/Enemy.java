@@ -20,7 +20,11 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     protected EnemyState currentState;
     protected TextureRegion currentRegion;
     protected float time = 0f;
-    private int hp, damage, speed, moneyonkill, attackDimension;
+    private int hp;
+    private final int damage;
+    private final int speed;
+    private final int moneyonkill;
+    private final int attackDimension;
     private boolean remove = false;
     private Path path;
     private float alpha = 2;

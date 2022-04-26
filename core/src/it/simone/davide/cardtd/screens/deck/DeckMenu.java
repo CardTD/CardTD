@@ -22,7 +22,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Card;
-import it.simone.davide.cardtd.classes.Deck;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.List;
@@ -30,8 +29,7 @@ import java.util.List;
 public class DeckMenu implements Screen, InputProcessor {
 
     private final Stage deckStage, fillstage;
-    private CurrentDeck currentDeck;
-
+    private final CurrentDeck currentDeck;
 
     //TODO add scrolling
 

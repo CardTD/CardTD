@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
 public class LabelAdapter extends Label {
 
-    private String text;
-    private FontType fontType;
+    private final String text;
+    private final FontType fontType;
 
     public LabelAdapter(String text, FontType fontType) {
 

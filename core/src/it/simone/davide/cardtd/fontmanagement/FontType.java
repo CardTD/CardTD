@@ -25,9 +25,10 @@ public class FontType {
         fontTypes.add(OPTIONS);
     }
 
-    private String fontName, typename;
-    private int size;
-    private Color color;
+    private final String fontName;
+    private final String typename;
+    private final int size;
+    private final Color color;
 
     FontType(String typename, String fontName, int size, Color color) {
         this.fontName = fontName;
@@ -57,7 +58,7 @@ public class FontType {
             titleParam.fontFileName = fontType.fontName;
             titleParam.fontParameters.size = fontType.size;
 
-            CardTDGame.assetManager.load( fontType.fontName, BitmapFont.class, titleParam);
+            CardTDGame.assetManager.load(fontType.fontName, BitmapFont.class, titleParam);
 
         }
 

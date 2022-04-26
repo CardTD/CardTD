@@ -11,22 +11,20 @@ public class PiercingBullet extends Bullet {
         super(texture, speed);
     }
 
-    public boolean hitEnemies(List<Enemy> enemies, int damage) {
+    public void hitEnemies(List<Enemy> enemies, int damage) {
 
         for (Enemy e : enemies) {
-            if (!getHitted().contains(e)) {
+            if (!getHitted().contains(e) && canHit(e)) {
                 if (getRectangle().overlaps(e.getRectangle())) {
                     getHitted().add(e);
                     e.damage(damage);
-                    //TODO se fuori dallo schermo elimina
-                    // remove();
-                    //                    return true;
+
                 }
 
             }
 
         }
-        return false;
+
     }
 
     @Override
