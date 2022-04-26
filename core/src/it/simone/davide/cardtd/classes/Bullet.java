@@ -20,7 +20,10 @@ public abstract class Bullet extends Image {
         super(texture);
         this.texture = texture;
         this.speed = speed;
+
     }
+
+
 
     @Override
     public void act(float delta) {

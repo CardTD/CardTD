@@ -31,7 +31,7 @@ public class Build extends Image {
         super(texture);
         this.texture = texture;
         this.bulletType = bulletType;
-        bullet = (Bullet) GameObjects.BULLETS.get(bulletType).clone();
+        bullet = (Bullet) ((Bullet) GameObjects.BULLETS.get(bulletType)).clone();
         this.attackRange = attackRange;
         this.attackSpeed = attackSpeed;
 

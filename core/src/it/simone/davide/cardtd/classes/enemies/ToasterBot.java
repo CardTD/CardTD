@@ -26,13 +26,13 @@ public class ToasterBot extends Enemy {
 
         loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorAttack), rows, cols, EnemyState.ATTACK);
 
-        cols = 5;
+        cols = 8;
 
         loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorDeath), rows, cols, EnemyState.DYING);
 
         cols = 2;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorDagamed), rows, cols, EnemyState.DAMAGED);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.ToasterBorDamaged), rows, cols, EnemyState.DAMAGED);
 
         setCurrentState(EnemyState.RUN);
     }
