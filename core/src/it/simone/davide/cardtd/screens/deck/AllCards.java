@@ -16,7 +16,6 @@ import java.util.List;
 
 class AllCards {
 
-    //TODO creare delle mappe con tutte le carte e ttti i nemici
     private final List<Card> allCards = new ArrayList<>();
     private int rows = 1;
     private CurrentDeck currentDeck;

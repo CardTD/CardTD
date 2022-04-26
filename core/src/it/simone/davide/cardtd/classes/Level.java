@@ -83,7 +83,6 @@ public abstract class Level implements Screen {
 
             }
 
-            //TODO non ha senso che si possano piazzare le cose di fuori dal campo
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
@@ -123,7 +122,6 @@ public abstract class Level implements Screen {
             }
 
             //TODO elimina tutti i changepostion utilizzati
-            //TODO non ha senso che le torri sparino sui mob non ancora in mappa
 
         });
         for (int i = 0; i < 4; i++) {
