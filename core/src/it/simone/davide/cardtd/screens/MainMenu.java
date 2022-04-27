@@ -23,6 +23,7 @@ import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Deck;
+import it.simone.davide.cardtd.classes.Options;
 import it.simone.davide.cardtd.classes.levels.FirstMap;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
@@ -45,6 +46,7 @@ public class MainMenu implements Screen {
     private final Stage fitstage;
 
     public static Deck playerDeck = new Deck(12);
+    public static Options option;
 
     private static long getRandomLong(long min, long max) {
         Random rand = new Random();
@@ -59,6 +61,8 @@ public class MainMenu implements Screen {
     float y = getRandomLong(600, 800), time = nextFloat(10, 20);
 
     public MainMenu() {
+
+        option = new Options();
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
