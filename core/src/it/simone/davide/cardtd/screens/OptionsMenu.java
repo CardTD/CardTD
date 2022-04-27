@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -19,7 +20,6 @@ import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import it.simone.davide.cardtd.deck.Card;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 
@@ -33,8 +33,6 @@ public class OptionsMenu implements Screen {
     Music music;
     Slider audioSlider;
 
-    TextureAtlas atlas = new TextureAtlas();
-
     public OptionsMenu() {
         skin = new Skin();
         stage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
@@ -43,7 +41,7 @@ public class OptionsMenu implements Screen {
         skin = new Skin();
         skinButton = new Skin();
 
-        music = Gdx.audio.newMusic(Gdx.files.internal("Background.wav"));
+        music = CardTDGame.assetManager.get(StaticVariables.BackgroundMusic);
         music.setVolume(0.1f);
         music.setLooping(true);
         music.play();
@@ -60,8 +58,8 @@ public class OptionsMenu implements Screen {
         LabelAdapter button_on_off = new LabelAdapter("Music", FontType.LOGO);
         button_on_off.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - button_on_off.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - button_on_off.getHeight() / 2 + 200);
 
-        skin.add("sliderBack", new Texture(Gdx.files.internal("assets/slider-Back.png")));
-        skin.add("sliderKnob", new Texture(Gdx.files.internal("assets/slider-dot.png")));
+        skin.add("sliderBack", CardTDGame.assetManager.get(StaticVariables.SliderBackground));
+        skin.add("sliderKnob", CardTDGame.assetManager.get(StaticVariables.SliderKnob));
 
         uiSliderStyle.background = skin.getDrawable("sliderBack");
         uiSliderStyle.knob = skin.getDrawable("sliderKnob");

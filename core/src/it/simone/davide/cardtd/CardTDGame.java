@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -61,6 +62,9 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.ToasterBorDagamed, Texture.class);
         assetManager.load(StaticVariables.TOWER, Texture.class);
         assetManager.load(StaticVariables.BLACK_CIRCLE, Texture.class);
+        assetManager.load(StaticVariables.SliderBackground, Texture.class);
+        assetManager.load(StaticVariables.SliderKnob, Texture.class);
+        assetManager.load(StaticVariables.BackgroundMusic, Music.class);
 
         //load font for the title
         FontType.loadFonts();
