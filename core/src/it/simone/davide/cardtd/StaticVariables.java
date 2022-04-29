@@ -38,8 +38,8 @@ public class StaticVariables {
     public static final String StormHeadDeath = "cards/stormhead/death.png";
     public static final String StormHeadDamaged = "cards/stormhead/damaged.png";
 
-    public static final String SpiritBoxerIDLE = "cards/spiritboxer/idle.png";
-    public static final String SpiritBoxerRun = "cards/spiritboxer/run.png";
+    public static final String SpiritBoxerIDLE = "cards/spiritboxer/Idle.png";
+    public static final String SpiritBoxerRun = "cards/spiritboxer/Run.png";
     public static final String SpiritBoxerAttack = "cards/spiritboxer/attack.png";
     public static final String SpiritBoxerDeath = "cards/spiritboxer/death.png";
     public static final String SpiritBoxerDamaged = "cards/spiritboxer/damaged.png";
