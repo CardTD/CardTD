@@ -5,7 +5,9 @@ import it.simone.davide.cardtd.classes.Build;
 import it.simone.davide.cardtd.classes.Bullet;
 import it.simone.davide.cardtd.classes.Card;
 import it.simone.davide.cardtd.classes.Enemy;
-import it.simone.davide.cardtd.classes.bullets.SingularTargetBullet;
+import it.simone.davide.cardtd.classes.bullets.type.RockBullet;
+import it.simone.davide.cardtd.classes.enemies.SpiritBoxer;
+import it.simone.davide.cardtd.classes.enemies.StormHead;
 import it.simone.davide.cardtd.classes.enemies.ToasterBot;
 import it.simone.davide.cardtd.enums.BuildType;
 import it.simone.davide.cardtd.enums.BulletType;
@@ -22,7 +24,7 @@ public class GameObjects {
 
     public static Map<BuildType, Build> BUILDINGS;
 
-    public static Map<BulletType, Bullet> BULLETS;
+    public static Map<BulletType,? super Bullet> BULLETS;
 
     public GameObjects() {
 
@@ -30,12 +32,15 @@ public class GameObjects {
         ENEMIES.put(EnemyType.ToasterBot, new ToasterBot(1, 1, 50, 200, 240));
         ENEMIES.put(EnemyType.StrongToasterBot, new ToasterBot(5, 1, 55, 200, 240));
 
+        ENEMIES.put(EnemyType.StormHead, new StormHead(2, 10, 100, 200, 56));
+        ENEMIES.put(EnemyType.SpiritBoxer, new SpiritBoxer(2, 10, 80, 200, 100));
+
         BULLETS = new HashMap<>();
 
-        BULLETS.put(BulletType.BLACK_CIRCLE, new SingularTargetBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.BLACK_CIRCLE), 20));
+        BULLETS.put(BulletType.ROCK, new RockBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.ROCK), 20));
 
         BUILDINGS = new HashMap<>();
-        BUILDINGS.put(BuildType.TOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.PLACEDTOWER_PNG), BulletType.BLACK_CIRCLE, 200, 1f, 1, 0, 0));
+        BUILDINGS.put(BuildType.TOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.PLACEDTOWER_PNG), BulletType.ROCK, 200, 1f, 1, 0, 0));
 
         CARDS = new HashMap<>();
         CARDS.put(CardType.TOWER, new Card("tower", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER));
