@@ -192,8 +192,7 @@ class AllCards {
 
     public Card getCard(Card c) {
         for (Card i : allCards) {
-
-            if (c.equals(i)) {
+            if (c.getName().equals(i.getName())) {
 
                 return i;
 
