@@ -59,12 +59,29 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.ToasterBorAttack, Texture.class);
         assetManager.load(StaticVariables.ToasterBorDeath, Texture.class);
         assetManager.load(StaticVariables.ToasterBorRun, Texture.class);
-        assetManager.load(StaticVariables.ToasterBorDagamed, Texture.class);
+        assetManager.load(StaticVariables.ToasterBorDamaged, Texture.class);
+
+        assetManager.load(StaticVariables.StormHeadBorIDLE, Texture.class);
+        assetManager.load(StaticVariables.StormHeadAttack, Texture.class);
+        assetManager.load(StaticVariables.StormHeadDeath, Texture.class);
+        assetManager.load(StaticVariables.StormHeadRun, Texture.class);
+        assetManager.load(StaticVariables.StormHeadDamaged, Texture.class);
+
+        assetManager.load(StaticVariables.SpiritBoxerIDLE, Texture.class);
+        assetManager.load(StaticVariables.SpiritBoxerAttack, Texture.class);
+        assetManager.load(StaticVariables.SpiritBoxerDeath, Texture.class);
+        assetManager.load(StaticVariables.SpiritBoxerRun, Texture.class);
+        assetManager.load(StaticVariables.SpiritBoxerDamaged, Texture.class);
+
         assetManager.load(StaticVariables.TOWER, Texture.class);
-        assetManager.load(StaticVariables.BLACK_CIRCLE, Texture.class);
+
+     
         assetManager.load(StaticVariables.SliderBackground, Texture.class);
         assetManager.load(StaticVariables.SliderKnob, Texture.class);
         assetManager.load(StaticVariables.BackgroundMusic, Music.class);
+
+        assetManager.load(StaticVariables.ROCK, Texture.class);
+
 
         //load font for the title
         FontType.loadFonts();

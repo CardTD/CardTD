@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.utils.TimeUtils;
 import it.simone.davide.cardtd.enums.EnemyState;
 
 import java.util.HashMap;
@@ -27,8 +26,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     private final int attackDimension;
     private boolean remove = false;
     private Path path;
-    private float alpha = 2;
-    private long startTime = 0;
 
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
 
@@ -74,14 +71,12 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                     break;
                 case DYING:
-                    long elapsedTime;
-                    if (startTime != 0) {
-                        elapsedTime = TimeUtils.timeSinceMillis(startTime);
+                    if (animations.get(EnemyState.DYING).isAnimationFinished(time)) {
+                        remove();
 
-                        alpha -= elapsedTime / 1000f;
+                        remove = true;
+
                     }
-
-                    startTime = TimeUtils.millis();
 
                     currentRegion = animations.get(EnemyState.DYING).getKeyFrame(time, true);
 
@@ -110,17 +105,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(Color.WHITE);
-        if (currentState == EnemyState.DYING) {
-            batch.setColor(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, alpha);
 
-            if (alpha <= 0) {
-
-                remove();
-
-                remove = true;
-
-            }
-        }
         if (currentRegion != null)
             batch.draw(currentRegion, getX(), getY());
 

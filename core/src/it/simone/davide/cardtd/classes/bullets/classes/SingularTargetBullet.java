@@ -1,4 +1,4 @@
-package it.simone.davide.cardtd.classes.bullets;
+package it.simone.davide.cardtd.classes.bullets.classes;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.simone.davide.cardtd.classes.Bullet;
@@ -21,6 +21,7 @@ public class SingularTargetBullet extends Bullet {
                     getHitted().add(e);
                     e.damage(damage);
                     remove();
+                    return;
 
                 }
 
