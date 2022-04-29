@@ -36,9 +36,11 @@ public class StaticVariables {
     public static final String ToasterBorAttack = "cards/toaster/attack.png";
     public static final String ToasterBorDeath = "cards/toaster/death.png";
     public static final String ToasterBorDagamed = "cards/toaster/damaged.png";
-
+    public static final String SliderBackground = "slider-Back.png";
+    public static final String SliderKnob = "slider-dot.png";
     public static final String BLACK_CIRCLE = "bullet.png";
-    public static final String  TOWER= "tower.png";
+    public static final String TOWER= "tower.png";
+    public static final String BackgroundMusic = "Background.wav";
 
 
     public static final Card BLANK_CARD;
