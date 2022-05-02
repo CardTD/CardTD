@@ -10,22 +10,21 @@ import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import it.simone.davide.cardtd.CardTDGame;
 
 public class AndroidLauncher extends AndroidApplication {
-	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
 
-		//Notch Eliminata
+        //Notch Eliminata
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Window applicationWindow = getApplicationWindow();
+            WindowManager.LayoutParams attrib = applicationWindow.getAttributes();
+            attrib.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-			Window applicationWindow = getApplicationWindow();
-			WindowManager.LayoutParams attrib = applicationWindow.getAttributes();
-			attrib.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
-		}
-
-		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		config.useWakelock = true;
-		config.useImmersiveMode = true;
-		config.hideStatusBar = true;
-		initialize(new CardTDGame(), config);
-	}
+        super.onCreate(savedInstanceState);
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        config.useWakelock = true;
+        config.useImmersiveMode = true;
+        config.hideStatusBar = true;
+        initialize(new CardTDGame(), config);
+    }
 }
