@@ -4,54 +4,58 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import it.simone.davide.cardtd.classes.Build;
+import sun.security.provider.certpath.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TileManager {
 
-    private final ArrayList<Rectangle> obstacles;
-    private final ArrayList<Rectangle> path;
+    private final ArrayList<Polygon> obstacles;
+    private final ArrayList<Polygon> path;
     private final Rectangle deck;
-    private Rectangle toProtect;
+    private Polygon toProtect;
     private final List<Build> placed;
 
     public TileManager(TiledMap tiledMap, List<Build> placed) {
         this.placed = placed;
-        MapObjects t = tiledMap.getLayers().get("percorso").getObjects();
+        MapObjects t = tiledMap.getLayers().get("Path").getObjects();
         path = new ArrayList<>();
         for (MapObject m : t) {
-            if (m instanceof RectangleMapObject) {
-                Rectangle r = ((RectangleMapObject) m).getRectangle();
-                r = new Rectangle(r.x, r.y, r.width, r.height);
+            if (m instanceof PolygonMapObject) {
+                Polygon r = ((PolygonMapObject) m).getPolygon();
+                r = new Polygon(r.getTransformedVertices());
                 path.add(r);
 
             }
 
         }
 
-        t = tiledMap.getLayers().get("toprotect").getObjects();
+        t = tiledMap.getLayers().get("torre").getObjects();
 
         for (MapObject m : t) {
-            if (m instanceof RectangleMapObject) {
-                Rectangle r = ((RectangleMapObject) m).getRectangle();
-                r = new Rectangle(r.x, r.y, r.width, r.height);
+            if (m instanceof PolygonMapObject) {
+                Polygon r = ((PolygonMapObject) m).getPolygon();
+                r = new Polygon(r.getTransformedVertices());
                 toProtect = r;
 
             }
 
         }
 
-        t = tiledMap.getLayers().get("ostacoli").getObjects();
+        t = tiledMap.getLayers().get("Ostacoli").getObjects();
         obstacles = new ArrayList<>();
         for (MapObject m : t) {
-            if (m instanceof RectangleMapObject) {
-                Rectangle r = ((RectangleMapObject) m).getRectangle();
-                r = new Rectangle(r.x, r.y, r.width, r.height);
+            if (m instanceof PolygonMapObject) {
+                Polygon r = ((PolygonMapObject) m).getPolygon();
+                r = new Polygon(r.getTransformedVertices());
                 obstacles.add(r);
 
             }
@@ -63,44 +67,65 @@ public class TileManager {
 
     public void render(ShapeRenderer shapeRenderer) {
 
-        for (Rectangle r : obstacles) {
+        for (Polygon r : obstacles) {
 
             shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+            shapeRenderer.polygon(r.getVertices());
             shapeRenderer.end();
 
         }
 
-        for (Rectangle r : path) {
+        for (Polygon r : path) {
 
             shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.rect(r.x, r.y, r.width, r.height);
+            shapeRenderer.polygon(r.getVertices());
+
             shapeRenderer.end();
 
         }
         shapeRenderer.begin(ShapeType.Line);
         shapeRenderer.rect(deck.x, deck.y, deck.width, deck.height);
-        shapeRenderer.rect(toProtect.x, toProtect.y, toProtect.width, toProtect.height);
+        shapeRenderer.polygon(toProtect.getVertices());
         shapeRenderer.end();
 
+    }
+
+    boolean isOverlap(Polygon A, Rectangle B){
+
+      if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x, B.y))
+          return true;
+
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x+B.width, B.y))
+            return true;
+
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x, B.y+B.height))
+            return true;
+
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x+B.width, B.y+B.height))
+            return true;
+
+
+
+
+        return false;
     }
 
     public boolean canPlace(Rectangle r) {
         if (r.x < 0 || r.y < 0 || r.x + r.width > StaticVariables.SCREEN_WIDTH || r.y + r.height > StaticVariables.SCREEN_HEIGHT)
             return false;
 
-        for (Rectangle i : path) {
-            if (i.overlaps(r)) {
 
+
+        for (Polygon i : path) {
+            if (isOverlap(i,r)) {
                 return false;
 
             }
         }
 
-        for (Rectangle i : obstacles) {
+        for (Polygon i : obstacles) {
 
-            if (i.overlaps(r)) {
-
+            if (isOverlap(i,r)) {
                 return false;
 
             }
@@ -110,18 +135,15 @@ public class TileManager {
 
             Rectangle i = new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight());
             if (p.isPlaced() && i.overlaps(r)) {
-
                 return false;
 
             }
         }
         if (deck.overlaps(r)) {
-
             return false;
 
         }
-        if (toProtect.overlaps(r)) {
-
+        if (isOverlap(toProtect,r)) {
             return false;
 
         }
@@ -129,7 +151,7 @@ public class TileManager {
         return true;
     }
 
-    public Rectangle getToProtect() {
+    public Polygon getToProtect() {
         return toProtect;
     }
 }

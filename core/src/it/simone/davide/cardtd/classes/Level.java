@@ -66,6 +66,7 @@ public abstract class Level implements Screen {
 
                 if (selectedCard != null && selectedCard.isSelected()) {
                     building = selectedCard.getBuild().clone();
+                    building.debug();
                     building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
 
                     placedStructures.add(building);
