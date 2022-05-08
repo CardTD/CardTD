@@ -48,6 +48,11 @@ public class ToasterBot extends Enemy {
     }
 
     @Override
+    public float getFrameWidth() {
+        return 310;
+    }
+
+    @Override
     public Enemy clone() {
         return new ToasterBot(getHp(), getDamage(), getSpeed(), getMoneyonkill(), getAttackDimension());
     }

@@ -7,19 +7,20 @@ import java.util.List;
 
 public class Path {
 
-    List<Vector2> points;
+    List<MoveVector2> points;
     int speed;
     int currentPoint = 0;
 
-    public Path(int speed, Vector2... list) {
+    public Path(int speed, MoveVector2... list) {
         this.speed = speed;
         this.points = Arrays.asList(list);
+
     }
 
-    public Vector2 move(float delta, float x, float y) {
-        Vector2 current;
+    public void move(float delta, float x, float y, Enemy enemy) {
+        MoveVector2 current;
+        Vector2 next;
         try {
-
             current = points.get(currentPoint);
         } catch (IndexOutOfBoundsException e) {
 
@@ -35,17 +36,53 @@ public class Path {
             if (current.x < 0 && current.y < 0) {
 
                 currentPoint++;
+                
             }
             float movX = x, movY = y;
-            if (current.x > 0) {
-                movX = x + movimento;
-            }
-            if (current.y > 0) {
-                movY = y + movimento;
-            }
-            return new Vector2(movX, movY);
 
-        }
-        return new Vector2(x, y);
+
+            switch (current.direction) {
+
+                case X_Y_NEGATIVE:
+                    if (current.x > 0) {
+                        movX = x - movimento;
+                    }
+                    if (current.y > 0) {
+                        movY = y - movimento;
+                    }
+                    break;
+                case X_Y_POSITIVE:
+                    if (current.x > 0) {
+                        movX = x + movimento;
+                    }
+                    if (current.y > 0) {
+                        movY = y + movimento;
+                    }
+                    break;
+                case X_NEGATIVE_Y_POSITIVE:
+                    if (current.x > 0) {
+                        movX = x - movimento;
+                    }
+                    if (current.y > 0) {
+                        movY = y + movimento;
+                    }
+                    break;
+
+                case X_POSITIVE_Y_NEGATIVE:
+                    if (current.x > 0) {
+                        movX = x + movimento;
+                    }
+                    if (current.y > 0) {
+                        movY = y - movimento;
+                    }
+                    break;
+            }
+            next = new Vector2(movX, movY);
+
+        } else
+            next = new Vector2(x, y);
+
+        enemy.setPosition(next.x, next.y);
+
     }
 }

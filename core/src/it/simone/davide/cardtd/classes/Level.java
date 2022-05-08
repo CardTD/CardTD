@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -243,16 +244,29 @@ public abstract class Level implements Screen {
     public void addEnemy(EnemyType enemyType) {
         Enemy s = ((Enemy) GameObjects.ENEMIES.get(enemyType)).clone();
         Vector2 i = getStartPostision(enemyType);
-        s.setPosition(i.x, i.y);
+
         s.setPath(getPath(enemyType));
         enemies.add(s);
         mainStage.addActor(s);
+        if (isFlippedEnemy()) {
+
+            s.setX(i.x-s.getFrameWidth()+s.getWidth());
+            s.setY(i.y);
+            s.flip();
+
+        }else {
+            s.setPosition(i.x, i.y);
+        }
 
     }
 
     public abstract Vector2 getStartPostision(EnemyType enemyType);
 
     public abstract Path getPath(EnemyType enemyType);
+
+    public abstract boolean attackCheck(Enemy e, Polygon p);
+
+    public abstract boolean isFlippedEnemy();
 
     @Override
     public void render(float delta) {
@@ -265,13 +279,9 @@ public abstract class Level implements Screen {
 
         for (Enemy e : enemies) {
 
-            if (e.getX() + e.getAttackDimension() >= tileManager.getToProtect().getX()) {
-                if (!e.isDead()) {
-                    e.setCurrentState(EnemyState.ATTACK);
+            if (attackCheck(e, tileManager.getToProtect()))
+                e.setCurrentState(EnemyState.ATTACK);
 
-                }
-
-            }
 
         }
         mainStage.act(delta);

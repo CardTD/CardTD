@@ -49,4 +49,7 @@ public class SpiritBoxer extends Enemy {
     public float getWidth() {
         return 34;
     }
+
+    @Override
+    public float getFrameWidth(){return 137;}
 }

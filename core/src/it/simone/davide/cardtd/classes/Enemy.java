@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import it.simone.davide.cardtd.enums.EnemyState;
 
@@ -37,6 +36,23 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         this.attackDimension = attackDimension;
         loadAnimations();
 
+
+    }
+
+    public void flip() {
+
+
+        for (Map.Entry<EnemyState, Animation<TextureRegion>> i : animations.entrySet()) {
+
+            for (TextureRegion f : i.getValue().getKeyFrames()) {
+
+                f.flip(true, false);
+
+
+
+            }
+        }
+
     }
 
     public void setCurrentState(EnemyState currentState) {
@@ -65,9 +81,8 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     break;
                 case RUN:
 
-                    Vector2 v = path.move(delta, getX(), getY());
+                    path.move(delta, getX(), getY(), this);
 
-                    setPosition(v.x, v.y);
                     currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                     break;
                 case DYING:
@@ -91,9 +106,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                         if (!isDead())
                             setCurrentState(EnemyState.RUN);
                     }
-                    v = path.move(delta, getX(), getY());
+                    path.move(delta, getX(), getY(), this);
 
-                    setPosition(v.x, v.y);
+
                     currentRegion = animations.get(EnemyState.DAMAGED).getKeyFrame(time, false);
 
                     break;
@@ -106,9 +121,10 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(Color.WHITE);
 
-        if (currentRegion != null)
-            batch.draw(currentRegion, getX(), getY());
+        if (currentRegion != null) {
 
+            batch.draw(currentRegion, getX(), getY());
+        }
     }
 
     public Rectangle getRectangle() {
@@ -177,6 +193,8 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     @Override
     public abstract float getWidth();
 
+    public abstract float getFrameWidth();
+
     public int getHp() {
         return hp;
     }
@@ -196,5 +214,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public int getAttackDimension() {
         return attackDimension;
     }
+
 
 }
