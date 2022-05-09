@@ -48,8 +48,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
                 f.flip(true, false);
 
-
-
             }
         }
 

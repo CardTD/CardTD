@@ -17,6 +17,13 @@ public class Path {
 
     }
 
+
+    private boolean isPositive(float a) {
+
+        return a > -1;
+
+    }
+
     public void move(float delta, float x, float y, Enemy enemy) {
         MoveVector2 current;
         Vector2 next;
@@ -35,8 +42,20 @@ public class Path {
             current.y -= movimento;
             if (current.x < 0 && current.y < 0) {
 
+                Vector2 l, n;
+                l = current.getRealVector2();
                 currentPoint++;
-                
+                n = points.get(currentPoint).getRealVector2();
+
+                System.out.println(l.x);
+                System.out.println(n.x);
+                System.out.println("____________");
+
+                if ((isPositive(l.x) && !isPositive(n.x)) || (!isPositive(l.x) && isPositive(n.x))) {
+                    enemy.setX(enemy.getX()-enemy.getFrameWidth()+enemy.getWidth());
+                    enemy.flip();
+                }
+
             }
             float movX = x, movY = y;
 

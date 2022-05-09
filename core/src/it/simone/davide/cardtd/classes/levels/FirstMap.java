@@ -61,7 +61,7 @@ public class FirstMap extends Level {
 
     @Override
     public boolean isFlippedEnemy() {
-        return true;
+        return false;
     }
 
 }
