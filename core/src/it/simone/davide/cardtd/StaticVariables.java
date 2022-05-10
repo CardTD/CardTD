@@ -50,6 +50,7 @@ public class StaticVariables {
     public static final String SliderBackground = "slider-Back.png";
     public static final String SliderKnob = "slider-dot.png";
     public static final String BackgroundMusic = "Background.wav";
+    public static final String FirstMapSound = "FirstMapSound.mp3";
 
     public static final Card BLANK_CARD;
 

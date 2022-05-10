@@ -1,5 +1,6 @@
 package it.simone.davide.cardtd.classes.levels;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Polygon;
@@ -7,12 +8,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
+import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.GameObjects;
+import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.classes.MoveVector2;
 import it.simone.davide.cardtd.classes.Path;
 import it.simone.davide.cardtd.enums.EnemyType;
+import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
 
@@ -21,6 +25,8 @@ public class FirstMap extends Level {
         super(map, tiledmap);
 
         final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
+
+        MainMenu.option.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
 
         Timer timer = new Timer();
         timer.scheduleTask(new Task() {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -61,8 +62,12 @@ public class MainMenu implements Screen {
     float y = getRandomLong(600, 800), time = nextFloat(10, 20);
 
     public MainMenu() {
+        if(option == null) {
+            option = new Options();
 
-        option = new Options();
+        }
+
+        MainMenu.option.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));

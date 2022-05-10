@@ -79,6 +79,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.SliderBackground, Texture.class);
         assetManager.load(StaticVariables.SliderKnob, Texture.class);
         assetManager.load(StaticVariables.BackgroundMusic, Music.class);
+        assetManager.load(StaticVariables.FirstMapSound, Music.class);
 
         assetManager.load(StaticVariables.ROCK, Texture.class);
 

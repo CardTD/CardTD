@@ -47,9 +47,6 @@ public class Path {
                 currentPoint++;
                 n = points.get(currentPoint).getRealVector2();
 
-                System.out.println(l.x);
-                System.out.println(n.x);
-                System.out.println("____________");
 
                 if ((isPositive(l.x) && !isPositive(n.x)) || (!isPositive(l.x) && isPositive(n.x))) {
 
