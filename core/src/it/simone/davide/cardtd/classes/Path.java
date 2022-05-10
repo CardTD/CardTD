@@ -24,7 +24,7 @@ public class Path {
 
     }
 
-    public void move(float delta, float x, float y, Enemy enemy) {
+    public void move(float delta, Enemy enemy) {
         MoveVector2 current;
         Vector2 next;
         try {
@@ -33,7 +33,7 @@ public class Path {
 
             current = null;
         }
-
+        float x = enemy.getX(), y = enemy.getY();
         if (current != null) {
 
             float movimento = speed * delta;
@@ -52,11 +52,16 @@ public class Path {
                 System.out.println("____________");
 
                 if ((isPositive(l.x) && !isPositive(n.x)) || (!isPositive(l.x) && isPositive(n.x))) {
-                    enemy.setX(enemy.getX()-enemy.getFrameWidth()+enemy.getWidth());
-                    enemy.flip();
+
+                    enemy.flip(enemy.getX() - enemy.getFrameWidth() + enemy.getWidth(), enemy.getY());
+
+
                 }
 
             }
+
+            x = enemy.getX();
+            y = enemy.getY();
             float movX = x, movY = y;
 
 

@@ -250,9 +250,8 @@ public abstract class Level implements Screen {
         mainStage.addActor(s);
         if (isFlippedEnemy()) {
 
-            s.setX(i.x-s.getFrameWidth()+s.getWidth());
-            s.setY(i.y);
-            s.flip();
+
+            s.flip(i.x-s.getFrameWidth()+s.getWidth(), i.y);
 
         }else {
             s.setPosition(i.x, i.y);
@@ -277,13 +276,7 @@ public abstract class Level implements Screen {
 
         mainStage.getViewport().apply();
 
-        for (Enemy e : enemies) {
 
-            if (attackCheck(e, tileManager.getToProtect()))
-                e.setCurrentState(EnemyState.ATTACK);
-
-
-        }
         mainStage.act(delta);
         mainStage.draw();
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -291,6 +284,22 @@ public abstract class Level implements Screen {
         ShapeRenderer s = new ShapeRenderer();
         s.setProjectionMatrix(mainStage.getCamera().combined);
         tileManager.render(s);
+
+        for (Enemy e : enemies) {
+
+
+
+            s.begin(ShapeType.Line);
+            s.circle(e.getCenter().x,e.getCenter().y, 10);
+            s.end();
+
+
+            if (attackCheck(e, tileManager.getToProtect()))
+                e.setCurrentState(EnemyState.ATTACK);
+
+
+        }
+
 
         Iterator<Enemy> i = enemies.iterator();
 

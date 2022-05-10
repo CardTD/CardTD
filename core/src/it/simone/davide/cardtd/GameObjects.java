@@ -37,7 +37,7 @@ public class GameObjects {
 
         BULLETS = new HashMap<>();
 
-        BULLETS.put(BulletType.ROCK, new RockBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.ROCK), 20));
+        BULLETS.put(BulletType.ROCK, new RockBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.ROCK), 10));
 
         BUILDINGS = new HashMap<>();
         BUILDINGS.put(BuildType.TOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.PLACEDTOWER_PNG), BulletType.ROCK, 200, 1f, 1, 0, 0));

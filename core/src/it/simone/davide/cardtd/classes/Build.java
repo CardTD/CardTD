@@ -91,7 +91,7 @@ public class Build extends Image {
                     time = 0;
 
                     Bullet b = (Bullet) bullet.clone();
-                    b.setVelocity(new Vector2((int) (getX() + getWidth() / 2) - bullet.getWidth() / 2, (int) (getY() + getHeight() / 2) - bullet.getHeight() / 2), new Vector2(target.getX() + target.getWidth() / 2, target.getY() + target.getHeight() / 2));
+                    b.setVelocity(new Vector2((int) (getX() + getWidth() / 2) - bullet.getWidth() / 2, (int) (getY() + getHeight() / 2) - bullet.getHeight() / 2), new Vector2(target.getCenter().x,target.getCenter().y));
                     getStage().addActor(b);
                     bulletList.add(b);
 

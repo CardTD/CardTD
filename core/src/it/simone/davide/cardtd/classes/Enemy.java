@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import it.simone.davide.cardtd.enums.EnemyState;
 
@@ -25,6 +26,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     private final int attackDimension;
     private boolean remove = false;
     private Path path;
+    private Vector2 center= new Vector2(0,0);
 
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
 
@@ -36,20 +38,46 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         this.attackDimension = attackDimension;
         loadAnimations();
 
+    }
+
+    public Vector2 getCenter() {
+        return center;
+    }
+
+    @Override
+    public void setX(float x) {
+        super.setX(x);
+        center.x=getX() +getFrameWidth()/2;
+    }
+
+    @Override
+    public void setY(float y) {
+        super.setY(y);
+        center.y=getY()+ getHeight()/2;
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+        center.set(getX() + getFrameWidth()/2,getY()+ getHeight()/2);
 
     }
 
-    public void flip() {
+    public void flip(float newX, float newY) {
+
 
 
         for (Map.Entry<EnemyState, Animation<TextureRegion>> i : animations.entrySet()) {
 
             for (TextureRegion f : i.getValue().getKeyFrames()) {
 
+
                 f.flip(true, false);
 
             }
+
         }
+        setPosition(newX,newY);
 
     }
 
@@ -79,7 +107,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     break;
                 case RUN:
 
-                    path.move(delta, getX(), getY(), this);
+                    path.move(delta,  this);
 
                     currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                     break;
@@ -104,7 +132,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                         if (!isDead())
                             setCurrentState(EnemyState.RUN);
                     }
-                    path.move(delta, getX(), getY(), this);
+                    path.move(delta,  this);
 
 
                     currentRegion = animations.get(EnemyState.DAMAGED).getKeyFrame(time, false);

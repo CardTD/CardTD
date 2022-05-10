@@ -29,7 +29,7 @@ public class FirstMap extends Level {
                 addEnemy(enemies.get((int) (Math.random() * enemies.size())));
 
             }
-        }, 1, .5f);
+        }, 1, 5);
 
     }
 
