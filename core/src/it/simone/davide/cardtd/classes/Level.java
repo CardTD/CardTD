@@ -41,7 +41,7 @@ import java.util.List;
 
 public abstract class Level implements Screen, GestureDetector.GestureListener {
 
-    protected final Stage mainStage, fillstage;
+    protected final Stage mainStage, fillstage, overlaystage;
     protected TileManager tileManager;
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
@@ -51,6 +51,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private float currentZoom = 1;
 
     public Level(Texture map, TiledMap tiledmap) {
+
+        overlaystage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
+        overlaystage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.MAP_OVERLAY)));
+
         gameCam.setToOrtho(false, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, gameCam));
         mainStage.addActor(new Image(map));
@@ -63,9 +67,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         fillstage.addActor(table);
         tileManager = new TileManager(tiledmap, placedStructures);
 
-        mainStage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.IN_GAME_DECK)));
+        //  mainStage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.IN_GAME_DECK)));
 
-        mainStage.addListener(new DragListener() {
+        overlaystage.addListener(new DragListener() {
             Build building;
 
             @Override
@@ -136,8 +140,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         for (int i = 0; i < 4; i++) {
 
             Card c = MainMenu.playerDeck.getCard(i).clone();
-            c.setPosition(12 + (c.getWidth() * i + 12 * i), 12);
-            mainStage.addActor(c);
+            c.setPosition(15 + (c.getWidth() * i + 20 * i), 12);
+            overlaystage.addActor(c);
 
             c.addListener(new ClickListener() {
                 @Override
@@ -242,6 +246,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         GestureDetector gd = new GestureDetector(this);
         i.addProcessor(gd);
         i.addProcessor(mainStage);
+        i.addProcessor(overlaystage);
 
         Gdx.input.setInputProcessor(i);
     }
@@ -285,6 +290,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         fillstage.getViewport().apply();
         fillstage.act(delta);
         fillstage.draw();
+
 
         mainStage.getViewport().apply();
 
@@ -348,6 +354,11 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             b.hitEnemies(enemies);
         }
 
+        overlaystage.getViewport().apply();
+        overlaystage.act(delta);
+        overlaystage.draw();
+
+
     }
 
     @Override
@@ -399,37 +410,35 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         return false;
     }
 
-
-
-
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
-        gameCam.update();
+        if (selectedCard == null) {
+            gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
+            gameCam.update();
 
-        float camX = gameCam.position.x;
-        float camY = gameCam.position.y;
+            float camX = gameCam.position.x;
+            float camY = gameCam.position.y;
 
-        Vector2 camMin = new Vector2(gameCam.viewportWidth, gameCam.viewportHeight);
-        camMin.scl(gameCam.zoom/2); //bring to center and scale by the zoom level
-        Vector2 camMax = new Vector2(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
-        camMax.sub(camMin); //bring to center
+            Vector2 camMin = new Vector2(gameCam.viewportWidth, gameCam.viewportHeight);
+            camMin.scl(gameCam.zoom / 2); //bring to center and scale by the zoom level
+            Vector2 camMax = new Vector2(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
+            camMax.sub(camMin); //bring to center
 
-        //keep camera within borders
-        camX = Math.min(camMax.x, Math.max(camX, camMin.x));
-        camY = Math.min(camMax.y, Math.max(camY, camMin.y));
+            //keep camera within borders
+            camX = Math.min(camMax.x, Math.max(camX, camMin.x));
+            camY = Math.min(camMax.y, Math.max(camY, camMin.y));
 
-        gameCam.position.set(camX, camY, gameCam.position.z);
-
+            gameCam.position.set(camX, camY, gameCam.position.z);
+        }
         return false;
     }
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
         gameCam.zoom = (initialDistance / distance) * currentZoom;
-        if(gameCam.zoom < 0.65f)
+        if (gameCam.zoom < 0.65f)
             gameCam.zoom = 0.65f;
-        if(gameCam.zoom > 1f)
+        if (gameCam.zoom > 1f)
             gameCam.zoom = 1f;
         gameCam.update();
 
