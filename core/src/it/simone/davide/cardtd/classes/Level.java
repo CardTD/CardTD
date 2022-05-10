@@ -1,13 +1,16 @@
 package it.simone.davide.cardtd.classes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -36,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class Level implements Screen {
+public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     protected final Stage mainStage, fillstage;
     protected TileManager tileManager;
@@ -44,9 +47,12 @@ public abstract class Level implements Screen {
     protected List<Enemy> enemies = new ArrayList<>();
     private Card selectedCard;
     private boolean showEnemyCenter = false, showTiledMapElem = false;
+    private OrthographicCamera gameCam = new OrthographicCamera();
+    private float currentZoom = 1;
 
     public Level(Texture map, TiledMap tiledmap) {
-        mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
+        gameCam.setToOrtho(false, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
+        mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, gameCam));
         mainStage.addActor(new Image(map));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -232,7 +238,12 @@ public abstract class Level implements Screen {
             });
         }
 
-        Gdx.input.setInputProcessor(mainStage);
+        InputMultiplexer i = new InputMultiplexer();
+        GestureDetector gd = new GestureDetector(this);
+        i.addProcessor(gd);
+        i.addProcessor(mainStage);
+
+        Gdx.input.setInputProcessor(i);
     }
 
     @Override
@@ -366,6 +377,80 @@ public abstract class Level implements Screen {
 
     public void setShowEnemyCenter(boolean showEnemyCenter) {
         this.showEnemyCenter = showEnemyCenter;
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+
+
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
+        gameCam.update();
+
+        float camX = gameCam.position.x;
+        float camY = gameCam.position.y;
+
+        Vector2 camMin = new Vector2(gameCam.viewportWidth, gameCam.viewportHeight);
+        camMin.scl(gameCam.zoom/2); //bring to center and scale by the zoom level
+        Vector2 camMax = new Vector2(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
+        camMax.sub(camMin); //bring to center
+
+        //keep camera within borders
+        camX = Math.min(camMax.x, Math.max(camX, camMin.x));
+        camY = Math.min(camMax.y, Math.max(camY, camMin.y));
+
+        gameCam.position.set(camX, camY, gameCam.position.z);
+
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        gameCam.zoom = (initialDistance / distance) * currentZoom;
+        if(gameCam.zoom < 0.65f)
+            gameCam.zoom = 0.65f;
+        if(gameCam.zoom > 1f)
+            gameCam.zoom = 1f;
+        gameCam.update();
+
+        return true;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        currentZoom = gameCam.zoom;
+        gameCam.update();
+        return false;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
     }
 
     public void setShowTiledMapElem(boolean showTiledMapElem) {
