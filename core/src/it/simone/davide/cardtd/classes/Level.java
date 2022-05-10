@@ -43,6 +43,7 @@ public abstract class Level implements Screen {
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
     private Card selectedCard;
+    private boolean showEnemyCenter = false, showTiledMapElem = false;
 
     public Level(Texture map, TiledMap tiledmap) {
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
@@ -251,9 +252,9 @@ public abstract class Level implements Screen {
         if (isFlippedEnemy()) {
 
 
-            s.flip(i.x-s.getFrameWidth()+s.getWidth(), i.y);
+            s.flip(i.x - s.getFrameWidth() + s.getWidth(), i.y);
 
-        }else {
+        } else {
             s.setPosition(i.x, i.y);
         }
 
@@ -283,15 +284,17 @@ public abstract class Level implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         ShapeRenderer s = new ShapeRenderer();
         s.setProjectionMatrix(mainStage.getCamera().combined);
-        tileManager.render(s);
+        if (showTiledMapElem)
+            tileManager.render(s);
 
         for (Enemy e : enemies) {
 
 
-
-            s.begin(ShapeType.Line);
-            s.circle(e.getCenter().x,e.getCenter().y, 10);
-            s.end();
+            if (showEnemyCenter) {
+                s.begin(ShapeType.Line);
+                s.circle(e.getCenter().x, e.getCenter().y, 10);
+                s.end();
+            }
 
 
             if (attackCheck(e, tileManager.getToProtect()))
@@ -359,5 +362,13 @@ public abstract class Level implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public void setShowEnemyCenter(boolean showEnemyCenter) {
+        this.showEnemyCenter = showEnemyCenter;
+    }
+
+    public void setShowTiledMapElem(boolean showTiledMapElem) {
+        this.showTiledMapElem = showTiledMapElem;
     }
 }

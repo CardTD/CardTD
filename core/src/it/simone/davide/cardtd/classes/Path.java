@@ -53,7 +53,7 @@ public class Path {
 
                 if ((isPositive(l.x) && !isPositive(n.x)) || (!isPositive(l.x) && isPositive(n.x))) {
 
-                    enemy.flip(enemy.getX() - enemy.getFrameWidth() + enemy.getWidth(), enemy.getY());
+                    enemy.flip(enemy.getX()-enemy.getFrameWidth()+enemy.getWidth(), enemy.getY());
 
 
                 }

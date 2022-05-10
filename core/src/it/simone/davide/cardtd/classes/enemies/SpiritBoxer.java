@@ -42,12 +42,12 @@ public class SpiritBoxer extends Enemy {
 
     @Override
     public float getHeight() {
-        return 14;
+        return 26;
     }
 
     @Override
     public float getWidth() {
-        return 34;
+        return 36;
     }
 
     @Override

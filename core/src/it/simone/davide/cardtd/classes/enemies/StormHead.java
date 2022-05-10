@@ -49,11 +49,11 @@ public class StormHead extends Enemy {
 
     @Override
     public float getWidth() {
-        return 80;
+        return 105;
     }
 
     @Override
     public float getFrameWidth() {
-        return 100;
+        return 115;
     }
 }

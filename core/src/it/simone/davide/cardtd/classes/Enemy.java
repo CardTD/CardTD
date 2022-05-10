@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import it.simone.davide.cardtd.enums.EnemyState;
+import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,8 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     private boolean remove = false;
     private Path path;
     private Vector2 center= new Vector2(0,0);
+    private boolean isFlipped = false;
+
 
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
 
@@ -59,13 +62,16 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        center.set(getX() + getFrameWidth()/2,getY()+ getHeight()/2);
+        if(isFlipped)
+            center.set(getX() - getWidth()/2 + getFrameWidth(),getY()+ getHeight()/2);
+        else
+            center.set(getX() + getWidth()/2,getY()+ getHeight()/2);
 
     }
 
     public void flip(float newX, float newY) {
 
-
+        isFlipped = !isFlipped;
 
         for (Map.Entry<EnemyState, Animation<TextureRegion>> i : animations.entrySet()) {
 
