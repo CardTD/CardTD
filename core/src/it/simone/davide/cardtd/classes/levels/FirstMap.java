@@ -36,7 +36,7 @@ public class FirstMap extends Level {
 
             }
         }, 1, 5);
-
+setShowTiledMapElem(false);
     }
 
     @Override

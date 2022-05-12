@@ -12,10 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -46,7 +43,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
     private Card selectedCard;
-    private boolean showEnemyCenter = false, showTiledMapElem = false;
+    private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false;
     private OrthographicCamera gameCam = new OrthographicCamera();
     private float currentZoom = 1;
 
@@ -76,10 +73,14 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
 
+                System.out.println(pointer);
+                if (pointer > 0) return false;
+
                 if (selectedCard != null && selectedCard.isSelected()) {
                     building = selectedCard.getBuild().clone();
                     building.debug();
                     building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
+
 
                     placedStructures.add(building);
                     mainStage.addActor(building);
@@ -101,7 +102,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 super.drag(event, x, y, pointer);
 
                 if (building != null && selectedCard != null && selectedCard.isSelected()) {
-                    building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
+                    building.setPosition((event.getStageX() - building.getWidth() / 2) * currentZoom, (event.getStageY() - building.getHeight() / 2) * currentZoom);
                     if (!tileManager.canPlace(building.getRectangle())) {
 
                         building.setColor(Color.RED);
@@ -140,7 +141,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         for (int i = 0; i < 4; i++) {
 
             Card c = MainMenu.playerDeck.getCard(i).clone();
-            c.setPosition(15 + (c.getWidth() * i + 20 * i), 12);
+            c.scaleBy(-0.3f);
+            c.setPosition(15 + ((c.getWidth() * 0.7f) * i + 20 * i), 12);
             overlaystage.addActor(c);
 
             c.addListener(new ClickListener() {
@@ -196,7 +198,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                         building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
                         placedStructures.add(building);
                         mainStage.addActor(building);
-
+                        isCardDragging = true;
                         c.setSelected(true);
                     }
                 }
@@ -205,7 +207,13 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
                     if (building != null && selectedCard == null) {
-                        building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
+                        System.out.println(event.getStageX() + " " + event.getStageY());
+                        Vector3 i = new Vector3(event.getStageX(), event.getStageY(), 0);
+                        i.prj(gameCam.combined);
+                        building.setPosition(i
+                                .x - building.getWidth() / 2, i.y - building.getHeight() / 2);
+
+                        // building.setPosition((v.x - building.getWidth() / 2 ) , (v.y - building.getHeight() / 2) );
 
                         if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
 
@@ -229,11 +237,13 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                             placedStructures.remove(building);
                             building.remove();
                             building = null;
+
                         } else {
                             building.setColor(Color.WHITE);
                             building.place();
 
                         }
+                        isCardDragging = false;
                         c.setSelected(false);
                     }
 
@@ -412,7 +422,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (selectedCard == null) {
+        if (selectedCard == null && !isCardDragging) {
             gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
             gameCam.update();
 
@@ -429,19 +439,21 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             camY = Math.min(camMax.y, Math.max(camY, camMin.y));
 
             gameCam.position.set(camX, camY, gameCam.position.z);
+
         }
         return false;
     }
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        gameCam.zoom = (initialDistance / distance) * currentZoom;
-        if (gameCam.zoom < 0.65f)
-            gameCam.zoom = 0.65f;
-        if (gameCam.zoom > 1f)
-            gameCam.zoom = 1f;
-        gameCam.update();
-
+        if (selectedCard == null && !isCardDragging) {
+            gameCam.zoom = (initialDistance / distance) * currentZoom;
+            if (gameCam.zoom < 0.65f)
+                gameCam.zoom = 0.65f;
+            if (gameCam.zoom > 1f)
+                gameCam.zoom = 1f;
+            gameCam.update();
+        }
         return true;
     }
 
