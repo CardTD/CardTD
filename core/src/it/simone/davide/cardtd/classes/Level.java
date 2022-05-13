@@ -7,12 +7,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -208,11 +210,11 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                     super.drag(event, x, y, pointer);
                     if (building != null && selectedCard == null) {
                         System.out.println(event.getStageX() + " " + event.getStageY());
-                        Vector3 i = new Vector3(event.getStageX(), event.getStageY(), 0);
-                        i.prj(gameCam.combined);
-                        building.setPosition(i
-                                .x - building.getWidth() / 2, i.y - building.getHeight() / 2);
 
+
+
+                        Vector3 i = new Vector3(event.getStageX(), event.getStageY(), 0);
+                        building.setPosition((i.x - building.getWidth() / 2)*currentZoom+i.x, (i.y - building.getHeight() / 2)*currentZoom+i.y);
                         // building.setPosition((v.x - building.getWidth() / 2 ) , (v.y - building.getHeight() / 2) );
 
                         if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
@@ -439,6 +441,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             camY = Math.min(camMax.y, Math.max(camY, camMin.y));
 
             gameCam.position.set(camX, camY, gameCam.position.z);
+            System.out.println(camMin.x+" "+ camMin.y+" "+ camMax.x+" "+ camMax.y);
 
         }
         return false;
@@ -461,6 +464,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     public boolean panStop(float x, float y, int pointer, int button) {
         currentZoom = gameCam.zoom;
         gameCam.update();
+
+
         return false;
     }
 
