@@ -48,6 +48,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false;
     private OrthographicCamera gameCam = new OrthographicCamera();
     private float currentZoom = 1;
+    private Vector2 RealZoomCordinate = new Vector2();
 
     public Level(Texture map, TiledMap tiledmap) {
 
@@ -67,6 +68,18 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         tileManager = new TileManager(tiledmap, placedStructures);
 
         //  mainStage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.IN_GAME_DECK)));
+
+
+        mainStage.addListener((new DragListener() {
+
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                super.drag(event, x, y, pointer);
+                System.out.println("main-stage X " + event.getStageX() + " " + pointer);
+                RealZoomCordinate = new Vector2(event.getStageX(), event.getStageY());
+            }
+        }));
+
 
         overlaystage.addListener(new DragListener() {
             Build building;
@@ -103,8 +116,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
 
+                System.out.println("Nick è un colione");
+
                 if (building != null && selectedCard != null && selectedCard.isSelected()) {
-                    building.setPosition((event.getStageX() - building.getWidth() / 2) * currentZoom, (event.getStageY() - building.getHeight() / 2) * currentZoom);
+                    building.setPosition((RealZoomCordinate.x - building.getWidth() / 2), (RealZoomCordinate.y - building.getHeight() / 2));
                     if (!tileManager.canPlace(building.getRectangle())) {
 
                         building.setColor(Color.RED);
@@ -140,6 +155,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             //TODO elimina tutti i changepostion utilizzati
 
         });
+
+
         for (int i = 0; i < 4; i++) {
 
             Card c = MainMenu.playerDeck.getCard(i).clone();
@@ -212,9 +229,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                         System.out.println(event.getStageX() + " " + event.getStageY());
 
 
-
                         Vector3 i = new Vector3(event.getStageX(), event.getStageY(), 0);
-                        building.setPosition((i.x - building.getWidth() / 2)*currentZoom+i.x, (i.y - building.getHeight() / 2)*currentZoom+i.y);
+                        building.setPosition((i.x - building.getWidth() / 2) * currentZoom, (i.y - building.getHeight() / 2) * currentZoom);
                         // building.setPosition((v.x - building.getWidth() / 2 ) , (v.y - building.getHeight() / 2) );
 
                         if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
@@ -430,18 +446,19 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
             float camX = gameCam.position.x;
             float camY = gameCam.position.y;
-
             Vector2 camMin = new Vector2(gameCam.viewportWidth, gameCam.viewportHeight);
             camMin.scl(gameCam.zoom / 2); //bring to center and scale by the zoom level
             Vector2 camMax = new Vector2(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
             camMax.sub(camMin); //bring to center
+
+            System.out.println(camX + " " + camY);
 
             //keep camera within borders
             camX = Math.min(camMax.x, Math.max(camX, camMin.x));
             camY = Math.min(camMax.y, Math.max(camY, camMin.y));
 
             gameCam.position.set(camX, camY, gameCam.position.z);
-            System.out.println(camMin.x+" "+ camMin.y+" "+ camMax.x+" "+ camMax.y);
+            // System.out.println(camMin.x + " " + camMin.y + " " + camMax.x + " " + camMax.y);
 
         }
         return false;
