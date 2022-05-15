@@ -152,7 +152,7 @@ public class MainMenu implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                CardTDGame.INSTANCE.setScreen(new OptionsMenu());
+                CardTDGame.INSTANCE.setScreen(new OptionsMenu(new MainMenu()));
             }
 
             @Override
@@ -185,15 +185,16 @@ public class MainMenu implements Screen {
                 CardTDGame.INSTANCE.setScreen(new FirstMap(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
             }
         });
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(fitstage);
-        inputMultiplexer.addProcessor(fillstage);
-        Gdx.input.setInputProcessor(inputMultiplexer);
 
     }
 
     @Override
     public void show() {
+
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(fitstage);
+        inputMultiplexer.addProcessor(fillstage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 

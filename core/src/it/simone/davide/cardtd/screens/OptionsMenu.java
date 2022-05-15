@@ -35,7 +35,7 @@ public class OptionsMenu implements Screen {
     Skin skin, skinButton;
     Slider audioSlider, fxSlider;
 
-    public OptionsMenu() {
+    public OptionsMenu(final Screen backscreen) {
 
         skin = new Skin();
         backgroundStage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -112,7 +112,7 @@ public class OptionsMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                onExit();
+                onExit(backscreen);
             }
         });
         stage.addActor(back);
@@ -173,8 +173,9 @@ public class OptionsMenu implements Screen {
 
     }
 
-    public void onExit() {
+    public void onExit(Screen backscreen) {
+
         MainMenu.option.setVolumePref();
-        CardTDGame.INSTANCE.setScreen(new MainMenu());
+        CardTDGame.INSTANCE.setScreen(backscreen);
     }
 }

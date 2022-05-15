@@ -20,6 +20,11 @@ public class StaticVariables {
 
     public static final String BACKBUTTON = "back.png";
     public static final String BACKBUTTON_PRESSED = "backpressend.png";
+    public static final String PAUSEBUTTON = "pause.png";
+    public static final String PAUSEBUTTON_PRESSED = "pausepressed.png";
+    public static final String OPTIONBUTTON = "optionbutton.png";
+    public static final String OPTIONBUTTON_PRESSED = "optionbuttonpressed.png";
+
     public static final String FIRSTMAP = "mappa1.png";
     public static final String PLACEDTOWER_PNG = "placedtower.png";
     public static final String TMXMAP = "mappa1.tmx";
