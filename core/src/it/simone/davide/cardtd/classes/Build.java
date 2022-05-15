@@ -40,7 +40,7 @@ public class Build extends Image {
         setPosition(x, y);
     }
 
-    //TODO creare le wave
+
     @Override
     public void setPosition(float x, float y) {
         if (isPlaced)

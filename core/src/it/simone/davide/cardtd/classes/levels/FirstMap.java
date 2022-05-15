@@ -70,4 +70,8 @@ setShowTiledMapElem(false);
         return false;
     }
 
+    @Override
+    public int getInitialBalance() {
+        return 200;
+    }
 }
