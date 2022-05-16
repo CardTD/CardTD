@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -60,7 +61,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private FrameBuffer fboA;
     private FrameBuffer fboB;
     private LabelAdapter PauseLabel;
-    private Button option, homeB;
+    private Button option, homeB, resume, pause;
 
     private final Screen screen;
 
@@ -79,9 +80,25 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         pauseStage = new Stage(new ScreenViewport());
 
+        TextureRegionDrawable resumeButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RESUMEBUTTON));
+        TextureRegionDrawable resumeButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
+        resume = new Button(resumeButton, resumeButtonP);
+        resume.setSize(100, 100);
+        resume.setPosition(pauseStage.getWidth() - 150, pauseStage.getHeight() - 150);
+        resume.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                isPaused = !isPaused;
+            }
+        });
+        pauseStage.addActor(resume);
+
         TextureRegionDrawable pauseButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON));
         TextureRegionDrawable pauseButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
-        Button pause = new Button(pauseButton, pauseButtonP);
+        pause = new Button(pauseButton, pauseButtonP);
         pause.setSize(100, 100);
         pause.setPosition(pauseStage.getWidth() - 150, pauseStage.getHeight() - 150);
         pause.addListener(new ClickListener() {
@@ -92,7 +109,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
                 isPaused = !isPaused;
 
-                if(building != null && !building.isPlaced()) {
+                if (building != null && !building.isPlaced()) {
                     placedStructures.remove(building);
                     building.remove();
                 }
@@ -167,7 +184,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
                 if (pointer > 0) return false;
 
-                if(!isPaused) {
+                if (!isPaused) {
 
                     if (selectedCard != null && selectedCard.isSelected()) {
                         building = selectedCard.getBuild().clone();
@@ -195,7 +212,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
 
-                if(!isPaused) {
+                if (!isPaused) {
 
                     if (building != null && selectedCard != null && selectedCard.isSelected()) {
                         building.setPosition((event.getStageX() - building.getWidth() / 2), (event.getStageY() - building.getHeight() / 2));
@@ -215,7 +232,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
-                if(!isPaused) {
+                if (!isPaused) {
 
                     if (building != null && selectedCard != null && selectedCard.isSelected()) {
                         if (!tileManager.canPlace(building.getRectangle())) {
@@ -251,7 +268,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if(!isPaused) {
+                    if (!isPaused) {
                         final Card c = ((Card) event.getTarget());
 
                         Timer timer = new Timer();
@@ -323,11 +340,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
               */
 
 
-
                 @Override
                 public void dragStart(InputEvent event, float x, float y, int pointer) {
                     super.dragStart(event, x, y, pointer);
-                    if(!isPaused) {
+                    if (!isPaused) {
                         Card c = ((Card) event.getTarget());
 
                         if (!c.isSelected() && selectedCard == null) {
@@ -343,31 +359,29 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 }
 
 
-
-              @Override
+                @Override
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
-                  if(!isPaused) {
-                      if (building != null && selectedCard == null) {
+                    if (!isPaused) {
+                        if (building != null && selectedCard == null) {
 
-                          building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
-                          // building.setPosition((v.x - building.getWidth() / 2 ) , (v.y - building.getHeight() / 2) );
+                            building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
 
-                          if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
+                            if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
 
-                              building.setColor(Color.RED);
-                          } else {
+                                building.setColor(Color.RED);
+                            } else {
 
-                              building.setColor(Color.GREEN);
-                          }
-                      }
-                  }
+                                building.setColor(Color.GREEN);
+                            }
+                        }
+                    }
                 }
 
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     super.dragStop(event, x, y, pointer);
-                    if(!isPaused) {
+                    if (!isPaused) {
                         Card c = ((Card) event.getTarget());
                         if (building != null && selectedCard == null) {
 
@@ -387,7 +401,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                         }
                     }
                 }
-
 
 
             });
@@ -443,64 +456,68 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     @Override
     public void render(float delta) {
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 
             isPaused = !isPaused;
 
         }
 
-        if(isPaused){
+        if (isPaused) {
             homeB.setVisible(true);
             option.setVisible(true);
+            pause.setVisible(false);
+            resume.setVisible(true);
             PauseLabel.setVisible(true);
             blur(fillstage);
             blur(mainStage);
             blur(overlaystage);
 
-        }else{
+        } else {
             homeB.setVisible(false);
             option.setVisible(false);
+            pause.setVisible(true);
+            resume.setVisible(false);
             PauseLabel.setVisible(false);
             fillstage.getBatch().setShader(null);
             mainStage.getBatch().setShader(null);
             overlaystage.getBatch().setShader(null);
         }
 
-            fillstage.getViewport().apply();
-        if(!isPaused)
+        fillstage.getViewport().apply();
+        if (!isPaused)
             fillstage.act(delta);
-            fillstage.draw();
+        fillstage.draw();
 
 
-            mainStage.getViewport().apply();
+        mainStage.getViewport().apply();
 
-        if(!isPaused)
+        if (!isPaused)
             mainStage.act(delta);
-            mainStage.draw();
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-            ShapeRenderer s = new ShapeRenderer();
-            s.setProjectionMatrix(mainStage.getCamera().combined);
-            if (showTiledMapElem)
-                tileManager.render(s);
+        mainStage.draw();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        ShapeRenderer s = new ShapeRenderer();
+        s.setProjectionMatrix(mainStage.getCamera().combined);
+        if (showTiledMapElem)
+            tileManager.render(s);
 
-            for (Enemy e : enemies) {
+        for (Enemy e : enemies) {
 
 
-                if (showEnemyCenter) {
-                    s.begin(ShapeType.Line);
-                    s.circle(e.getCenter().x, e.getCenter().y, 10);
-                    s.end();
-                }
+            if (showEnemyCenter) {
+                s.begin(ShapeType.Line);
+                s.circle(e.getCenter().x, e.getCenter().y, 10);
+                s.end();
+            }
 
-                if(!isPaused)
+            if (!isPaused)
                 if (attackCheck(e, tileManager.getToProtect()))
                     e.setCurrentState(EnemyState.ATTACK);
 
 
-            }
+        }
 
-        if(!isPaused) {
+        if (!isPaused) {
             Iterator<Enemy> i = enemies.iterator();
 
             while (i.hasNext()) {
@@ -535,10 +552,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             }
         }
 
-            overlaystage.getViewport().apply();
-        if(!isPaused)
+        overlaystage.getViewport().apply();
+        if (!isPaused)
             overlaystage.act(delta);
-            overlaystage.draw();
+        overlaystage.draw();
 
 
         pauseStage.getViewport().apply();
@@ -548,7 +565,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
-    public void blur(Stage a){
+    public void blur(Stage a) {
         a.getBatch().begin();
         fboA.begin();
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -613,33 +630,32 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if(!isPaused){
-        if (selectedCard == null && !isCardDragging) {
-            gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
-            gameCam.update();
+        if (!isPaused) {
+            if (selectedCard == null && !isCardDragging) {
+                gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
+                gameCam.update();
 
-            float camX = gameCam.position.x;
-            float camY = gameCam.position.y;
-            Vector2 camMin = new Vector2(gameCam.viewportWidth, gameCam.viewportHeight);
-            camMin.scl(gameCam.zoom / 2); //bring to center and scale by the zoom level
-            Vector2 camMax = new Vector2(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
-            camMax.sub(camMin); //bring to center
+                float camX = gameCam.position.x;
+                float camY = gameCam.position.y;
+                Vector2 camMin = new Vector2(gameCam.viewportWidth, gameCam.viewportHeight);
+                camMin.scl(gameCam.zoom / 2); //bring to center and scale by the zoom level
+                Vector2 camMax = new Vector2(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
+                camMax.sub(camMin); //bring to center
 
 
+                //keep camera within borders
+                camX = Math.min(camMax.x, Math.max(camX, camMin.x));
+                camY = Math.min(camMax.y, Math.max(camY, camMin.y));
 
-            //keep camera within borders
-            camX = Math.min(camMax.x, Math.max(camX, camMin.x));
-            camY = Math.min(camMax.y, Math.max(camY, camMin.y));
-
-            gameCam.position.set(camX, camY, gameCam.position.z);
-        }
+                gameCam.position.set(camX, camY, gameCam.position.z);
+            }
         }
         return false;
     }
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        if(!isPaused) {
+        if (!isPaused) {
             if (selectedCard == null && !isCardDragging) {
                 gameCam.zoom = (initialDistance / distance) * currentZoom;
                 if (gameCam.zoom < 0.65f)
@@ -654,7 +670,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-        if(!isPaused) {
+        if (!isPaused) {
             currentZoom = gameCam.zoom;
             gameCam.update();
         }
@@ -680,7 +696,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         shader.setUniformf("radius", blur);
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        drawTexture(fboA.getColorBufferTexture(),  0.0f, 0.0f, batch);
+        drawTexture(fboA.getColorBufferTexture(), 0.0f, 0.0f, batch);
         batch.flush();
         fboB.end();
 
