@@ -28,7 +28,6 @@ public class StaticVariables {
     public static final String FIRSTMAP = "mappa1.png";
     public static final String PLACEDTOWER_PNG = "placedtower.png";
     public static final String TMXMAP = "mappa1.tmx";
-    public static final String IN_GAME_DECK = "ingamedeck.png";
     public static final String MAP_OVERLAY = "Overlay Mappa.png";
 
     public static final String ToasterBorIDLE = "cards/toaster/idle.png";

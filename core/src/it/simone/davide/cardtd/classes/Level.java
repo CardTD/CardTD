@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -134,8 +133,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         overlaystage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         overlaystage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.MAP_OVERLAY)));
-        LabelAdapter l= new LabelAdapter(balance+"",FontType.MONEY);
-        l.toStage(overlaystage, 640 ,10);
+        LabelAdapter l = new LabelAdapter(balance + "", FontType.MONEY);
+        l.toStage(overlaystage, 640, 10);
 
         gameCam.setToOrtho(false, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, gameCam));
@@ -623,6 +622,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 gameCam.update();
             }
         }
+
         return true;
     }
 
@@ -637,12 +637,25 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     }
 
     @Override
-    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+    public boolean pinch(Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer) {
+
         return false;
     }
 
     @Override
     public void pinchStop() {
+
+        Timer timer = new Timer();
+        timer.scheduleTask(new Task() {
+
+            @Override
+            public void run() {
+                if (currentZoom == 1f) {
+                    gameCam.position.set(StaticVariables.SCREEN_WIDTH / 2, StaticVariables.SCREEN_HEIGHT / 2, 0);
+                    gameCam.update();
+                }
+            }
+        }, 0.1f);
 
     }
 
