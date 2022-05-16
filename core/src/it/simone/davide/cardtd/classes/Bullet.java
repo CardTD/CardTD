@@ -53,7 +53,7 @@ public abstract class Bullet extends Image {
         v2Velocity.y *= speed;
     }
 
-    public abstract void hitEnemies(List<Enemy> enemies, int damage);
+    public abstract int hitEnemies(List<Enemy> enemies, int damage);
 
     public boolean canHit(Enemy enemy) {
 

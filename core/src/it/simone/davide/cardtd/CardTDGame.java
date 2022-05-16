@@ -76,6 +76,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.SpiritBoxerDeath, Texture.class);
         assetManager.load(StaticVariables.SpiritBoxerRun, Texture.class);
         assetManager.load(StaticVariables.SpiritBoxerDamaged, Texture.class);
+        assetManager.load(StaticVariables.COIN, Texture.class);
 
         assetManager.load(StaticVariables.TOWER, Texture.class);
 

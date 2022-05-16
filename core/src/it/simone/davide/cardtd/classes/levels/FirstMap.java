@@ -35,7 +35,7 @@ public class FirstMap extends Level {
                 addEnemy(enemies.get((int) (Math.random() * enemies.size())));
 
             }
-        }, 1, 5);
+        }, 1, 15);
 setShowTiledMapElem(false);
     }
 

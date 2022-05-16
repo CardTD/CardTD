@@ -21,7 +21,7 @@ public class FontType {
 
         LOGO = new FontType("LOGO", "Rundown.ttf", 150, Color.WHITE);
         OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.WHITE);
-        MONEY = new FontType("MONEY", "Roboto-Regular.ttf", 30, Color.WHITE);
+        MONEY = new FontType("MONEY", "Roboto-Regular.ttf", 25, Color.WHITE);
         fontTypes.add(LOGO);
         fontTypes.add(OPTIONS);
         fontTypes.add(MONEY);

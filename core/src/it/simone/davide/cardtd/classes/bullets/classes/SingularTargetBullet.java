@@ -13,21 +13,27 @@ public class SingularTargetBullet extends Bullet {
 
     }
 
-    public void hitEnemies(List<Enemy> enemies, int damage) {
+    public int hitEnemies(List<Enemy> enemies, int damage) {
 
+        int money = 0;
         for (Enemy e : enemies) {
             if (!getHitted().contains(e) && canHit(e)) {
                 if (getRectangle().overlaps(e.getRectangle())) {
                     getHitted().add(e);
-                    e.damage(damage);
+
+                    if (e.damage(damage)) {
+                        System.out.println("died");
+                        money += e.getMoneyonkill();
+                    }
                     remove();
-                    return;
+                    return money;
 
                 }
 
             }
 
         }
+        return money;
 
     }
 

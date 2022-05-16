@@ -40,7 +40,6 @@ public class Build extends Image {
         setPosition(x, y);
     }
 
-
     @Override
     public void setPosition(float x, float y) {
         if (isPlaced)
@@ -91,7 +90,7 @@ public class Build extends Image {
                     time = 0;
 
                     Bullet b = (Bullet) bullet.clone();
-                    b.setVelocity(new Vector2((int) (getX() + getWidth() / 2) - bullet.getWidth() / 2, (int) (getY() + getHeight() / 2) - bullet.getHeight() / 2), new Vector2(target.getCenter().x,target.getCenter().y));
+                    b.setVelocity(new Vector2((int) (getX() + getWidth() / 2) - bullet.getWidth() / 2, (int) (getY() + getHeight() / 2) - bullet.getHeight() / 2), new Vector2(target.getCenter().x, target.getCenter().y));
                     getStage().addActor(b);
                     bulletList.add(b);
 
@@ -107,17 +106,23 @@ public class Build extends Image {
         return attackRangeCircle;
     }
 
-    public void hitEnemies(List<Enemy> enemies) {
-
+    /**
+     * @param enemies
+     * @return the sum of money
+     */
+    public int hitEnemies(List<Enemy> enemies) {
+        int somma = 0;
         Iterator<Bullet> b = bulletList.iterator();
         while (b.hasNext()) {
             Bullet bullet = b.next();
-            bullet.hitEnemies(enemies, damage);
 
+            somma += bullet.hitEnemies(enemies, damage);
+            System.out.println("som,o" + somma);
             if (!getStage().getActors().contains(bullet, true)) {
                 b.remove();
             }
         }
+        return somma;
     }
 
     public Build clone() {

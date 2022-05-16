@@ -11,19 +11,27 @@ public class PiercingBullet extends Bullet {
         super(texture, speed);
     }
 
-    public void hitEnemies(List<Enemy> enemies, int damage) {
+    /**
+     * @param enemies
+     * @param damage
+     * @return the sum of money on kill
+     */
+    public int hitEnemies(List<Enemy> enemies, int damage) {
 
+        int money = 0;
         for (Enemy e : enemies) {
             if (!getHitted().contains(e) && canHit(e)) {
                 if (getRectangle().overlaps(e.getRectangle())) {
                     getHitted().add(e);
-                    e.damage(damage);
+                    if (e.damage(damage))
+                        money += e.getMoneyonkill();
 
                 }
 
             }
 
         }
+        return money;
 
     }
 

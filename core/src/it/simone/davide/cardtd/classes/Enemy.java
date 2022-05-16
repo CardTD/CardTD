@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import it.simone.davide.cardtd.enums.EnemyState;
-import sun.jvm.hotspot.debugger.posix.elf.ELFSectionHeader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +26,8 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     private final int attackDimension;
     private boolean remove = false;
     private Path path;
-    private Vector2 center= new Vector2(0,0);
+    private Vector2 center = new Vector2(0, 0);
     private boolean isFlipped = false;
-
 
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
 
@@ -50,22 +48,22 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     @Override
     public void setX(float x) {
         super.setX(x);
-        center.x=getX() +getFrameWidth()/2;
+        center.x = getX() + getFrameWidth() / 2;
     }
 
     @Override
     public void setY(float y) {
         super.setY(y);
-        center.y=getY()+ getHeight()/2;
+        center.y = getY() + getHeight() / 2;
     }
 
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        if(isFlipped)
-            center.set(getX() - getWidth()/2 + getFrameWidth(),getY()+ getHeight()/2);
+        if (isFlipped)
+            center.set(getX() - getWidth() / 2 + getFrameWidth(), getY() + getHeight() / 2);
         else
-            center.set(getX() + getWidth()/2,getY()+ getHeight()/2);
+            center.set(getX() + getWidth() / 2, getY() + getHeight() / 2);
 
     }
 
@@ -77,13 +75,12 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
             for (TextureRegion f : i.getValue().getKeyFrames()) {
 
-
                 f.flip(true, false);
 
             }
 
         }
-        setPosition(newX,newY);
+        setPosition(newX, newY);
 
     }
 
@@ -113,7 +110,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     break;
                 case RUN:
 
-                    path.move(delta,  this);
+                    path.move(delta, this);
 
                     currentRegion = animations.get(EnemyState.RUN).getKeyFrame(time, true);
                     break;
@@ -138,8 +135,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                         if (!isDead())
                             setCurrentState(EnemyState.RUN);
                     }
-                    path.move(delta,  this);
-
+                    path.move(delta, this);
 
                     currentRegion = animations.get(EnemyState.DAMAGED).getKeyFrame(time, false);
 
@@ -165,14 +161,22 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * @param damage
+     * @return id diead or not
+     */
     @Override
-    public void damage(float damage) {
+    public boolean damage(float damage) {
 
         int oldHp = hp;
         hp -= damage;
+        Level.print(oldHp+"", hp+"");
         if (oldHp > 0 && hp <= 0) {
 
             die();
+
+            Level.print("Enemy died");
+            return true;
         } else {
 
             if (currentState.equals(EnemyState.RUN)) {
@@ -180,7 +184,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                 setCurrentState(EnemyState.DAMAGED);
             }
         }
-
+        return false;
     }
 
     public boolean isDead() {
@@ -207,7 +211,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public void die() {
         setCurrentState(EnemyState.DYING);
 
-        hp = 0;
+        hp = -1;
     }
 
     public boolean canRemove() {
@@ -246,6 +250,5 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public int getAttackDimension() {
         return attackDimension;
     }
-
 
 }

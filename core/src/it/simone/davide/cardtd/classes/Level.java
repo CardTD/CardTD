@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -52,6 +53,7 @@ import java.util.List;
 public abstract class Level implements Screen, GestureDetector.GestureListener {
     private static final float WORLD_TO_SCREEN = 1.0f / 100.0f;
     protected final Stage mainStage, fillstage, overlaystage, pauseStage;
+    private AnimatedImage coin;
     protected TileManager tileManager;
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
@@ -70,11 +72,11 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     private int balance;
     private int iniTialbalance;
+    private LabelAdapter balancaText;
 
     public Level(Texture map, TiledMap tiledmap) {
 
         iniTialbalance = getInitialBalance();
-//640 20
         balance = iniTialbalance;
 
         screen = this;
@@ -133,9 +135,13 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         overlaystage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         overlaystage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.MAP_OVERLAY)));
-        LabelAdapter l = new LabelAdapter(balance + "", FontType.MONEY);
-        l.toStage(overlaystage, 640, 10);
+        balancaText = new LabelAdapter(balance + "", FontType.MONEY);
+        balancaText.toStage(overlaystage, 640, 9);
 
+        loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1);
+        coin.scaleBy(-0.75f);
+        coin.setPosition(580, 10);
+        overlaystage.addActor(coin);
         gameCam.setToOrtho(false, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, gameCam));
         mainStage.addActor(new Image(map));
@@ -382,6 +388,35 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
+    public void updateBalance(int addBalance) {
+        if (addBalance != 0) {
+
+            balance += addBalance;
+print("la nuova balance è ", balance+"");
+            balancaText.setText(balance);
+
+        }
+
+    }
+
+    //TODO Make it static
+    public void loadAnimation(Texture texture, int rows, int cols) {
+
+        TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
+                cols, texture.getHeight() / rows);
+
+        TextureRegion[] frames = new TextureRegion[cols * rows];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        Animation<TextureRegion> anim = new Animation<>(0.2f, frames);
+
+        coin = new AnimatedImage(anim);
+    }
+
     @Override
     public void show() {
 
@@ -484,7 +519,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             while (i.hasNext()) {
                 Enemy e = i.next();
                 if (e.canRemove()) {
+
                     i.remove();
+
                 }
             }
 
@@ -509,7 +546,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
             for (Build b : placedStructures) {
 
-                b.hitEnemies(enemies);
+                updateBalance(b.hitEnemies(enemies));
             }
         }
 
@@ -624,6 +661,17 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         }
 
         return true;
+    }
+
+    public static void print(String... s) {
+
+        String r = "";
+        for (String a : s) {
+            r += a + ", ";
+
+        }
+        System.out.println(r);
+
     }
 
     @Override

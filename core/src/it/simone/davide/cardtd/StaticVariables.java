@@ -48,6 +48,7 @@ public class StaticVariables {
     public static final String SpiritBoxerAttack = "cards/spiritboxer/attack.png";
     public static final String SpiritBoxerDeath = "cards/spiritboxer/death.png";
     public static final String SpiritBoxerDamaged = "cards/spiritboxer/damaged.png";
+    public static final String COIN = "coin-sheet.png";
 
     public static final String ROCK = "bullet.png";
     public static final String TOWER = "tower.png";
