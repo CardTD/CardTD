@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class FirstMap extends Level {
     public FirstMap(Texture map, TiledMap tiledmap) {
         super(map, tiledmap);
-
         final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
 
         MainMenu.option.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));

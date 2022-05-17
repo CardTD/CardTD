@@ -64,7 +64,6 @@ public class MainMenu implements Screen {
     public MainMenu() {
         if(option == null) {
             option = new Options();
-
         }
 
         MainMenu.option.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
@@ -181,7 +180,6 @@ public class MainMenu implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 CardTDGame.INSTANCE.setScreen(new FirstMap(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
             }
         });

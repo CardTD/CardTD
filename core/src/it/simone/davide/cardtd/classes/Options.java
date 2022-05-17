@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
+import it.simone.davide.cardtd.screens.MainMenu;
 
 public class Options {
 
@@ -19,11 +20,11 @@ public class Options {
         else
             audioVolume = 0.5f;
         fxVolume = prefs.getFloat("FX");
-        setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
     }
 
     public void setVolume(float audioVolume) {
         music.setVolume(audioVolume);
+        setVolumePref();
     }
 
     public void setVolumePref() {
@@ -32,11 +33,12 @@ public class Options {
         prefs.putFloat("FX", fxVolume);
         prefs.flush();
     }
-//Todo  Menù di pausa in game, balance, vita del castello, Interfaccia della partita, modificare le torri (skin e animazioni), FX(?), PinchToZoom, fuoriscena,
+//Todo  balance, vita del castello, modificare le torri (skin e animazioni), FX(?), PinchToZoom, fuoriscena
 
 
     public void setMusic(Music music) {
-        if(this.music != music) {
+
+        if (this.music != music) {
             if (this.music != null)
                 this.music.stop();
             this.music = music;

@@ -130,7 +130,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 CardTDGame.INSTANCE.setScreen(new OptionsMenu(screen));
 
             }
