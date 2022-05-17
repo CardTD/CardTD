@@ -58,15 +58,15 @@ public class StaticVariables {
     public static final String COIN = "coin-sheet.png";
 
     public static final String ROCK = "bullet.png";
-    public static final String TOWER = "tower.png";
+    public static final String TOWER = "TerzaTorreCard.png";
 
     public static final String SliderBackground = "slider-Back.png";
     public static final String SliderKnob = "slider-dot.png";
     public static final String BackgroundMusic = "Background.wav";
     public static final String FirstMapSound = "FirstMapSound.mp3";
     public static final String HealtBarD = "Sotto.png";
-    public static final String HealtBarM =  "mezzo.png";
-    public static final String HealtBarL =  "Sopra.png";
+    public static final String HealtBarM = "mezzo.png";
+    public static final String HealtBarL = "Sopra.png";
 
     public static final Card BLANK_CARD;
 
