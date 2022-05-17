@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -73,8 +72,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private int iniTialbalance;
     private LabelAdapter balancaText, gameOverLabel;
     public static HealthBar HEALTHBAR;
-
-    private Button pause;
 
     public Level(Texture map, TiledMap tiledmap) {
 
@@ -490,9 +487,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (!isGameOver)
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 
-            isPaused = !isPaused;
+                isPaused = !isPaused;
 
-        }
+            }
 
         if (isPaused) {
             homeB.setVisible(true);
@@ -562,9 +559,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         }
 
-        }
-
-        if (!isPaused && !isGameOver){
+        if (!isPaused && !isGameOver) {
             Iterator<Enemy> i = enemies.iterator();
 
             while (i.hasNext()) {
@@ -605,7 +600,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (!isPaused && !isGameOver)
             overlaystage.act(delta);
         overlaystage.draw();
-
 
         pauseStage.getViewport().apply();
         pauseStage.act(delta);
