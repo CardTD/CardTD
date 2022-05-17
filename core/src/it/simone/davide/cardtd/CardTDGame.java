@@ -93,6 +93,9 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.FirstMapSound, Music.class);
 
         assetManager.load(StaticVariables.ROCK, Texture.class);
+        assetManager.load(StaticVariables.HealtBarD, Texture.class);
+        assetManager.load(StaticVariables.HealtBarL, Texture.class);
+        assetManager.load(StaticVariables.HealtBarM, Texture.class);
 
         //load font for the title
         FontType.loadFonts();

@@ -3,33 +3,29 @@ package it.simone.davide.cardtd.classes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Music;
-import it.simone.davide.cardtd.CardTDGame;
-import it.simone.davide.cardtd.StaticVariables;
-import it.simone.davide.cardtd.screens.MainMenu;
 
 public class Options {
 
-    Music music;
-    float fxVolume;
-    float audioVolume;
+    private Music music;
+    private float fxVolume;
+    private float audioVolume;
 
     public Options() {
         Preferences prefs = Gdx.app.getPreferences("Options");
-        if (prefs.contains("Music"))
-            audioVolume = prefs.getFloat("Music");
-        else
-            audioVolume = 0.5f;
+        if (prefs.contains("Music")) audioVolume = prefs.getFloat("Music");
+        else audioVolume = 0.5f;
         fxVolume = prefs.getFloat("FX");
     }
 
     public void setVolume(float audioVolume) {
+        this.audioVolume = audioVolume;
         music.setVolume(audioVolume);
         setVolumePref();
     }
 
     public void setVolumePref() {
         Preferences prefs = Gdx.app.getPreferences("Options");
-        prefs.putFloat("Music", music.getVolume());
+        prefs.putFloat("Music", getVolume());
         prefs.putFloat("FX", fxVolume);
         prefs.flush();
     }
@@ -37,8 +33,7 @@ public class Options {
 
     public void setMusic(Music music) {
         if (this.music != music) {
-            if (this.music != null)
-                this.music.stop();
+            if (this.music != null) this.music.stop();
             this.music = music;
             this.music.setVolume(audioVolume);
             this.music.setLooping(true);
@@ -47,7 +42,7 @@ public class Options {
     }
 
     public float getVolume() {
-        return music.getVolume();
+        return audioVolume;
     }
 
     public float getFxVolume() {

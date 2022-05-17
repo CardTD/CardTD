@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import it.simone.davide.cardtd.CardTDGame;
+import it.simone.davide.cardtd.StaticVariables;
 
 public class HealthBar extends Image {
 
@@ -22,9 +24,9 @@ public class HealthBar extends Image {
         this.maxHealth = maxHealth;
         health = maxHealth;
 
-        NinePatch loadingBarBackgroundPatch = new NinePatch(new Texture(Gdx.files.internal("Sotto.png")), 5, 5, 4, 4);
-        NinePatch loadingBarPatch = new NinePatch(new Texture(Gdx.files.internal("mezzo.png")), 5, 5, 4, 4);
-        NinePatch sopra = new NinePatch(new Texture(Gdx.files.internal("Sopra.png")), 5, 5, 4, 4);
+        NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarD), 5, 5, 4, 4);
+        NinePatch loadingBarPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarM), 5, 5, 4, 4);
+        NinePatch sopra = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarL), 5, 5, 4, 4);
         loadingBar = new NinePatchDrawable(loadingBarPatch);
         loadingBarBackground = new NinePatchDrawable(loadingBarBackgroundPatch);
         sopraB = new NinePatchDrawable(sopra);
