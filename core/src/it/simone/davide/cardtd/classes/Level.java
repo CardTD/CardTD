@@ -34,6 +34,7 @@ import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
+import it.simone.davide.cardtd.classes.levels.FirstMap;
 import it.simone.davide.cardtd.enums.EnemyState;
 import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.fontmanagement.FontType;
@@ -60,7 +61,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private FrameBuffer fboA;
     private FrameBuffer fboB;
     private LabelAdapter PauseLabel;
-    private Button option, homeB, resume, pause;
+    private Button option, homeB, resume, pause, reload;
 
     private final Screen screen;
 
@@ -104,6 +105,23 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             }
         });
         pauseStage.addActor(resume);
+
+        TextureRegionDrawable reloadButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RELOADBUTTON));
+        TextureRegionDrawable reloadButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RELOADBUTTON_PRESSED));
+        reload = new Button(reloadButton, reloadButtonP);
+        reload.setSize(150, 150);
+        reload.setPosition(pauseStage.getWidth() / 2f - reload.getWidth() / 2 + 100, pauseStage.getHeight() / 2f - reload.getHeight() / 2);
+        reload.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                CardTDGame.INSTANCE.setScreen(new FirstMap(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
+
+            }
+        });
+        gameOverStage.addActor(reload);
 
         TextureRegionDrawable pauseButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON));
         TextureRegionDrawable pauseButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
@@ -445,6 +463,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         Gdx.input.setCatchKey(Input.Keys.ESCAPE, true);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
         i.addProcessor(gd);
+        i.addProcessor(gameOverStage);
         i.addProcessor(pauseStage);
         i.addProcessor(overlaystage);
         i.addProcessor(mainStage);
@@ -490,6 +509,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (isGameOver) {
             resume.setVisible(false);
             pause.setVisible(false);
+            reload.setVisible(true);
+            homeB.setVisible(true);
         } else if (isPaused) {
             homeB.setVisible(true);
             option.setVisible(true);
@@ -498,6 +519,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             PauseLabel.setVisible(true);
 
         } else {
+            reload.setVisible(false);
             homeB.setVisible(false);
             option.setVisible(false);
             pause.setVisible(true);

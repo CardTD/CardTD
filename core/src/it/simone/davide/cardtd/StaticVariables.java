@@ -24,6 +24,8 @@ public class StaticVariables {
     public static final String PAUSEBUTTON_PRESSED = "pausepressed.png";
     public static final String RESUMEBUTTON = "resume.png";
     public static final String RESUMEBUTTON_PRESSED = "resumepressed.png";
+    public static final String RELOADBUTTON = "reload.png";
+    public static final String RELOADBUTTON_PRESSED = "reloadpressed.png";
     public static final String OPTIONBUTTON = "optionbutton.png";
     public static final String OPTIONBUTTON_PRESSED = "optionbuttonpressed.png";
     public static final String HOMEBUTTON = "home.png";
@@ -31,7 +33,7 @@ public class StaticVariables {
 
 
     public static final String FIRSTMAP = "mappa1.png";
-    public static final String PLACEDTOWER_PNG = "placedtower.png";
+    public static final String PLACEDTOWER_PNG = "Terza Torre.png";
     public static final String TMXMAP = "mappa1.tmx";
     public static final String MAP_OVERLAY = "Overlay Mappa.png";
 

@@ -56,6 +56,8 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.PAUSEBUTTON_PRESSED, Texture.class);
         assetManager.load(StaticVariables.RESUMEBUTTON, Texture.class);
         assetManager.load(StaticVariables.RESUMEBUTTON_PRESSED, Texture.class);
+        assetManager.load(StaticVariables.RELOADBUTTON, Texture.class);
+        assetManager.load(StaticVariables.RELOADBUTTON_PRESSED, Texture.class);
         assetManager.load(StaticVariables.OPTIONBUTTON, Texture.class);
         assetManager.load(StaticVariables.OPTIONBUTTON_PRESSED, Texture.class);
         assetManager.load(StaticVariables.HOMEBUTTON, Texture.class);
