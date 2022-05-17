@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -64,7 +65,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private FrameBuffer fboA;
     private FrameBuffer fboB;
     private LabelAdapter PauseLabel;
-    private Button option;
+    private Button option, homeB, resume, pause;
 
     private final Screen screen;
 
@@ -95,6 +96,22 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         pauseStage = new Stage(new ScreenViewport());
         gameOverStage = new Stage(new ScreenViewport());
 
+        TextureRegionDrawable resumeButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RESUMEBUTTON));
+        TextureRegionDrawable resumeButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
+        resume = new Button(resumeButton, resumeButtonP);
+        resume.setSize(100, 100);
+        resume.setPosition(pauseStage.getWidth() - 150, pauseStage.getHeight() - 150);
+        resume.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                isPaused = !isPaused;
+            }
+        });
+        pauseStage.addActor(resume);
+
         TextureRegionDrawable pauseButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON));
         TextureRegionDrawable pauseButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
         pause = new Button(pauseButton, pauseButtonP);
@@ -124,19 +141,35 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         TextureRegionDrawable optionButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON));
         TextureRegionDrawable optionButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON_PRESSED));
         option = new Button(optionButton, optionButtonP);
-        option.setSize(100, 100);
-        option.setPosition(pauseStage.getWidth() / 2f - option.getWidth() / 2, pauseStage.getHeight() / 2f - option.getHeight() / 2);
+        option.setSize(150, 150);
+        option.setPosition(pauseStage.getWidth() / 2f - option.getWidth() / 2 + 100, pauseStage.getHeight() / 2f - option.getHeight() / 2);
         option.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-
                 CardTDGame.INSTANCE.setScreen(new OptionsMenu(screen));
 
             }
         });
         pauseStage.addActor(option);
+
+        TextureRegionDrawable homeButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.HOMEBUTTON));
+        TextureRegionDrawable homeButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.HOMEBUTTON_PRESSED));
+        homeB = new Button(homeButton, homeButtonP);
+        homeB.setSize(150, 150);
+        homeB.setPosition(pauseStage.getWidth() / 2f - homeB.getWidth() / 2 - 100, pauseStage.getHeight() / 2f - homeB.getHeight() / 2);
+        homeB.addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                CardTDGame.INSTANCE.setScreen(new MainMenu());
+
+            }
+        });
+        pauseStage.addActor(homeB);
 
         overlaystage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         overlaystage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.MAP_OVERLAY)));
@@ -457,15 +490,22 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (!isGameOver)
             if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 
-                isPaused = !isPaused;
+            isPaused = !isPaused;
 
-            }
+        }
+
         if (isPaused) {
+            homeB.setVisible(true);
             option.setVisible(true);
+            pause.setVisible(false);
+            resume.setVisible(true);
             PauseLabel.setVisible(true);
 
         } else {
+            homeB.setVisible(false);
             option.setVisible(false);
+            pause.setVisible(true);
+            resume.setVisible(false);
             PauseLabel.setVisible(false);
 
         }
@@ -510,13 +550,21 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 s.end();
             }
 
+            if (showEnemyCenter) {
+                s.begin(ShapeType.Line);
+                s.circle(e.getCenter().x, e.getCenter().y, 10);
+                s.end();
+            }
+
             if (!isPaused && !isGameOver)
                 if (attackCheck(e, tileManager.getToProtect()))
                     e.setCurrentState(EnemyState.ATTACK);
 
         }
 
-        if (!isPaused && !isGameOver) {
+        }
+
+        if (!isPaused && !isGameOver){
             Iterator<Enemy> i = enemies.iterator();
 
             while (i.hasNext()) {
@@ -557,6 +605,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (!isPaused && !isGameOver)
             overlaystage.act(delta);
         overlaystage.draw();
+
 
         pauseStage.getViewport().apply();
         pauseStage.act(delta);

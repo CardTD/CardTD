@@ -55,7 +55,7 @@ public class OptionsMenu implements Screen {
         LabelAdapter MusicSlider = new LabelAdapter("Music", FontType.LOGO);
         MusicSlider.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2);
         LabelAdapter FxSlider = new LabelAdapter("FX", FontType.LOGO);
-        FxSlider.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2-200);
+        FxSlider.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2 - 200);
         LabelAdapter button_on_off = new LabelAdapter("Options", FontType.LOGO);
         button_on_off.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - button_on_off.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - button_on_off.getHeight() / 2 + 200);
 
@@ -93,12 +93,10 @@ public class OptionsMenu implements Screen {
 
         audioSlider.setPosition(StaticVariables.SCREEN_WIDTH - 500, StaticVariables.SCREEN_HEIGHT - 500);
         audioSlider.setPosition((StaticVariables.SCREEN_WIDTH / 2f - audioSlider.getWidth() / 2) + 200, StaticVariables.SCREEN_HEIGHT / 2f - audioSlider.getHeight() / 2);
-        //audioSlider.setPosition(StaticVariables.SCREEN_WIDTH - 120, StaticVariables.SCREEN_HEIGHT - 120);
         stage.addActor(audioSlider);
 
         fxSlider.setPosition(StaticVariables.SCREEN_WIDTH - 500, StaticVariables.SCREEN_HEIGHT - 500);
         fxSlider.setPosition((StaticVariables.SCREEN_WIDTH / 2f - fxSlider.getWidth() / 2) + 200, StaticVariables.SCREEN_HEIGHT / 2f - fxSlider.getHeight() / 2 - 200);
-        //audioSlider.setPosition(StaticVariables.SCREEN_WIDTH - 120, StaticVariables.SCREEN_HEIGHT - 120);
         stage.addActor(fxSlider);
 
 
@@ -106,7 +104,7 @@ public class OptionsMenu implements Screen {
         TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
         Button back = new Button(b, bp);
         back.setSize(80, 80);
-        back.setPosition(1180, 635);
+        back.setPosition(stage.getWidth() - 100, stage.getHeight() - 100);
         back.addListener(new ClickListener() {
 
             @Override
