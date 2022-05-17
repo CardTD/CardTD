@@ -25,7 +25,7 @@ public class FirstMap extends Level {
         super(map, tiledmap);
         final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
 
-        MainMenu.option.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
 
         Timer timer = new Timer();
         timer.scheduleTask(new Task() {

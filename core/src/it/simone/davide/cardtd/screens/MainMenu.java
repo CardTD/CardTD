@@ -47,7 +47,7 @@ public class MainMenu implements Screen {
     private final Stage fitstage;
 
     public static Deck playerDeck = new Deck(12);
-    public static Options option;
+    public static final Options OPTIONS = new Options();
 
     private static long getRandomLong(long min, long max) {
         Random rand = new Random();
@@ -62,11 +62,8 @@ public class MainMenu implements Screen {
     float y = getRandomLong(600, 800), time = nextFloat(10, 20);
 
     public MainMenu() {
-        if(option == null) {
-            option = new Options();
-        }
 
-        MainMenu.option.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));

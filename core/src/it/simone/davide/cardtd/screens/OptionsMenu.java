@@ -1,15 +1,11 @@
 package it.simone.davide.cardtd.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -21,16 +17,12 @@ import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import it.simone.davide.cardtd.classes.Options;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
-import jdk.internal.util.Preconditions;
 
 public class OptionsMenu implements Screen {
 
     SliderStyle uiSliderStyle = new SliderStyle();
-    float audioVolume, audioFxVolume;
-
     private Stage stage, backgroundStage;
     Skin skin, skinButton;
     Slider audioSlider, fxSlider;
@@ -66,27 +58,27 @@ public class OptionsMenu implements Screen {
         uiSliderStyle.knob = skin.getDrawable("sliderKnob");
 
         fxSlider = new Slider(0, 1, 0.005f, false, uiSliderStyle);
-        fxSlider.setVisualPercent(MainMenu.option.getFxVolume());
+        fxSlider.setVisualPercent(MainMenu.OPTIONS.getFxVolume());
 
         fxSlider.addListener(
                 new ChangeListener() {
                     //@Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        audioFxVolume = fxSlider.getValue();
-                        MainMenu.option.setFxVolume(audioFxVolume);
+
+                        MainMenu.OPTIONS.setFxVolume(fxSlider.getValue());
                     }
                 }
         );
 
         audioSlider = new Slider(0, 1, 0.005f, false, uiSliderStyle);
-        audioSlider.setVisualPercent(MainMenu.option.getVolume());
+        audioSlider.setVisualPercent(MainMenu.OPTIONS.getVolume());
 
         audioSlider.addListener(
                 new ChangeListener() {
                     //@Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        audioVolume = audioSlider.getValue();
-                        MainMenu.option.setVolume(audioVolume);
+
+                        MainMenu.OPTIONS.setVolume(audioSlider.getValue());
                     }
                 }
         );
@@ -173,7 +165,7 @@ public class OptionsMenu implements Screen {
 
     public void onExit(Screen backscreen) {
 
-        MainMenu.option.setVolumePref();
+        MainMenu.OPTIONS.setVolumePref();
         CardTDGame.INSTANCE.setScreen(backscreen);
     }
 }
