@@ -65,8 +65,9 @@ public class StaticVariables {
     public static final String BackgroundMusic = "Background.wav";
     public static final String FirstMapSound = "FirstMapSound.mp3";
     public static final String HealtBarD = "Sotto.png";
-    public static final String HealtBarM = "mezzo.png";
-    public static final String HealtBarL = "Sopra.png";
+    public static final String HealtBarM =  "mezzo.png";
+    public static final String HealtBarL =  "Sopra.png";
+    public static final String GAMEOVERVOICE =  "gameover.mp3";
 
     public static final Card BLANK_CARD;
 

@@ -4,7 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -193,7 +198,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         coin.setPosition(580, 10);
         overlaystage.addActor(coin);
 
-        HEALTHBAR = new HealthBar(100);
+        HEALTHBAR = new HealthBar(10);
 
         HEALTHBAR.setPosition(920, 8);
         HEALTHBAR.scaleBy(0.1f);
@@ -631,7 +636,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         if (HEALTHBAR.isDead()) {
             isGameOver = true;
-
+            Music c = ((Music) CardTDGame.assetManager.get(StaticVariables.GAMEOVERVOICE));
+            c.setVolume(MainMenu.OPTIONS.getFxVolume());
+            c.setLooping(false);
+            c.play();
         }
 
     }
