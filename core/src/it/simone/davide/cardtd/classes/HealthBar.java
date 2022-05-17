@@ -4,15 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 
 public class HealthBar extends Image {
 
-    private NinePatchDrawable loadingBarBackground, loadingBar, sopraB;
+    private NinePatchDrawable loadingBarBackground, sopraB;
+    private TextureRegion loadingBarPatch;
 
     private float health;
     private float maxHealth;
@@ -25,9 +26,12 @@ public class HealthBar extends Image {
         health = maxHealth;
 
         NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarD), 5, 5, 4, 4);
-        NinePatch loadingBarPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarM), 5, 5, 4, 4);
+
+        Texture texture = CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarM);
+        loadingBarPatch = new TextureRegion(texture);
+
         NinePatch sopra = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarL), 5, 5, 4, 4);
-        loadingBar = new NinePatchDrawable(loadingBarPatch);
+
         loadingBarBackground = new NinePatchDrawable(loadingBarBackgroundPatch);
         sopraB = new NinePatchDrawable(sopra);
     }
@@ -37,7 +41,13 @@ public class HealthBar extends Image {
 
         loadingBarBackground.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
 
-        loadingBar.draw(batch, getX(), getY(), progress * getWidth() * getScaleX(), getHeight() * getScaleY());
+        TextureRegion[][] l = loadingBarPatch.split(1, (int) getHeight());
+
+        for (int i = 0; i < getWidth() * progress; i++) {
+            TextureRegion s = l[0][i];
+            batch.draw(s, (s.getRegionX() + getX()), (s.getRegionY() + getY()), s.getRegionWidth(), s.getRegionHeight());
+
+        }
         sopraB.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
 
     }
@@ -48,8 +58,6 @@ public class HealthBar extends Image {
             health = 0;
         }
         progress = health / maxHealth;
-        if(progress==0)
-            progress=0.01f;
 
     }
 

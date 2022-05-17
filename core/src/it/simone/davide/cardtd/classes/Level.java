@@ -201,7 +201,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         HEALTHBAR = new HealthBar(10);
 
         HEALTHBAR.setPosition(920, 8);
-        HEALTHBAR.scaleBy(0.1f);
+
         overlaystage.addActor(HEALTHBAR);
 
         gameCam.setToOrtho(false, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
@@ -635,11 +635,16 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         gameOverStage.draw();
 
         if (HEALTHBAR.isDead()) {
+            boolean f =isGameOver;
             isGameOver = true;
-            Music c = ((Music) CardTDGame.assetManager.get(StaticVariables.GAMEOVERVOICE));
-            c.setVolume(MainMenu.OPTIONS.getFxVolume());
-            c.setLooping(false);
-            c.play();
+            if(f!=true){
+                Music c = (CardTDGame.assetManager.get(StaticVariables.GAMEOVERVOICE));
+                c.setVolume(MainMenu.OPTIONS.getFxVolume());
+                c.setLooping(false);
+                c.play();
+
+            }
+
         }
 
     }
