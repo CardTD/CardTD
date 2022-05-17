@@ -365,7 +365,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void dragStart(InputEvent event, float x, float y, int pointer) {
                     super.dragStart(event, x, y, pointer);
-                    if (!isPaused) {
+                    if (!isPaused && !isGameOver) {
                         Card c = ((Card) event.getTarget());
 
                         if (!c.isSelected() && selectedCard == null) {
@@ -383,7 +383,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
-                    if (!isPaused) {
+                    if (!isPaused && !isGameOver) {
                         if (building != null && selectedCard == null) {
 
                             building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
@@ -403,7 +403,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     super.dragStop(event, x, y, pointer);
-                    if (!isPaused) {
+                    if (!isPaused && !isGameOver) {
                         Card c = ((Card) event.getTarget());
                         if (building != null && selectedCard == null) {
 
@@ -680,7 +680,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (!isPaused) {
+        if (!isPaused && !isGameOver) {
             if (selectedCard == null && !isCardDragging) {
                 gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
                 gameCam.update();
@@ -704,7 +704,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        if (!isPaused) {
+        if (!isPaused && !isGameOver) {
             if (selectedCard == null && !isCardDragging) {
                 gameCam.zoom = (initialDistance / distance) * currentZoom;
                 if (gameCam.zoom < 0.65f)
@@ -731,7 +731,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-        if (!isPaused) {
+        if (!isPaused && !isGameOver) {
             currentZoom = gameCam.zoom;
             gameCam.update();
         }
