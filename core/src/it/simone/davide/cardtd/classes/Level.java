@@ -4,11 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -491,11 +487,14 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
             }
 
-        if (isPaused) {
+        if (isGameOver) {
+            resume.setVisible(false);
+            pause.setVisible(false);
+        } else if (isPaused) {
             homeB.setVisible(true);
             option.setVisible(true);
-            pause.setVisible(false);
             resume.setVisible(true);
+            pause.setVisible(false);
             PauseLabel.setVisible(true);
 
         } else {
@@ -506,7 +505,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             PauseLabel.setVisible(false);
 
         }
-        pause.setVisible(!isGameOver);
 
         if (isGameOver || isPaused) {
 
