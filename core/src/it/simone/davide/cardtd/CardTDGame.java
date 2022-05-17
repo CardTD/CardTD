@@ -6,7 +6,9 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
@@ -80,7 +82,6 @@ public class CardTDGame extends Game {
 
         assetManager.load(StaticVariables.TOWER, Texture.class);
 
-     
         assetManager.load(StaticVariables.SliderBackground, Texture.class);
         assetManager.load(StaticVariables.SliderKnob, Texture.class);
         assetManager.load(StaticVariables.BackgroundMusic, Music.class);
@@ -88,9 +89,30 @@ public class CardTDGame extends Game {
 
         assetManager.load(StaticVariables.ROCK, Texture.class);
 
-
         //load font for the title
         FontType.loadFonts();
 
+    }
+
+    public static Animation loadAnimation(Texture texture, int rows, int cols) {
+
+        return loadAnimation(texture, rows, cols, 0.2f);
+    }
+
+    public static Animation loadAnimation(Texture texture, int rows, int cols, float frameDuration) {
+
+        TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
+                cols, texture.getHeight() / rows);
+
+        TextureRegion[] frames = new TextureRegion[cols * rows];
+        int index = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                frames[index++] = tmp[i][j];
+            }
+        }
+        Animation<TextureRegion> anim = new Animation<>(frameDuration, frames);
+
+        return anim;
     }
 }

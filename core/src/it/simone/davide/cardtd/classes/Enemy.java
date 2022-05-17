@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.enums.EnemyState;
 
 import java.util.HashMap;
@@ -170,7 +171,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
         int oldHp = hp;
         hp -= damage;
-        Level.print(oldHp+"", hp+"");
+        Level.print(oldHp + "", hp + "");
         if (oldHp > 0 && hp <= 0) {
 
             die();
@@ -193,19 +194,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     public void loadAnimation(Texture texture, int rows, int cols, EnemyState enemyState) {
 
-        TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
-                cols, texture.getHeight() / rows);
-
-        TextureRegion[] frames = new TextureRegion[cols * rows];
-        int index = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                frames[index++] = tmp[i][j];
-            }
-        }
-        Animation<TextureRegion> anim = new Animation<>(0.2f, frames);
-
-        animations.put(enemyState, anim);
+        animations.put(enemyState, CardTDGame.loadAnimation(texture, rows, cols));
     }
 
     public void die() {

@@ -117,7 +117,6 @@ public class Build extends Image {
             Bullet bullet = b.next();
 
             somma += bullet.hitEnemies(enemies, damage);
-            System.out.println("som,o" + somma);
             if (!getStage().getActors().contains(bullet, true)) {
                 b.remove();
             }

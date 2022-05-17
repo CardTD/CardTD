@@ -15,6 +15,7 @@ public class SpiritBoxer extends Enemy {
     public Enemy clone() {
         return new SpiritBoxer(getHp(), getDamage(), getSpeed(), getMoneyonkill(), getAttackDimension());
     }
+
     @Override
     public void loadAnimations() {
         int rows = 4, cols = 1;
@@ -51,5 +52,7 @@ public class SpiritBoxer extends Enemy {
     }
 
     @Override
-    public float getFrameWidth(){return 137;}
+    public float getFrameWidth() {
+        return 137;
+    }
 }

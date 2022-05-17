@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -138,7 +137,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         balancaText = new LabelAdapter(balance + "", FontType.MONEY);
         balancaText.toStage(overlaystage, 640, 9);
 
-        loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1);
+        coin = new AnimatedImage(CardTDGame.loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1));
+
         coin.scaleBy(-0.75f);
         coin.setPosition(580, 10);
         overlaystage.addActor(coin);
@@ -233,8 +233,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 }
 
             }
-
-            //TODO elimina tutti i changepostion utilizzati
 
         });
 
@@ -392,29 +390,11 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (addBalance != 0) {
 
             balance += addBalance;
-print("la nuova balance è ", balance+"");
+            print("la nuova balance è ", balance + "");
             balancaText.setText(balance);
 
         }
 
-    }
-
-    //TODO Make it static
-    public void loadAnimation(Texture texture, int rows, int cols) {
-
-        TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
-                cols, texture.getHeight() / rows);
-
-        TextureRegion[] frames = new TextureRegion[cols * rows];
-        int index = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                frames[index++] = tmp[i][j];
-            }
-        }
-        Animation<TextureRegion> anim = new Animation<>(0.2f, frames);
-
-        coin = new AnimatedImage(anim);
     }
 
     @Override

@@ -5,9 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-public class AnimatedImage extends Image
-{
-    //TODO make enemy extends it
+public class AnimatedImage extends Image {
+
     protected Animation animation = null;
     private float stateTime = 0;
 
@@ -17,9 +16,8 @@ public class AnimatedImage extends Image
     }
 
     @Override
-    public void act(float delta)
-    {
-        ((TextureRegionDrawable)getDrawable()).setRegion((TextureRegion) animation.getKeyFrame(stateTime+=delta*2, true));
+    public void act(float delta) {
+        ((TextureRegionDrawable) getDrawable()).setRegion((TextureRegion) animation.getKeyFrame(stateTime += delta * 2, true));
         super.act(delta);
     }
 }
