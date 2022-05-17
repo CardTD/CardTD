@@ -32,6 +32,7 @@ public class Options {
         prefs.putFloat("FX", fxVolume);
         prefs.flush();
     }
+
     //TODO Menù di pausa in game, balance, vita del castello, Interfaccia della partita, modificare le torri (skin e animazioni), FX(?), PinchToZoom, fuoriscena,creare le wave
 
     public void setMusic(Music music) {

@@ -128,6 +128,12 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     break;
 
                 case ATTACK:
+                    if (animations.get(EnemyState.ATTACK).isAnimationFinished(time)) {
+
+                        Level.HEALTHBAR.damage(damage);
+                        time=0;
+                    }
+
                     currentRegion = animations.get(EnemyState.ATTACK).getKeyFrame(time, true);
                     break;
 
@@ -171,12 +177,10 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
         int oldHp = hp;
         hp -= damage;
-        Level.print(oldHp + "", hp + "");
         if (oldHp > 0 && hp <= 0) {
 
             die();
 
-            Level.print("Enemy died");
             return true;
         } else {
 

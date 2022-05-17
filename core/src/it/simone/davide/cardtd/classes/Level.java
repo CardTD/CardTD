@@ -51,13 +51,12 @@ import java.util.List;
 
 public abstract class Level implements Screen, GestureDetector.GestureListener {
     private static final float WORLD_TO_SCREEN = 1.0f / 100.0f;
-    protected final Stage mainStage, fillstage, overlaystage, pauseStage;
-    private AnimatedImage coin;
+    protected final Stage mainStage, fillstage, overlaystage, pauseStage, gameOverStage;
     protected TileManager tileManager;
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
     private Card selectedCard;
-    private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false, isPaused = false;
+    private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false, isPaused = false, isGameOver = false;
     private OrthographicCamera gameCam = new OrthographicCamera();
     private float currentZoom = 1;
     Build building;
@@ -71,7 +70,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     private int balance;
     private int iniTialbalance;
-    private LabelAdapter balancaText;
+    private LabelAdapter balancaText, gameOverLabel;
+    public static HealthBar HEALTHBAR;
+
+    private Button pause;
 
     public Level(Texture map, TiledMap tiledmap) {
 
@@ -91,10 +93,11 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         shader.setUniformf("resolution", StaticVariables.SCREEN_WIDTH);
 
         pauseStage = new Stage(new ScreenViewport());
+        gameOverStage = new Stage(new ScreenViewport());
 
         TextureRegionDrawable pauseButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON));
         TextureRegionDrawable pauseButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
-        Button pause = new Button(pauseButton, pauseButtonP);
+        pause = new Button(pauseButton, pauseButtonP);
         pause.setSize(100, 100);
         pause.setPosition(pauseStage.getWidth() - 150, pauseStage.getHeight() - 150);
         pause.addListener(new ClickListener() {
@@ -114,6 +117,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             }
         });
         pauseStage.addActor(pause);
+
+        gameOverLabel = new LabelAdapter("GAME OVER", FontType.LOGO);
+        gameOverLabel.toStage(gameOverStage, gameOverStage.getWidth() / 2f - gameOverLabel.getWidth() / 2, gameOverStage.getHeight() / 2f - gameOverLabel.getHeight() / 2 + 200);
 
         TextureRegionDrawable optionButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON));
         TextureRegionDrawable optionButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON_PRESSED));
@@ -137,11 +143,18 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         balancaText = new LabelAdapter(balance + "", FontType.MONEY);
         balancaText.toStage(overlaystage, 640, 9);
 
-        coin = new AnimatedImage(CardTDGame.loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1));
+        AnimatedImage coin = new AnimatedImage(CardTDGame.loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1));
 
         coin.scaleBy(-0.75f);
         coin.setPosition(580, 10);
         overlaystage.addActor(coin);
+
+        HEALTHBAR = new HealthBar(100);
+
+        HEALTHBAR.setPosition(920, 8);
+        HEALTHBAR.scaleBy(0.1f);
+        overlaystage.addActor(HEALTHBAR);
+
         gameCam.setToOrtho(false, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT);
         mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, gameCam));
         mainStage.addActor(new Image(map));
@@ -241,6 +254,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             Card c = MainMenu.playerDeck.getCard(i).clone();
             c.scaleBy(-0.3f);
             c.setPosition(15 + ((c.getWidth() * 0.7f) * i + 20 * i), 12);
+
             overlaystage.addActor(c);
 
             c.addListener(new ClickListener() {
@@ -440,36 +454,45 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public void render(float delta) {
+        if (!isGameOver)
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+                isPaused = !isPaused;
 
-            isPaused = !isPaused;
-
-        }
-
+            }
         if (isPaused) {
             option.setVisible(true);
             PauseLabel.setVisible(true);
-            blur(fillstage);
-            blur(mainStage);
-            blur(overlaystage);
 
         } else {
             option.setVisible(false);
             PauseLabel.setVisible(false);
+
+        }
+        pause.setVisible(!isGameOver);
+
+        if (isGameOver || isPaused) {
+
+            blur(overlaystage);
+            blur(fillstage);
+            blur(mainStage);
+        } else {
             fillstage.getBatch().setShader(null);
             mainStage.getBatch().setShader(null);
             overlaystage.getBatch().setShader(null);
+
         }
 
+        gameOverLabel.setVisible(isGameOver);
+
         fillstage.getViewport().apply();
-        if (!isPaused)
+        if (!isPaused && !isGameOver)
             fillstage.act(delta);
         fillstage.draw();
 
         mainStage.getViewport().apply();
 
-        if (!isPaused)
+        if (!isPaused && !isGameOver)
             mainStage.act(delta);
         mainStage.draw();
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -487,13 +510,13 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 s.end();
             }
 
-            if (!isPaused)
+            if (!isPaused && !isGameOver)
                 if (attackCheck(e, tileManager.getToProtect()))
                     e.setCurrentState(EnemyState.ATTACK);
 
         }
 
-        if (!isPaused) {
+        if (!isPaused && !isGameOver) {
             Iterator<Enemy> i = enemies.iterator();
 
             while (i.hasNext()) {
@@ -531,13 +554,22 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         }
 
         overlaystage.getViewport().apply();
-        if (!isPaused)
+        if (!isPaused && !isGameOver)
             overlaystage.act(delta);
         overlaystage.draw();
 
         pauseStage.getViewport().apply();
         pauseStage.act(delta);
         pauseStage.draw();
+
+        gameOverStage.getViewport().apply();
+        gameOverStage.act(delta);
+        gameOverStage.draw();
+
+        if (HEALTHBAR.isDead()) {
+            isGameOver = true;
+
+        }
 
     }
 
@@ -645,9 +677,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     public static void print(String... s) {
 
-        String r = "";
+        StringBuilder r = new StringBuilder();
         for (String a : s) {
-            r += a + ", ";
+            r.append(a).append(", ");
 
         }
         System.out.println(r);
