@@ -5,7 +5,11 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.enums.BulletType;
 
@@ -26,9 +30,11 @@ public class Build extends Image {
     private float time = 0;
     private boolean isPlaced = false;
     private final int damage;
+    private Build instance;
 
     public Build(Texture texture, BulletType bulletType, int attackRange, float attackSpeed, int damage, int x, int y) {
         super(texture);
+        instance = this;
         this.texture = texture;
         this.bulletType = bulletType;
         bullet = (Bullet) ((Bullet) GameObjects.BULLETS.get(bulletType)).clone();
@@ -62,6 +68,25 @@ public class Build extends Image {
 
     public void place() {
         isPlaced = true;
+
+        addListener(new ClickListener() {
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                Timer timer = new Timer();
+                timer.scheduleTask(new Task() {
+                    @Override
+                    public void run() {
+
+                        Level.SELECTEDBUILDING = instance;
+                    }
+                }, 0.01f);
+
+            }
+        });
+
     }
 
     public void setTarget(Enemy target) {
@@ -76,9 +101,7 @@ public class Build extends Image {
             super.act(delta);
             time += delta;
 
-
             if (target != null) {
-
 
                 if (target.isDead()) {
                     target = null;
@@ -90,7 +113,6 @@ public class Build extends Image {
                     return;
                 }
 
-
                 if (time > attackSpeed) {
 
                     time = 0;
@@ -100,10 +122,8 @@ public class Build extends Image {
                     getStage().addActor(b);
                     bulletList.add(b);
 
-
                 }
             }
-
 
         }
 

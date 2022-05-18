@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
@@ -75,6 +76,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private LabelAdapter balancaText, gameOverLabel;
     public static HealthBar HEALTHBAR;
     private List<Card> cards = new ArrayList<>();
+    public static  Build SELECTEDBUILDING;
 
     public Level(Texture map, TiledMap tiledmap) {
 
@@ -276,6 +278,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
+
+                SELECTEDBUILDING= null;
 
                 if (!isPaused) {
 
@@ -521,6 +525,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         }
 
+
+
         if (isGameOver) {
             resume.setVisible(false);
             pause.setVisible(false);
@@ -570,6 +576,16 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         ShapeRenderer s = new ShapeRenderer();
         s.setProjectionMatrix(mainStage.getCamera().combined);
         if (showTiledMapElem) tileManager.render(s);
+
+
+        if(SELECTEDBUILDING!=null){
+            Circle b= SELECTEDBUILDING.getAttackRangeCircle();
+            s.begin(ShapeType.Filled);
+            s.setColor(0, 100 / 255f, 0, 0.5f);
+            s.circle(b.x, b.y, b.radius);
+            s.end();
+
+        }
 
         for (Enemy e : enemies) {
 
