@@ -179,7 +179,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     public boolean damage(float damage) {
 
 
-        System.out.println("Damage succhiami il cxazzo");
+
 
         int oldHp = hp;
         hp -= damage;
@@ -208,7 +208,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     }
 
     public void die() {
-        System.out.println("Speriamo che muoia");
+
         setCurrentState(EnemyState.DYING);
 
         hp = -1;

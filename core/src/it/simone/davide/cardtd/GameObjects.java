@@ -43,10 +43,10 @@ public class GameObjects {
         BUILDINGS.put(BuildType.TOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.PLACEDTOWER_PNG), BulletType.ROCK, 200, 1f, 1, 0, 0));
 
         CARDS = new HashMap<>();
-        CARDS.put(CardType.TOWER, new Card("tower", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER));
-        CARDS.put(CardType.TOWER1, new Card("towerq", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER));
-        CARDS.put(CardType.TOWER2, new Card("tower2", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER));
-        CARDS.put(CardType.TOWER3, new Card("tower3", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER));
+        CARDS.put(CardType.TOWER, new Card("tower", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER,100));
+        CARDS.put(CardType.TOWER1, new Card("towerq", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER,100));
+        CARDS.put(CardType.TOWER2, new Card("tower2", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER,100));
+        CARDS.put(CardType.TOWER3, new Card("tower3", CardTDGame.assetManager.<Texture>get(StaticVariables.TOWER), BuildType.TOWER,100));
 
     }
 

@@ -75,7 +75,7 @@ public class StaticVariables {
 
     static {
         Texture i = CardTDGame.assetManager.get(CARDSLOT);
-        BLANK_CARD = new Card("blank", i, null);
+        BLANK_CARD = new Card("blank", i, null,0);
 
     }
 

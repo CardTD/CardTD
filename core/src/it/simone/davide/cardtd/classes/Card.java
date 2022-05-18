@@ -14,8 +14,9 @@ public class Card extends Image implements Cloneable {
     private boolean isSelected = false;
     private Build build;
     private BuildType buildType;
+    private Color defColor;
 
-    public Card(String name, Texture cardtexture, BuildType buildType) {
+    public Card(String name, Texture cardtexture, BuildType buildType, int cost) {
         super(cardtexture);
         this.name = name;
         this.cardTexture = cardtexture;
@@ -23,6 +24,8 @@ public class Card extends Image implements Cloneable {
         this.buildType = buildType;
         setSize(100, 150);
         build = GameObjects.BUILDINGS.get(buildType);
+        Color c = getColor();
+        defColor = new Color(c.r, c.r, c.b, c.a);
 
     }
 
@@ -73,11 +76,11 @@ public class Card extends Image implements Cloneable {
     @Override
     public Card clone() {
 
-        return new Card(name, cardTexture, buildType);
+        return new Card(name, cardTexture, buildType, cost);
     }
 
     public Card getHoverCard() {
-        Card x = new Card(name, cardTexture, buildType);
+        Card x = new Card(name, cardTexture, buildType, cost);
 
         x.getColor().a = 0.5f;
 
@@ -88,7 +91,6 @@ public class Card extends Image implements Cloneable {
     public String getName() {
         return name;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -116,5 +118,27 @@ public class Card extends Image implements Cloneable {
 
     public int getCost() {
         return cost;
+    }
+
+    public boolean isCanBuy(int balance) {
+
+        boolean t = balance >= cost;
+
+        setCanBuy(t);
+        return t;
+    }
+
+    public void setCanBuy(boolean canBuy) {
+
+        float s = 0.5f;
+        if (canBuy) {
+
+            setColor(defColor.r + s, defColor.g + s, defColor.b + s, getColor().a);
+
+        } else {
+            setColor(defColor.r - s, defColor.g - s, defColor.b - s, getColor().a);
+
+        }
+
     }
 }

@@ -82,11 +82,12 @@ public class Build extends Image {
 
                 if (target.isDead()) {
                     target = null;
+                    return;
                 }
 
                 if (!Intersector.overlaps(getAttackRangeCircle(), target.getRectangle())) {
                     target = null;
-
+                    return;
                 }
 
 
@@ -134,5 +135,9 @@ public class Build extends Image {
 
         return new Build(texture, bulletType, (int) attackRange, attackSpeed, damage, (int) getX(), (int) getY());
 
+    }
+
+    public float getAttackRange() {
+        return attackRange;
     }
 }
