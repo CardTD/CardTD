@@ -104,8 +104,20 @@ public class TileManager {
         if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x+B.width, B.y+B.height))
             return true;
 
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth()/2 , B.y))
+            return true;
 
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x, B.y + B.getHeight()/2))
+            return true;
 
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth()/2, B.y + B.getHeight()/2))
+            return true;
+
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth(), B.y + B.getHeight()/2))
+            return true;
+
+        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth()/2, B.y + B.getHeight()))
+            return true;
 
         return false;
     }

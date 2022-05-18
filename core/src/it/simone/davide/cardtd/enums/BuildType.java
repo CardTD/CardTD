@@ -1,5 +1,8 @@
 package it.simone.davide.cardtd.enums;
 
 public enum BuildType {
-    TOWER
+    FIRETOWER,
+    ELLETTROTOWER,
+    LASERTOWER,
+    SNOWTOWER
 }

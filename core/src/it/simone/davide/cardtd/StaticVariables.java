@@ -33,7 +33,6 @@ public class StaticVariables {
 
 
     public static final String FIRSTMAP = "mappa1.png";
-    public static final String PLACEDTOWER_PNG = "Terza Torre.png";
     public static final String TMXMAP = "mappa1.tmx";
     public static final String MAP_OVERLAY = "Overlay Mappa.png";
 
@@ -58,16 +57,25 @@ public class StaticVariables {
     public static final String COIN = "coin-sheet.png";
 
     public static final String ROCK = "bullet.png";
-    public static final String TOWER = "TerzaTorreCard.png";
+
+    public static final String FIRETOWERCARD = "FireTower.png";
+    public static final String ELETTROTOWERCARD = "ElettroTower.png";
+    public static final String LASERTOWERCARD = "LaserTower.png";
+    public static final String SNOWTOWERCARD = "SnowTower.png";
+
+    public static final String FIRETOWERPLACED = "FireTowerPlaced.png";
+    public static final String ELETTROTOWERPLACED = "ElettroTowerPlaced.png";
+    public static final String LASERTOWERPLACED = "LaserTowerPlaced.png";
+    public static final String SNOWTOWERPLACED = "SnowTowerPlaced.png";
 
     public static final String SliderBackground = "slider-Back.png";
     public static final String SliderKnob = "slider-dot.png";
     public static final String BackgroundMusic = "Background.wav";
     public static final String FirstMapSound = "FirstMapSound.mp3";
     public static final String HealtBarD = "Sotto.png";
-    public static final String HealtBarM =  "mezzo.png";
-    public static final String HealtBarL =  "Sopra.png";
-    public static final String GAMEOVERVOICE =  "gameover.mp3";
+    public static final String HealtBarM = "mezzo.png";
+    public static final String HealtBarL = "Sopra.png";
+    public static final String GAMEOVERVOICE = "gameover.mp3";
 
     public static final Card BLANK_CARD;
 
@@ -75,7 +83,7 @@ public class StaticVariables {
 
     static {
         Texture i = CardTDGame.assetManager.get(CARDSLOT);
-        BLANK_CARD = new Card("blank", i, null,0);
+        BLANK_CARD = new Card("blank", i, null, 0);
 
     }
 

@@ -391,7 +391,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                     super.dragStart(event, x, y, pointer);
                     if (!isPaused && !isGameOver) {
                         Card c = ((Card) event.getTarget());
-
+                        if (c.isCanBuy(balance))
                         if (!c.isSelected() && selectedCard == null) {
 
                             building = c.getBuild().clone();
@@ -440,6 +440,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                             } else {
                                 building.setColor(Color.WHITE);
                                 building.place();
+                                updateBalance(-c.getCost());
 
                             }
                             isCardDragging = false;
@@ -757,7 +758,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             r.append(a).append(", ");
 
         }
-        System.out.println(r);
 
     }
 

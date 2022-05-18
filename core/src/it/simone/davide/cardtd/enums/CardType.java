@@ -1,5 +1,5 @@
 package it.simone.davide.cardtd.enums;
 
 public enum CardType {
-    TOWER, TOWER1,TOWER2,TOWER3
+    FIRE_TOWER, ELETTRO_TOWER, LASER_TOWER, SNOW_TOWER
 }

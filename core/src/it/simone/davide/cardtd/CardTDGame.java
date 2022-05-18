@@ -64,7 +64,6 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.HOMEBUTTON_PRESSED, Texture.class);
 
         assetManager.load(StaticVariables.FIRSTMAP, Texture.class);
-        assetManager.load(StaticVariables.PLACEDTOWER_PNG, Texture.class);
         assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
         assetManager.load(StaticVariables.MAP_OVERLAY, Texture.class);
 
@@ -87,7 +86,17 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.SpiritBoxerDamaged, Texture.class);
         assetManager.load(StaticVariables.COIN, Texture.class);
 
-        assetManager.load(StaticVariables.TOWER, Texture.class);
+       // assetManager.load(StaticVariables.TOWER, Texture.class);
+
+        assetManager.load(StaticVariables.FIRETOWERCARD, Texture.class);
+        assetManager.load(StaticVariables.ELETTROTOWERCARD, Texture.class);
+        assetManager.load(StaticVariables.LASERTOWERCARD, Texture.class);
+        assetManager.load(StaticVariables.SNOWTOWERCARD, Texture.class);
+
+        assetManager.load(StaticVariables.FIRETOWERPLACED, Texture.class);
+        assetManager.load(StaticVariables.ELETTROTOWERPLACED, Texture.class);
+        assetManager.load(StaticVariables.LASERTOWERPLACED, Texture.class);
+        assetManager.load(StaticVariables.SNOWTOWERPLACED, Texture.class);
 
         assetManager.load(StaticVariables.SliderBackground, Texture.class);
         assetManager.load(StaticVariables.SliderKnob, Texture.class);
