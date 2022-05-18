@@ -392,15 +392,15 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                     if (!isPaused && !isGameOver) {
                         Card c = ((Card) event.getTarget());
                         if (c.isCanBuy(balance))
-                        if (!c.isSelected() && selectedCard == null) {
+                            if (!c.isSelected() && selectedCard == null) {
 
-                            building = c.getBuild().clone();
-                            building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
-                            placedStructures.add(building);
-                            mainStage.addActor(building);
-                            isCardDragging = true;
-                            c.setSelected(true);
-                        }
+                                building = c.getBuild().clone();
+                                building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
+                                placedStructures.add(building);
+                                mainStage.addActor(building);
+                                isCardDragging = true;
+                                c.setSelected(true);
+                            }
                     }
                 }
 
@@ -410,16 +410,20 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                     if (!isPaused && !isGameOver) {
                         if (building != null && selectedCard == null) {
 
-                            building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
-                            // building.setPosition((v.x - building.getWidth() / 2 ) , (v.y - building.getHeight() / 2) );
+                            Card c = ((Card) event.getTarget());
+                            if (c.isCanBuy(balance)) {
 
-                            if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
+                                building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
 
-                                building.setColor(Color.RED);
-                            } else {
+                                if (!tileManager.canPlace(new Rectangle(building.getX(), building.getY(), building.getWidth(), building.getHeight()))) {
 
-                                building.setColor(Color.GREEN);
+                                    building.setColor(Color.RED);
+                                } else {
+
+                                    building.setColor(Color.GREEN);
+                                }
                             }
+
                         }
                     }
                 }
@@ -429,23 +433,24 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                     super.dragStop(event, x, y, pointer);
                     if (!isPaused && !isGameOver) {
                         Card c = ((Card) event.getTarget());
-                        if (building != null && selectedCard == null) {
+                        if (c.isCanBuy(balance))
+                            if (building != null && selectedCard == null) {
 
-                            if (!tileManager.canPlace(building.getRectangle())) {
+                                if (!tileManager.canPlace(building.getRectangle())) {
 
-                                placedStructures.remove(building);
-                                building.remove();
-                                building = null;
+                                    placedStructures.remove(building);
+                                    building.remove();
+                                    building = null;
 
-                            } else {
-                                building.setColor(Color.WHITE);
-                                building.place();
-                                updateBalance(-c.getCost());
+                                } else {
+                                    building.setColor(Color.WHITE);
+                                    building.place();
+                                    updateBalance(-c.getCost());
 
+                                }
+                                isCardDragging = false;
+                                c.setSelected(false);
                             }
-                            isCardDragging = false;
-                            c.setSelected(false);
-                        }
                     }
                 }
 
