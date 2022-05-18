@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -131,7 +132,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
                     if (animations.get(EnemyState.ATTACK).isAnimationFinished(time)) {
 
                         Level.HEALTHBAR.damage(damage);
-                        time=0;
+                        time = 0;
                     }
 
                     currentRegion = animations.get(EnemyState.ATTACK).getKeyFrame(time, true);
@@ -152,19 +153,21 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(Color.WHITE);
-
         if (currentRegion != null) {
 
             batch.draw(currentRegion, getX(), getY());
         }
+
+
     }
 
     public Rectangle getRectangle() {
 
-        return new Rectangle(getX(), getY(), getWidth(), getHeight());
+        return new Rectangle(center.x-getHeight()/2, center.y-getHeight()/2, getHeight(), getHeight());
 
     }
 
@@ -174,6 +177,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
      */
     @Override
     public boolean damage(float damage) {
+
+
+        System.out.println("Damage succhiami il cxazzo");
 
         int oldHp = hp;
         hp -= damage;
@@ -202,6 +208,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     }
 
     public void die() {
+        System.out.println("Speriamo che muoia");
         setCurrentState(EnemyState.DYING);
 
         hp = -1;

@@ -24,7 +24,6 @@ public abstract class Bullet extends Image {
     }
 
 
-
     @Override
     public void act(float delta) {
         super.act(delta);

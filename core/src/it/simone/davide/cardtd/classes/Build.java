@@ -76,15 +76,20 @@ public class Build extends Image {
             super.act(delta);
             time += delta;
 
-            if (target != null && target.isDead()) {
-                target = null;
-            }
 
-            if (target != null && !Intersector.overlaps(getAttackRangeCircle(), target.getRectangle())) {
-                target = null;
-
-            }
             if (target != null) {
+
+
+                if (target.isDead()) {
+                    target = null;
+                }
+
+                if (!Intersector.overlaps(getAttackRangeCircle(), target.getRectangle())) {
+                    target = null;
+
+                }
+
+
                 if (time > attackSpeed) {
 
                     time = 0;
@@ -94,9 +99,10 @@ public class Build extends Image {
                     getStage().addActor(b);
                     bulletList.add(b);
 
-                }
 
+                }
             }
+
 
         }
 
