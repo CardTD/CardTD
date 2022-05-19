@@ -92,11 +92,13 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.ELETTROTOWERCARD, Texture.class);
         assetManager.load(StaticVariables.LASERTOWERCARD, Texture.class);
         assetManager.load(StaticVariables.SNOWTOWERCARD, Texture.class);
+        assetManager.load(StaticVariables.DESERTTOWERCARD, Texture.class);
 
         assetManager.load(StaticVariables.FIRETOWERPLACED, Texture.class);
         assetManager.load(StaticVariables.ELETTROTOWERPLACED, Texture.class);
         assetManager.load(StaticVariables.LASERTOWERPLACED, Texture.class);
         assetManager.load(StaticVariables.SNOWTOWERPLACED, Texture.class);
+        assetManager.load(StaticVariables.DESERTTOWERPLACED, Texture.class);
 
         assetManager.load(StaticVariables.SliderBackground, Texture.class);
         assetManager.load(StaticVariables.SliderKnob, Texture.class);

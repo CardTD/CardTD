@@ -4,5 +4,6 @@ public enum BuildType {
     FIRETOWER,
     ELLETTROTOWER,
     LASERTOWER,
-    SNOWTOWER
+    SNOWTOWER,
+    DESERTTOWER
 }

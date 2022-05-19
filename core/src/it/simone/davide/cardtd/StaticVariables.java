@@ -62,11 +62,13 @@ public class StaticVariables {
     public static final String ELETTROTOWERCARD = "ElettroTower.png";
     public static final String LASERTOWERCARD = "LaserTower.png";
     public static final String SNOWTOWERCARD = "SnowTower.png";
+    public static final String DESERTTOWERCARD = "DesertTower.png";
 
     public static final String FIRETOWERPLACED = "FireTowerPlaced.png";
     public static final String ELETTROTOWERPLACED = "ElettroTowerPlaced.png";
     public static final String LASERTOWERPLACED = "LaserTowerPlaced.png";
     public static final String SNOWTOWERPLACED = "SnowTowerPlaced.png";
+    public static final String DESERTTOWERPLACED = "DesertTowerPlaced.png";
 
     public static final String SliderBackground = "slider-Back.png";
     public static final String SliderKnob = "slider-dot.png";
