@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.StaticVariables;
 
-import javax.swing.plaf.TextUI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ public abstract class Bullet extends Image {
     private final Vector2 v2Velocity = new Vector2();
     private final float speed;
     private final List<Enemy> hitted = new ArrayList<>();
+    private int rotate = 0;
 
     public Bullet(Texture texture, float speed) {
         super(texture);
@@ -23,10 +23,12 @@ public abstract class Bullet extends Image {
         this.speed = speed;
     }
 
-
+    
     @Override
     public void act(float delta) {
         super.act(delta);
+        rotate += 25;
+        setRotation(rotate);
         setPosition(getX() + v2Velocity.x, getY() + v2Velocity.y);
 
         if (getX() < 0 || getY() < 0 || getX() + getWidth() > StaticVariables.SCREEN_WIDTH || getY() + getHeight() > StaticVariables.SCREEN_HEIGHT) {
