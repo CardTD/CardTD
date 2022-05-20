@@ -23,7 +23,7 @@ public abstract class Bullet extends Image {
         this.speed = speed;
     }
 
-    
+
     @Override
     public void act(float delta) {
         super.act(delta);

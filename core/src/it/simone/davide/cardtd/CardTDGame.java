@@ -67,6 +67,19 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
         assetManager.load(StaticVariables.MAP_OVERLAY, Texture.class);
 
+        assetManager.load(StaticVariables.PRIMOLIVELLOICO, Texture.class);
+        assetManager.load(StaticVariables.PRIMOLIVELLOICOP, Texture.class);
+        assetManager.load(StaticVariables.SECONDOLIVELLOICO, Texture.class);
+        assetManager.load(StaticVariables.SECONDOLIVELLOICOP, Texture.class);
+        assetManager.load(StaticVariables.TERZOLIVELLOICO, Texture.class);
+        assetManager.load(StaticVariables.TERZOLIVELLOICOP, Texture.class);
+        assetManager.load(StaticVariables.QUARTOLIVELLOICO, Texture.class);
+        assetManager.load(StaticVariables.QUARTOLIVELLOICOP, Texture.class);
+        assetManager.load(StaticVariables.QUINTOLIVELLOICO, Texture.class);
+        assetManager.load(StaticVariables.QUINTOLIVELLOICOP, Texture.class);
+        assetManager.load(StaticVariables.SESTOLIVELLOICO, Texture.class);
+        assetManager.load(StaticVariables.SESTOLIVELLOICOP, Texture.class);
+
         assetManager.load(StaticVariables.ToasterBorIDLE, Texture.class);
         assetManager.load(StaticVariables.ToasterBorAttack, Texture.class);
         assetManager.load(StaticVariables.ToasterBorDeath, Texture.class);

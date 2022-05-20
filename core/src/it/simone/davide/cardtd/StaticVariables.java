@@ -36,6 +36,19 @@ public class StaticVariables {
     public static final String TMXMAP = "mappa1.tmx";
     public static final String MAP_OVERLAY = "Overlay Mappa.png";
 
+    public static final String PRIMOLIVELLOICO = "PrimoLivello.png";
+    public static final String PRIMOLIVELLOICOP = "PrimoLivelloPressed.png";
+    public static final String SECONDOLIVELLOICO = "SecondoLivello.png";
+    public static final String SECONDOLIVELLOICOP = "SecondoLivelloPressed.png";
+    public static final String TERZOLIVELLOICO = "TerzoLivello.png";
+    public static final String TERZOLIVELLOICOP = "TerzoLivelloPressed.png";
+    public static final String QUARTOLIVELLOICO = "QuartoLivello.png";
+    public static final String QUARTOLIVELLOICOP = "QuartoLivelloPressed.png";
+    public static final String QUINTOLIVELLOICO = "QuintoLivello.png";
+    public static final String QUINTOLIVELLOICOP = "QuintoLivelloPressed.png";
+    public static final String SESTOLIVELLOICO = "SestoLivello.png";
+    public static final String SESTOLIVELLOICOP = "SestoLivelloPressed.png";
+
     public static final String ToasterBorIDLE = "cards/toaster/idle.png";
     public static final String ToasterBorRun = "cards/toaster/run.png";
     public static final String ToasterBorAttack = "cards/toaster/attack.png";
