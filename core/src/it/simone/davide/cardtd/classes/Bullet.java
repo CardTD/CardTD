@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import it.simone.davide.cardtd.StaticVariables;
 
+import javax.swing.plaf.TextUI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,6 @@ public abstract class Bullet extends Image {
         super(texture);
         this.texture = texture;
         this.speed = speed;
-
     }
 
 

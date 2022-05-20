@@ -100,6 +100,10 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.SNOWTOWERPLACED, Texture.class);
         assetManager.load(StaticVariables.DESERTTOWERPLACED, Texture.class);
 
+        assetManager.load(StaticVariables.SNOWBALLSHEETS, Texture.class);
+        assetManager.load(StaticVariables.FIREBALLSHEETS, Texture.class);
+        assetManager.load(StaticVariables.AXE, Texture.class);
+
         assetManager.load(StaticVariables.SliderBackground, Texture.class);
         assetManager.load(StaticVariables.SliderKnob, Texture.class);
         assetManager.load(StaticVariables.BackgroundMusic, Music.class);

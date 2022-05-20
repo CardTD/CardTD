@@ -2,5 +2,5 @@ package it.simone.davide.cardtd.enums;
 
 public enum BulletType {
 
-    ROCK
+    ROCK, SNOW, FIRE, AXE
 }

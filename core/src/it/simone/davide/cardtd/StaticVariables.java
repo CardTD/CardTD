@@ -70,6 +70,10 @@ public class StaticVariables {
     public static final String SNOWTOWERPLACED = "SnowTowerPlaced.png";
     public static final String DESERTTOWERPLACED = "DesertTowerPlaced.png";
 
+    public static final String SNOWBALLSHEETS = "snowball_sheet.png";
+    public static final String FIREBALLSHEETS = "FireBall_sheet.png";
+    public static final String AXE = "stone_axe.png";
+
     public static final String SliderBackground = "slider-Back.png";
     public static final String SliderKnob = "slider-dot.png";
     public static final String BackgroundMusic = "Background.wav";
