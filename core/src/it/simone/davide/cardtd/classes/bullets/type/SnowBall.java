@@ -1,18 +1,19 @@
 package it.simone.davide.cardtd.classes.bullets.type;
 
 import com.badlogic.gdx.graphics.Texture;
-import it.simone.davide.cardtd.classes.bullets.classes.SnowBallBullet;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import it.simone.davide.cardtd.classes.bullets.classes.SingularTargetBullet;
 
-public class SnowBall extends SnowBallBullet {
+public class SnowBall extends SingularTargetBullet {
 
-    public SnowBall(Texture texture, float speed) {
+    public SnowBall(Animation texture, float speed) {
         super(texture, speed);
-        setSize(20, 20);
+        setSize(50, 40);
 
     }
 
     @Override
     protected Object clone() {
-        return new SnowBall(getTexture(), getSpeed());
+        return new SnowBall(animation, getSpeed());
     }
 }

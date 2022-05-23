@@ -15,7 +15,6 @@ public abstract class Bullet extends Image {
     private final Vector2 v2Velocity = new Vector2();
     private final float speed;
     private final List<Enemy> hitted = new ArrayList<>();
-    private int rotate = 0;
 
     public Bullet(Texture texture, float speed) {
         super(texture);
@@ -27,8 +26,6 @@ public abstract class Bullet extends Image {
     @Override
     public void act(float delta) {
         super.act(delta);
-        rotate += 25;
-        setRotation(rotate);
         setPosition(getX() + v2Velocity.x, getY() + v2Velocity.y);
 
         if (getX() < 0 || getY() < 0 || getX() + getWidth() > StaticVariables.SCREEN_WIDTH || getY() + getHeight() > StaticVariables.SCREEN_HEIGHT) {
@@ -52,6 +49,9 @@ public abstract class Bullet extends Image {
 
         v2Velocity.x *= speed;  // Set speed of the object
         v2Velocity.y *= speed;
+
+        int touchDegree = (int) (new Vector2(position.x, position.y).sub(new Vector2(to.x, to.y))).angleDeg();
+        rotateBy(touchDegree );
     }
 
     public abstract int hitEnemies(List<Enemy> enemies, int damage);
@@ -76,6 +76,7 @@ public abstract class Bullet extends Image {
     public float getSpeed() {
         return speed;
     }
+
 
 
 }

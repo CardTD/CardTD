@@ -29,7 +29,7 @@ public class Options {
         prefs.putFloat("FX", fxVolume);
         prefs.flush();
     }
-//Todo  balance, vita del castello, modificare le torri (skin e animazioni), FX(?), PinchToZoom, fuoriscena, creare le wave
+//Todo  PinchToZoom, fuoriscena, creare le wave
 
     public void setMusic(Music music) {
         if (this.music != music) {

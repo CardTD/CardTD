@@ -63,6 +63,8 @@ public class MainMenu implements Screen {
 
     public MainMenu() {
 
+
+
         MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));

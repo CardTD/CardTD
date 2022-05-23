@@ -1,20 +1,20 @@
 package it.simone.davide.cardtd.classes.bullets.type;
 
 import com.badlogic.gdx.graphics.Texture;
-import it.simone.davide.cardtd.classes.AnimatedImage;
-import it.simone.davide.cardtd.classes.bullets.classes.FireBallBullet;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import it.simone.davide.cardtd.classes.bullets.classes.SingularTargetBullet;
 
-public class FireBall extends FireBallBullet {
+public class FireBall extends SingularTargetBullet {
 
-    public FireBall(Texture texture, float speed) {
+    public FireBall(Animation texture, float speed) {
         super(texture, speed);
-        setSize(20, 20);
+        setSize(40, 20);
 
     }
 
     @Override
     protected Object clone() {
-        return new FireBall(getTexture(), getSpeed());
+        return new FireBall(animation, getSpeed());
     }
 }
 

@@ -2,6 +2,7 @@ package it.simone.davide.cardtd;
 
 import com.badlogic.gdx.graphics.Texture;
 import it.simone.davide.cardtd.classes.*;
+import it.simone.davide.cardtd.classes.bullets.type.Axe;
 import it.simone.davide.cardtd.classes.bullets.type.RockBullet;
 import it.simone.davide.cardtd.classes.bullets.type.FireBall;
 import it.simone.davide.cardtd.classes.bullets.type.SnowBall;
@@ -37,9 +38,9 @@ public class GameObjects {
         BULLETS = new HashMap<>();
 
         BULLETS.put(BulletType.ROCK, new RockBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.ROCK), 10));
-        BULLETS.put(BulletType.FIRE, new FireBall((CardTDGame.assetManager.<Texture>get(StaticVariables.FIREBALLSHEETS)), 10));
-        BULLETS.put(BulletType.SNOW, new SnowBall((CardTDGame.assetManager.<Texture>get(StaticVariables.SNOWBALLSHEETS)), 10));
-        BULLETS.put(BulletType.AXE, new SnowBall((CardTDGame.assetManager.<Texture>get(StaticVariables.AXE)), 10));
+        BULLETS.put(BulletType.FIRE, new FireBall(CardTDGame.loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.FIREBALLSHEETS), 6,1), 5));
+        BULLETS.put(BulletType.SNOW, new SnowBall(CardTDGame.loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SNOWBALLSHEETS), 6 ,1), 1));
+        BULLETS.put(BulletType.AXE, new Axe((CardTDGame.assetManager.<Texture>get(StaticVariables.AXE)), 10));
 
         BUILDINGS = new HashMap<>();
         BUILDINGS.put(BuildType.FIRETOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRETOWERPLACED), BulletType.FIRE, 200, 1f, 1, 0, 0));

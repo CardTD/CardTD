@@ -1,14 +1,16 @@
 package it.simone.davide.cardtd.classes.bullets.classes;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import it.simone.davide.cardtd.classes.AnimatedBullet;
 import it.simone.davide.cardtd.classes.Bullet;
 import it.simone.davide.cardtd.classes.Enemy;
 
 import java.util.List;
 
-public class SingularTargetBullet extends Bullet {
+public class SingularTargetBullet extends AnimatedBullet {
 
-    public SingularTargetBullet(Texture texture, float speed) {
+    public SingularTargetBullet(Animation texture, float speed) {
         super(texture, speed);
 
     }
@@ -40,6 +42,6 @@ public class SingularTargetBullet extends Bullet {
 
     @Override
     protected Object clone() {
-        return new SingularTargetBullet(getTexture(), getSpeed());
+        return new SingularTargetBullet(animation, getSpeed());
     }
 }
