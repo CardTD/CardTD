@@ -15,7 +15,12 @@ import it.simone.davide.cardtd.classes.Enemy;
 import it.simone.davide.cardtd.classes.Level;
 import it.simone.davide.cardtd.classes.MoveVector2;
 import it.simone.davide.cardtd.classes.Path;
+import it.simone.davide.cardtd.classes.waves.MonsterWave;
+import it.simone.davide.cardtd.classes.waves.TitleWave;
+import it.simone.davide.cardtd.classes.waves.WaitWave;
+import it.simone.davide.cardtd.classes.waves.Waves;
 import it.simone.davide.cardtd.enums.EnemyType;
+import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
@@ -27,15 +32,20 @@ public class FirstMap extends Level {
 
         MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
 
-        Timer timer = new Timer();
+      /*  Timer timer = new Timer();
         timer.scheduleTask(new Task() {
             @Override
             public void run() {
                 addEnemy(enemies.get((int) (Math.random() * enemies.size())));
 
             }
-        }, 1, 15);
+        }, 1, 15); */
 setShowTiledMapElem(false);
+    }
+
+    @Override
+    public Waves getWaves() {
+        return new Waves(this, new TitleWave("Starting Waves", FontType.LOGO), new MonsterWave(EnemyType.SpiritBoxer, 10), new WaitWave(2), new MonsterWave(EnemyType.StormHead, 10));
     }
 
     @Override

@@ -5,11 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -18,11 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Circle;
-import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -41,6 +33,7 @@ import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
 import it.simone.davide.cardtd.classes.levels.FirstMap;
+import it.simone.davide.cardtd.classes.waves.Waves;
 import it.simone.davide.cardtd.enums.EnemyState;
 import it.simone.davide.cardtd.enums.EnemyType;
 import it.simone.davide.cardtd.fontmanagement.FontType;
@@ -73,15 +66,20 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     private int balance;
     private int iniTialbalance;
-    private LabelAdapter balancaText, gameOverLabel;
+    private LabelAdapter balancaText, gameOverLabel, timer;
     public static HealthBar HEALTHBAR;
     private List<Card> cards = new ArrayList<>();
     public static  Build SELECTEDBUILDING;
+    public int initialCountDown = 3;
+
+    protected Waves waves;
 
     public Level(Texture map, TiledMap tiledmap) {
 
         iniTialbalance = getInitialBalance();
         balance = iniTialbalance;
+
+        waves = getWaves();
 
         screen = this;
         shader = new ShaderProgram(Gdx.files.internal("shaders/blur.vert"), Gdx.files.internal("shaders/blur.frag"));
@@ -192,6 +190,24 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         overlaystage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
         overlaystage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.MAP_OVERLAY)));
+
+        timer = new LabelAdapter(initialCountDown + "", FontType.MONEY);
+        timer.toStage(overlaystage, overlaystage.getWidth() / 2f - timer.getWidth() / 2, overlaystage.getHeight() - timer.getHeight());
+
+
+        Timer.Task initialTimerTask = new Timer.Task() {
+            @Override
+            public void run() {
+                initialCountDown --;
+                timer.setText(initialCountDown);
+                if(initialCountDown == 0){
+                    timer.remove();
+                    overlaystage.addActor(waves);
+                }
+            }
+        };
+        Timer.schedule(initialTimerTask, 1f, 1f);
+
         balancaText = new LabelAdapter(balance + "", FontType.MONEY);
         balancaText.toStage(overlaystage, 640, 9);
 
@@ -202,7 +218,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         overlaystage.addActor(coin);
 
         HEALTHBAR = new HealthBar(100);
-
         HEALTHBAR.setPosition(920, 8);
 
         overlaystage.addActor(HEALTHBAR);
@@ -464,6 +479,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
+    public abstract Waves getWaves();
+
     public void updateBalance(int addBalance) {
         if (addBalance != 0) {
 
@@ -490,6 +507,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         Gdx.input.setInputProcessor(i);
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+    }
+
+    public Stage getOverlaystage() {
+        return overlaystage;
     }
 
     public void addEnemy(EnemyType enemyType) {
