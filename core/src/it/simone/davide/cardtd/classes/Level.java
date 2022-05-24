@@ -41,9 +41,7 @@ import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.screens.MainMenu;
 import it.simone.davide.cardtd.screens.OptionsMenu;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public abstract class Level implements Screen, GestureDetector.GestureListener {
     private static final float WORLD_TO_SCREEN = 1.0f / 100.0f;
@@ -52,7 +50,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     protected List<Build> placedStructures = new ArrayList<>();
     protected List<Enemy> enemies = new ArrayList<>();
     private Card selectedCard;
-    private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false, isPaused = false, isGameOver = false;
+    private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false, isPaused = false, isGameOver = false, isGameWon = false;
     private OrthographicCamera gameCam = new OrthographicCamera();
     private float currentZoom = 1;
     Build building;
@@ -61,20 +59,23 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     private FrameBuffer fboB;
     private LabelAdapter PauseLabel;
     private Button option, homeB, resume, pause, reload;
+    private Queue<Card> deckQueue;
 
     private final Screen screen;
 
     private int balance;
     private int iniTialbalance;
-    private LabelAdapter balancaText, gameOverLabel, timer;
+    private LabelAdapter balancaText, gameOverLabel, timer, gameWinLabel;
     public static HealthBar HEALTHBAR;
     private List<Card> cards = new ArrayList<>();
-    public static  Build SELECTEDBUILDING;
+    public static Build SELECTEDBUILDING;
     public int initialCountDown = 3;
 
     protected Waves waves;
 
     public Level(Texture map, TiledMap tiledmap) {
+
+        deckQueue = new LinkedList(MainMenu.playerDeck.getRealDeck());
 
         iniTialbalance = getInitialBalance();
         balance = iniTialbalance;
@@ -155,6 +156,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         gameOverLabel = new LabelAdapter("GAME OVER", FontType.LOGO);
         gameOverLabel.toStage(gameOverStage, gameOverStage.getWidth() / 2f - gameOverLabel.getWidth() / 2, gameOverStage.getHeight() / 2f - gameOverLabel.getHeight() / 2 + 200);
 
+        gameWinLabel = new LabelAdapter("YOU WON", FontType.LOGO);
+        gameWinLabel.toStage(gameOverStage, gameOverStage.getWidth() / 2f - gameWinLabel.getWidth() / 2, gameOverStage.getHeight() / 2f - gameWinLabel.getHeight() / 2 + 200);
+
+
         TextureRegionDrawable optionButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON));
         TextureRegionDrawable optionButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON_PRESSED));
         option = new Button(optionButton, optionButtonP);
@@ -198,9 +203,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         Timer.Task initialTimerTask = new Timer.Task() {
             @Override
             public void run() {
-                initialCountDown --;
+                initialCountDown--;
                 timer.setText(initialCountDown);
-                if(initialCountDown == 0){
+                if (initialCountDown == 0) {
                     timer.remove();
                     overlaystage.addActor(waves);
                 }
@@ -294,7 +299,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchUp(event, x, y, pointer, button);
 
-                SELECTEDBUILDING= null;
+                SELECTEDBUILDING = null;
 
                 if (!isPaused) {
 
@@ -308,6 +313,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                             building.place();
                             selectedCard.setSelected(false);
                             updateBalance(-selectedCard.getCost());
+                            deckQueue.add(selectedCard.clone());
+                            selectedCard.changeCard(deckQueue.poll());
                             selectedCard = null;
                         }
                         building = null;
@@ -319,9 +326,13 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         });
 
+
+
         for (int i = 0; i < 4; i++) {
 
-            Card c = MainMenu.playerDeck.getCard(i).clone();
+
+            Card c = deckQueue.poll();
+
             cards.add(c);
             c.scaleBy(-0.3f);
             c.setPosition(15 + ((c.getWidth() * 0.7f) * i + 20 * i), 12);
@@ -408,7 +419,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void dragStart(InputEvent event, float x, float y, int pointer) {
                     super.dragStart(event, x, y, pointer);
-                    if (!isPaused && !isGameOver) {
+                    if (!isPaused && !isGameOver && !isGameWon) {
                         Card c = ((Card) event.getTarget());
                         if (c.isCanBuy(balance))
                             if (!c.isSelected() && selectedCard == null) {
@@ -426,7 +437,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     super.drag(event, x, y, pointer);
-                    if (!isPaused && !isGameOver) {
+                    if (!isPaused && !isGameOver && !isGameWon) {
                         if (building != null && selectedCard == null) {
 
                             Card c = ((Card) event.getTarget());
@@ -450,7 +461,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
                     super.dragStop(event, x, y, pointer);
-                    if (!isPaused && !isGameOver) {
+                    if (!isPaused && !isGameOver && !isGameWon) {
                         Card c = ((Card) event.getTarget());
                         if (c.isCanBuy(balance))
                             if (building != null && selectedCard == null) {
@@ -465,6 +476,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                                     building.setColor(Color.WHITE);
                                     building.place();
                                     updateBalance(-c.getCost());
+                                    deckQueue.add(c.clone());
+                                    c.changeCard(deckQueue.poll());
 
                                 }
                                 isCardDragging = false;
@@ -528,6 +541,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             s.setPosition(i.x, i.y);
         }
 
+
     }
 
     public abstract Vector2 getStartPostision(EnemyType enemyType);
@@ -540,15 +554,19 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public void render(float delta) {
-        if (!isGameOver) if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+        if (!isGameOver && !isGameWon)
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) || Gdx.input.isKeyPressed(Input.Keys.BACK)) {
 
-            isPaused = !isPaused;
+                isPaused = !isPaused;
 
-        }
+            }
 
-
-
-        if (isGameOver) {
+        if (waves.isTerminated() && enemies.size() == 0) {
+            gameWinLabel.setVisible(true);
+            reload.setVisible(true);
+            homeB.setVisible(true);
+            isGameWon = true;
+        } else if (isGameOver) {
             resume.setVisible(false);
             pause.setVisible(false);
             reload.setVisible(true);
@@ -567,10 +585,10 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             pause.setVisible(true);
             resume.setVisible(false);
             PauseLabel.setVisible(false);
-
+            gameWinLabel.setVisible(false);
         }
 
-        if (isGameOver || isPaused) {
+        if (isGameOver || isPaused || isGameWon) {
 
             blur(overlaystage);
             blur(fillstage);
@@ -585,12 +603,12 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         gameOverLabel.setVisible(isGameOver);
 
         fillstage.getViewport().apply();
-        if (!isPaused && !isGameOver) fillstage.act(delta);
+        if (!isPaused && !isGameOver && !isGameWon) fillstage.act(delta);
         fillstage.draw();
 
         mainStage.getViewport().apply();
 
-        if (!isPaused && !isGameOver) mainStage.act(delta);
+        if (!isPaused && !isGameOver && !isGameWon) mainStage.act(delta);
         mainStage.draw();
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -599,8 +617,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (showTiledMapElem) tileManager.render(s);
 
 
-        if(SELECTEDBUILDING!=null){
-            Circle b= SELECTEDBUILDING.getAttackRangeCircle();
+        if (SELECTEDBUILDING != null) {
+            Circle b = SELECTEDBUILDING.getAttackRangeCircle();
             s.begin(ShapeType.Filled);
             s.setColor(0, 100 / 255f, 0, 0.5f);
             s.circle(b.x, b.y, b.radius);
@@ -619,12 +637,12 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
                 s.end();
             }
 
-            if (!isPaused && !isGameOver)
+            if (!isPaused && !isGameOver && !isGameWon)
                 if (attackCheck(e, tileManager.getToProtect())) e.setCurrentState(EnemyState.ATTACK);
 
         }
 
-        if (!isPaused && !isGameOver) {
+        if (!isPaused && !isGameOver && !isGameWon) {
             Iterator<Enemy> i = enemies.iterator();
 
             while (i.hasNext()) {
@@ -757,7 +775,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-        if (!isPaused && !isGameOver) {
+        if (!isPaused && !isGameOver && !isGameWon) {
             if (selectedCard == null && !isCardDragging) {
                 gameCam.translate(-deltaX * currentZoom, deltaY * currentZoom);
                 gameCam.update();
@@ -781,7 +799,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean zoom(float initialDistance, float distance) {
-        if (!isPaused && !isGameOver) {
+        if (!isPaused && !isGameOver && !isGameWon) {
             if (selectedCard == null && !isCardDragging) {
                 gameCam.zoom = (initialDistance / distance) * currentZoom;
                 if (gameCam.zoom < 0.65f) gameCam.zoom = 0.65f;
@@ -805,7 +823,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-        if (!isPaused && !isGameOver) {
+        if (!isPaused && !isGameOver && !isGameWon) {
             currentZoom = gameCam.zoom;
             gameCam.update();
         }

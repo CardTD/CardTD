@@ -1,7 +1,6 @@
 package it.simone.davide.cardtd.classes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Deck {
 
@@ -85,6 +84,23 @@ public class Deck {
 
         }
 
+    }
+
+    public Queue getRealDeck() {
+        Queue<Card> c;
+        List<Card> l = new LinkedList<>();
+
+        for (Card s : cards) {
+            if (!s.getName().equals("blank")) {
+
+                l.add(s.clone());
+            }
+
+        }
+        Collections.shuffle(l);
+        c = new LinkedList<>(l);
+
+        return c;
     }
 
 }

@@ -12,6 +12,11 @@ public class Waves extends Actor {
     Level level;
     Queue<Wave> waves;
     Wave current;
+    private boolean terminated = false;
+
+    public boolean isTerminated() {
+        return terminated;
+    }
 
     public Waves(Level l, Wave... w) {
         level = l;
@@ -26,6 +31,9 @@ public class Waves extends Actor {
 
         if (current != null && current.terminated) {
             current = waves.poll();
+
+            if(current == null)
+                terminated = true;
         }
 
         if (current != null && !current.launched) {
@@ -33,6 +41,7 @@ public class Waves extends Actor {
             current.onStage(level);
 
         }
+
 
 
     }

@@ -40,12 +40,13 @@ public class FirstMap extends Level {
 
             }
         }, 1, 15); */
-setShowTiledMapElem(false);
+    setShowTiledMapElem(false);
+    setShowEnemyCenter(false);
     }
 
     @Override
     public Waves getWaves() {
-        return new Waves(this, new TitleWave("Starting Waves", FontType.LOGO), new MonsterWave(EnemyType.SpiritBoxer, 10), new WaitWave(2), new MonsterWave(EnemyType.StormHead, 10));
+        return new Waves(this, new TitleWave("Starting Waves", FontType.LOGO), new MonsterWave(EnemyType.SpiritBoxer, 10), new MonsterWave(EnemyType.StormHead, 10), new WaitWave(15, true), new MonsterWave(EnemyType.StormHead, 10));
     }
 
     @Override
@@ -81,6 +82,6 @@ setShowTiledMapElem(false);
 
     @Override
     public int getInitialBalance() {
-        return 200;
+        return 400;
     }
 }

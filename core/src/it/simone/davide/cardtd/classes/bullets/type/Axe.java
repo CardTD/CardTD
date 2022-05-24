@@ -12,6 +12,13 @@ public class Axe extends PiercingBullet {
     }
 
     @Override
+    public void act(float delta) {
+        super.act(delta);
+        rotateBy(25);
+
+    }
+
+    @Override
     protected Object clone() {
         return new Axe(getTexture(), getSpeed());
     }

@@ -29,7 +29,7 @@ public class Options {
         prefs.putFloat("FX", fxVolume);
         prefs.flush();
     }
-//Todo  PinchToZoom, fuoriscena, creare le wave, Need Fixing on Timer before next wave, finished game
+//Todo  PinchToZoom, fuoriscena, creare le wave, Need Fixing on Timer before next wave
 
     public void setMusic(Music music) {
         if (this.music != music) {

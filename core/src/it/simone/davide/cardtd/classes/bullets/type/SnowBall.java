@@ -8,7 +8,7 @@ public class SnowBall extends SingularTargetBullet {
 
     public SnowBall(Animation texture, float speed) {
         super(texture, speed);
-        setSize(50, 40);
+        setSize(33, 26);
 
     }
 
