@@ -6,8 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
@@ -25,23 +23,26 @@ import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.ArrayList;
 
+/**
+ * This class manages the first map of the game
+ *
+ * @see Level
+ */
 public class FirstMap extends Level {
+    /**
+     * Create a new FirstMap
+     *
+     * @param map the texture of the map
+     * @param tiledmap the tiledmap of the first map
+     */ 
     public FirstMap(Texture map, TiledMap tiledmap) {
         super(map, tiledmap);
         final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
 
         MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
 
-      /*  Timer timer = new Timer();
-        timer.scheduleTask(new Task() {
-            @Override
-            public void run() {
-                addEnemy(enemies.get((int) (Math.random() * enemies.size())));
-
-            }
-        }, 1, 15); */
-    setShowTiledMapElem(false);
-    setShowEnemyCenter(false);
+        setShowTiledMapElem(false);
+        setShowEnemyCenter(false);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class FirstMap extends Level {
 
     @Override
     public Path getPath(EnemyType enemyType) {
-        return new Path(((Enemy) GameObjects.ENEMIES.get(enemyType)).getSpeed(), new MoveVector2(0, 340), new MoveVector2(75,60), new MoveVector2(100, 43), new MoveVector2(16, 120), new MoveVector2(-106, 51), new MoveVector2(-180, 0), new MoveVector2(-68, 26), new MoveVector2(-100, -100), new MoveVector2(-500, 0));
+        return new Path(((Enemy) GameObjects.ENEMIES.get(enemyType)).getSpeed(), new MoveVector2(0, 340), new MoveVector2(75, 60), new MoveVector2(100, 43), new MoveVector2(16, 120), new MoveVector2(-106, 51), new MoveVector2(-180, 0), new MoveVector2(-68, 26), new MoveVector2(-100, -100), new MoveVector2(-500, 0));
     }
 
     @Override
