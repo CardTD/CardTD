@@ -20,23 +20,23 @@ public class SpiritBoxer extends Enemy {
     public void loadAnimations() {
         int rows = 4, cols = 1;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SpiritBoxerIDLE), rows, cols, EnemyState.IDLE);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SPIRITBOXER_IDLE), rows, cols, EnemyState.IDLE);
 
         rows = 6;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SpiritBoxerRun), rows, cols, EnemyState.RUN);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SPIRITBOXER_RUN), rows, cols, EnemyState.RUN);
 
         rows = 10;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SpiritBoxerAttack), rows, cols, EnemyState.ATTACK);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SPIRITBOXER_ATTACK), rows, cols, EnemyState.ATTACK);
 
         rows = 8;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SpiritBoxerDeath), rows, cols, EnemyState.DYING);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SPIRITBOXER_DEATH), rows, cols, EnemyState.DYING);
 
         rows = 4;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SpiritBoxerDamaged), rows, cols, EnemyState.DAMAGED);
+        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SPIRITBOXER_DAMAGED), rows, cols, EnemyState.DAMAGED);
 
         setCurrentState(EnemyState.RUN);
     }

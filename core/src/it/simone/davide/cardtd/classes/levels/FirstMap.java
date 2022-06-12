@@ -6,8 +6,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
@@ -30,7 +28,7 @@ public class FirstMap extends Level {
         super(map, tiledmap);
         final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
 
-        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FIRST_MAP_BGMUSIC));
 
       /*  Timer timer = new Timer();
         timer.scheduleTask(new Task() {
