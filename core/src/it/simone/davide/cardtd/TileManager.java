@@ -5,25 +5,51 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import it.simone.davide.cardtd.classes.Build;
-import sun.security.provider.certpath.Vertex;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TileManager manages the game map
+ */
 public class TileManager {
 
+    /**
+     * The list of obstacles inside the map
+     */
     private final ArrayList<Polygon> obstacles;
+
+    /**
+     * The list of paths inside the map
+     */
     private final ArrayList<Polygon> path;
+
+    /**
+     * The place where the cards are on the screen
+     */
     private final Rectangle deck;
+
+    /**
+     * The place where there is the structure to be defended on screen
+     */
     private Polygon toProtect;
+
+    /**
+     * The list of all placed buildings
+     */
     private final List<Build> placed;
 
+    /**
+     * Create a new TileManager
+     *
+     * @param tiledMap the tiled map
+     * @param placed the list contains all placed buildings
+     */
     public TileManager(TiledMap tiledMap, List<Build> placed) {
         this.placed = placed;
         MapObjects t = tiledMap.getLayers().get("Path").getObjects();
@@ -65,6 +91,11 @@ public class TileManager {
 
     }
 
+    /**
+     * Render the border of all elements in the map
+     *
+     * @param shapeRenderer the {@link ShapeRenderer} of the screen
+     */
     public void render(ShapeRenderer shapeRenderer) {
 
         for (Polygon r : obstacles) {
@@ -90,46 +121,57 @@ public class TileManager {
 
     }
 
-    boolean isOverlap(Polygon A, Rectangle B){
+    /**
+     * Checks if a rectangle is overlapping a polygon
+     *
+     * @param polygon a polygon
+     * @param cardRect the rectangle
+     * @return if a rectangle is overlapping a polygon
+     */
+    boolean isOverlap(Polygon polygon, Rectangle cardRect) {
 
-      if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x, B.y))
-          return true;
-
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x+B.width, B.y))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x, cardRect.y))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x, B.y+B.height))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x + cardRect.width, cardRect.y))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x+B.width, B.y+B.height))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x, cardRect.y + cardRect.height))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth()/2 , B.y))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x + cardRect.width, cardRect.y + cardRect.height))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x, B.y + B.getHeight()/2))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x + cardRect.getWidth() / 2, cardRect.y))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth()/2, B.y + B.getHeight()/2))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x, cardRect.y + cardRect.getHeight() / 2))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth(), B.y + B.getHeight()/2))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x + cardRect.getWidth() / 2, cardRect.y + cardRect.getHeight() / 2))
             return true;
 
-        if( Intersector.isPointInPolygon(A.getTransformedVertices(),0,A.getTransformedVertices().length,B.x + B.getWidth()/2, B.y + B.getHeight()))
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x + cardRect.getWidth(), cardRect.y + cardRect.getHeight() / 2))
+            return true;
+
+        if (Intersector.isPointInPolygon(polygon.getTransformedVertices(), 0, polygon.getTransformedVertices().length, cardRect.x + cardRect.getWidth() / 2, cardRect.y + cardRect.getHeight()))
             return true;
 
         return false;
     }
 
+    /**
+     * Checks if a build can be placed in the game map
+     *
+     * @param r the rectangle of the build
+     * @return if a build can be placed in the game map
+     */
     public boolean canPlace(Rectangle r) {
         if (r.x < 0 || r.y < 0 || r.x + r.width > StaticVariables.SCREEN_WIDTH || r.y + r.height > StaticVariables.SCREEN_HEIGHT)
             return false;
 
-
-
         for (Polygon i : path) {
-            if (isOverlap(i,r)) {
+            if (isOverlap(i, r)) {
                 return false;
 
             }
@@ -137,7 +179,7 @@ public class TileManager {
 
         for (Polygon i : obstacles) {
 
-            if (isOverlap(i,r)) {
+            if (isOverlap(i, r)) {
                 return false;
 
             }
@@ -155,7 +197,7 @@ public class TileManager {
             return false;
 
         }
-        if (isOverlap(toProtect,r)) {
+        if (isOverlap(toProtect, r)) {
             return false;
 
         }
@@ -163,6 +205,11 @@ public class TileManager {
         return true;
     }
 
+    /**
+     * Returns the polygon of the structure to be defended on screen
+     *
+     * @return the polygon of the structure to be defended on screen
+     */
     public Polygon getToProtect() {
         return toProtect;
     }

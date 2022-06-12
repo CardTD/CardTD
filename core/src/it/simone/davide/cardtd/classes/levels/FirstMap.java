@@ -39,7 +39,7 @@ public class FirstMap extends Level {
         super(map, tiledmap);
         final ArrayList<EnemyType> enemies = new ArrayList<>(GameObjects.ENEMIES.keySet());
 
-        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FirstMapSound));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FIRST_MAP_BGMUSIC));
 
         setShowTiledMapElem(false);
         setShowEnemyCenter(false);

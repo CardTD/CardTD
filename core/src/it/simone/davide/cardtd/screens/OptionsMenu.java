@@ -5,9 +5,14 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -15,17 +20,19 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider.SliderStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 
+/**
+ * The option menu screen
+ */
 public class OptionsMenu implements Screen {
 
-    SliderStyle uiSliderStyle = new SliderStyle();
+    private SliderStyle uiSliderStyle = new SliderStyle();
+  
     private Stage stage, backgroundStage;
-    Skin skin, skinButton;
-    Slider audioSlider, fxSlider;
+    private Skin skin, skinButton;
+    private Slider audioSlider, fxSlider;
 
     public OptionsMenu(final Screen backscreen) {
 
@@ -51,8 +58,8 @@ public class OptionsMenu implements Screen {
         LabelAdapter button_on_off = new LabelAdapter("Options", FontType.LOGO);
         button_on_off.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - button_on_off.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - button_on_off.getHeight() / 2 + 200);
 
-        skin.add("sliderBack", CardTDGame.assetManager.get(StaticVariables.SliderBackground));
-        skin.add("sliderKnob", CardTDGame.assetManager.get(StaticVariables.SliderKnob));
+        skin.add("sliderBack", CardTDGame.assetManager.get(StaticVariables.SLIDER_BACKGROUND));
+        skin.add("sliderKnob", CardTDGame.assetManager.get(StaticVariables.SLIDER_KNOB));
 
         uiSliderStyle.background = skin.getDrawable("sliderBack");
         uiSliderStyle.knob = skin.getDrawable("sliderKnob");
@@ -91,7 +98,6 @@ public class OptionsMenu implements Screen {
         fxSlider.setPosition((StaticVariables.SCREEN_WIDTH / 2f - fxSlider.getWidth() / 2) + 200, StaticVariables.SCREEN_HEIGHT / 2f - fxSlider.getHeight() / 2 - 200);
         stage.addActor(fxSlider);
 
-
         TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON));
         TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
         Button back = new Button(b, bp);
@@ -107,12 +113,10 @@ public class OptionsMenu implements Screen {
         });
         stage.addActor(back);
 
-
     }
 
     @Override
     public void show() {
-
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -127,11 +131,9 @@ public class OptionsMenu implements Screen {
         backgroundStage.act(delta);
         backgroundStage.draw();
 
-
         stage.getViewport().apply();
         stage.act(delta);
         stage.draw();
-
 
     }
 

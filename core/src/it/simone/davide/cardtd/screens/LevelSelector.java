@@ -56,8 +56,8 @@ public class LevelSelector implements Screen, InputProcessor {
         });
         fitstage.addActor(back);
 
-        TextureRegionDrawable PrimoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PRIMOLIVELLOICO));
-        TextureRegionDrawable PrimoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PRIMOLIVELLOICOP));
+        TextureRegionDrawable PrimoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTLEVELICON));
+        TextureRegionDrawable PrimoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTLEVELICON_PRESSED));
         FirstLevel = new Button(PrimoLivello, PrimoLivelloP);
         FirstLevel.setSize(100, 100);
         FirstLevel.setPosition(fitstage.getWidth() / 2f - FirstLevel.getWidth() / 2 - 150, fitstage.getHeight() / 2f - FirstLevel.getHeight() / 2 + 75);
@@ -72,8 +72,8 @@ public class LevelSelector implements Screen, InputProcessor {
         });
         fitstage.addActor(FirstLevel);
 
-        TextureRegionDrawable SecondoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SECONDOLIVELLOICO));
-        TextureRegionDrawable SecondoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SECONDOLIVELLOICOP));
+        TextureRegionDrawable SecondoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SECONDLEVELICON));
+        TextureRegionDrawable SecondoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SECONDLEVELICON_PRESSED));
         SecondLevel = new Button(SecondoLivello, SecondoLivelloP);
         SecondLevel.setSize(100, 100);
         SecondLevel.setPosition(fitstage.getWidth() / 2f - SecondLevel.getWidth() / 2, fitstage.getHeight() / 2f - SecondLevel.getHeight() / 2 + 75);
@@ -88,8 +88,8 @@ public class LevelSelector implements Screen, InputProcessor {
         });
         fitstage.addActor(SecondLevel);
 
-        TextureRegionDrawable TerzoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.TERZOLIVELLOICO));
-        TextureRegionDrawable TerzoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.TERZOLIVELLOICOP));
+        TextureRegionDrawable TerzoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.THIRDLEVELICON));
+        TextureRegionDrawable TerzoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.THIRDLEVELICON_PRESSED));
         ThirdLevel = new Button(TerzoLivello, TerzoLivelloP);
         ThirdLevel.setSize(100, 100);
         ThirdLevel.setPosition(fitstage.getWidth() / 2f - ThirdLevel.getWidth() / 2 + 150, fitstage.getHeight() / 2f - ThirdLevel.getHeight() / 2 + 75);
@@ -104,8 +104,8 @@ public class LevelSelector implements Screen, InputProcessor {
         });
         fitstage.addActor(ThirdLevel);
 
-        TextureRegionDrawable QuartoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.QUARTOLIVELLOICO));
-        TextureRegionDrawable QuartoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.QUARTOLIVELLOICOP));
+        TextureRegionDrawable QuartoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FOURTHLEVELICON));
+        TextureRegionDrawable QuartoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FOURTHLEVELICON_PRESSED));
         FourthLevel = new Button(QuartoLivello, QuartoLivelloP);
         FourthLevel.setSize(100, 100);
         FourthLevel.setPosition(fitstage.getWidth() / 2f - FourthLevel.getWidth() / 2 - 150, fitstage.getHeight() / 2f - FourthLevel.getHeight() / 2 -75);
@@ -119,8 +119,8 @@ public class LevelSelector implements Screen, InputProcessor {
         });
         fitstage.addActor(FourthLevel);
 
-        TextureRegionDrawable QuintoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.QUINTOLIVELLOICO));
-        TextureRegionDrawable QuintoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.QUINTOLIVELLOICOP));
+        TextureRegionDrawable QuintoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIFTHLEVELICON));
+        TextureRegionDrawable QuintoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIFTHLEVELICON_PRESSED));
         FifthLevel = new Button(QuintoLivello, QuintoLivelloP);
         FifthLevel.setSize(100, 100);
         FifthLevel.setPosition(fitstage.getWidth() / 2f - FifthLevel.getWidth() / 2, fitstage.getHeight() / 2f - FifthLevel.getHeight() / 2 - 75);
@@ -134,8 +134,8 @@ public class LevelSelector implements Screen, InputProcessor {
         });
         fitstage.addActor(FifthLevel);
 
-        TextureRegionDrawable SestoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SESTOLIVELLOICO));
-        TextureRegionDrawable SestoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SESTOLIVELLOICOP));
+        TextureRegionDrawable SestoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SIXTHLEVELICON));
+        TextureRegionDrawable SestoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SIXTHLEVELICON_PRESSED));
         SixthLevel = new Button(SestoLivello, SestoLivelloP);
         SixthLevel.setSize(100, 100);
         SixthLevel.setPosition(fitstage.getWidth() / 2f - SixthLevel.getWidth() / 2 + 150, fitstage.getHeight() / 2f - SixthLevel.getHeight() / 2 - 75);

@@ -25,12 +25,12 @@ public class HealthBar extends Image {
         this.maxHealth = maxHealth;
         health = maxHealth;
 
-        NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarD), 5, 5, 4, 4);
+        NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_BOTTOMLAYED), 5, 5, 4, 4);
 
-        Texture texture = CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarM);
+        Texture texture = CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_MIDLAYED);
         loadingBarPatch = new TextureRegion(texture);
 
-        NinePatch sopra = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HealtBarL), 5, 5, 4, 4);
+        NinePatch sopra = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_UPPERLAYED), 5, 5, 4, 4);
 
         loadingBarBackground = new NinePatchDrawable(loadingBarBackgroundPatch);
         sopraB = new NinePatchDrawable(sopra);

@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +24,6 @@ import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Deck;
 import it.simone.davide.cardtd.classes.Options;
-import it.simone.davide.cardtd.classes.levels.FirstMap;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.screens.deck.DeckMenu;
@@ -65,7 +63,7 @@ public class MainMenu implements Screen {
 
 
 
-        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BackgroundMusic));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BACKGROUND_MUSIC));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
@@ -83,7 +81,7 @@ public class MainMenu implements Screen {
             @Override
             public void run() {
 
-                final Image nave = new Image((Texture) CardTDGame.assetManager.get(StaticVariables.NAVE));
+                final Image nave = new Image((Texture) CardTDGame.assetManager.get(StaticVariables.SHIP));
                 nave.setPosition(-500, 600);
                 nave.setScale(nextFloat(0.2f, 0.5f));
 

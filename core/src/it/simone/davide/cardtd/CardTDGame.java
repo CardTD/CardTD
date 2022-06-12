@@ -17,11 +17,26 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.screens.MainMenu;
 
+/**
+ * The main class that creates the game objects and sets the screen with the main menu
+ */
 public class CardTDGame extends Game {
 
+    /**
+     * The assets' manager of the game
+     */
     public static AssetManager assetManager;
+
+    /**
+     * The instance of the {@link Game} class
+     */
     public static Game INSTANCE;
 
+    /**
+     * Creates the game objects and sets the screen with the main menu
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void create() {
         INSTANCE = this;
@@ -47,7 +62,7 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
 
         assetManager.load(StaticVariables.CARDSLOT, Texture.class);
-        assetManager.load(StaticVariables.NAVE, Texture.class);
+        assetManager.load(StaticVariables.SHIP, Texture.class);
         assetManager.load(StaticVariables.DECKMENU, Texture.class);
         assetManager.load(StaticVariables.DECKBG, Texture.class);
         assetManager.load(StaticVariables.BACKBUTTON, Texture.class);
@@ -67,39 +82,37 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
         assetManager.load(StaticVariables.MAP_OVERLAY, Texture.class);
 
-        assetManager.load(StaticVariables.PRIMOLIVELLOICO, Texture.class);
-        assetManager.load(StaticVariables.PRIMOLIVELLOICOP, Texture.class);
-        assetManager.load(StaticVariables.SECONDOLIVELLOICO, Texture.class);
-        assetManager.load(StaticVariables.SECONDOLIVELLOICOP, Texture.class);
-        assetManager.load(StaticVariables.TERZOLIVELLOICO, Texture.class);
-        assetManager.load(StaticVariables.TERZOLIVELLOICOP, Texture.class);
-        assetManager.load(StaticVariables.QUARTOLIVELLOICO, Texture.class);
-        assetManager.load(StaticVariables.QUARTOLIVELLOICOP, Texture.class);
-        assetManager.load(StaticVariables.QUINTOLIVELLOICO, Texture.class);
-        assetManager.load(StaticVariables.QUINTOLIVELLOICOP, Texture.class);
-        assetManager.load(StaticVariables.SESTOLIVELLOICO, Texture.class);
-        assetManager.load(StaticVariables.SESTOLIVELLOICOP, Texture.class);
+        assetManager.load(StaticVariables.FIRSTLEVELICON, Texture.class);
+        assetManager.load(StaticVariables.FIRSTLEVELICON_PRESSED, Texture.class);
+        assetManager.load(StaticVariables.SECONDLEVELICON, Texture.class);
+        assetManager.load(StaticVariables.SECONDLEVELICON_PRESSED, Texture.class);
+        assetManager.load(StaticVariables.THIRDLEVELICON, Texture.class);
+        assetManager.load(StaticVariables.THIRDLEVELICON_PRESSED, Texture.class);
+        assetManager.load(StaticVariables.FOURTHLEVELICON, Texture.class);
+        assetManager.load(StaticVariables.FOURTHLEVELICON_PRESSED, Texture.class);
+        assetManager.load(StaticVariables.FIFTHLEVELICON, Texture.class);
+        assetManager.load(StaticVariables.FIFTHLEVELICON_PRESSED, Texture.class);
+        assetManager.load(StaticVariables.SIXTHLEVELICON, Texture.class);
+        assetManager.load(StaticVariables.SIXTHLEVELICON_PRESSED, Texture.class);
 
-        assetManager.load(StaticVariables.ToasterBorIDLE, Texture.class);
-        assetManager.load(StaticVariables.ToasterBorAttack, Texture.class);
-        assetManager.load(StaticVariables.ToasterBorDeath, Texture.class);
-        assetManager.load(StaticVariables.ToasterBorRun, Texture.class);
-        assetManager.load(StaticVariables.ToasterBorDamaged, Texture.class);
+        assetManager.load(StaticVariables.TOASTER_IDLE, Texture.class);
+        assetManager.load(StaticVariables.TOASTER_ATTACK, Texture.class);
+        assetManager.load(StaticVariables.TOASTER_DEATH, Texture.class);
+        assetManager.load(StaticVariables.TOASTER_RUN, Texture.class);
+        assetManager.load(StaticVariables.TOASTER_DAMAGED, Texture.class);
 
-        assetManager.load(StaticVariables.StormHeadBorIDLE, Texture.class);
-        assetManager.load(StaticVariables.StormHeadAttack, Texture.class);
-        assetManager.load(StaticVariables.StormHeadDeath, Texture.class);
-        assetManager.load(StaticVariables.StormHeadRun, Texture.class);
-        assetManager.load(StaticVariables.StormHeadDamaged, Texture.class);
+        assetManager.load(StaticVariables.STORMHEAD_IDLE, Texture.class);
+        assetManager.load(StaticVariables.STORMHEAD_ATTACK, Texture.class);
+        assetManager.load(StaticVariables.STORMHEAD_DEATH, Texture.class);
+        assetManager.load(StaticVariables.STORMHEAD_RUN, Texture.class);
+        assetManager.load(StaticVariables.STORMHEAD_DAMAGED, Texture.class);
 
-        assetManager.load(StaticVariables.SpiritBoxerIDLE, Texture.class);
-        assetManager.load(StaticVariables.SpiritBoxerAttack, Texture.class);
-        assetManager.load(StaticVariables.SpiritBoxerDeath, Texture.class);
-        assetManager.load(StaticVariables.SpiritBoxerRun, Texture.class);
-        assetManager.load(StaticVariables.SpiritBoxerDamaged, Texture.class);
+        assetManager.load(StaticVariables.SPIRITBOXER_IDLE, Texture.class);
+        assetManager.load(StaticVariables.SPIRITBOXER_ATTACK, Texture.class);
+        assetManager.load(StaticVariables.SPIRITBOXER_DEATH, Texture.class);
+        assetManager.load(StaticVariables.SPIRITBOXER_RUN, Texture.class);
+        assetManager.load(StaticVariables.SPIRITBOXER_DAMAGED, Texture.class);
         assetManager.load(StaticVariables.COIN, Texture.class);
-
-       // assetManager.load(StaticVariables.TOWER, Texture.class);
 
         assetManager.load(StaticVariables.FIRETOWERCARD, Texture.class);
         assetManager.load(StaticVariables.ELETTROTOWERCARD, Texture.class);
@@ -117,27 +130,43 @@ public class CardTDGame extends Game {
         assetManager.load(StaticVariables.FIREBALLSHEETS, Texture.class);
         assetManager.load(StaticVariables.AXE, Texture.class);
 
-        assetManager.load(StaticVariables.SliderBackground, Texture.class);
-        assetManager.load(StaticVariables.SliderKnob, Texture.class);
-        assetManager.load(StaticVariables.BackgroundMusic, Music.class);
+        assetManager.load(StaticVariables.SLIDER_BACKGROUND, Texture.class);
+        assetManager.load(StaticVariables.SLIDER_KNOB, Texture.class);
+        assetManager.load(StaticVariables.BACKGROUND_MUSIC, Music.class);
         assetManager.load(StaticVariables.GAMEOVERVOICE, Music.class);
-        assetManager.load(StaticVariables.FirstMapSound, Music.class);
+        assetManager.load(StaticVariables.FIRST_MAP_BGMUSIC, Music.class);
 
         assetManager.load(StaticVariables.ROCK, Texture.class);
-        assetManager.load(StaticVariables.HealtBarD, Texture.class);
-        assetManager.load(StaticVariables.HealtBarL, Texture.class);
-        assetManager.load(StaticVariables.HealtBarM, Texture.class);
+        assetManager.load(StaticVariables.HEALT_BAR_BOTTOMLAYED, Texture.class);
+        assetManager.load(StaticVariables.HEALT_BAR_UPPERLAYED, Texture.class);
+        assetManager.load(StaticVariables.HEALT_BAR_MIDLAYED, Texture.class);
 
-        //load font for the title
         FontType.loadFonts();
 
     }
 
+    /**
+     * Load an animation from its texture (frameDuration is set to 0.2f as default)
+     *
+     * @param texture the frames of the animation
+     * @param rows the num of rows of the animation
+     * @param cols the num of cols of the animation
+     * @return the animation
+     */
     public static Animation loadAnimation(Texture texture, int rows, int cols) {
 
         return loadAnimation(texture, rows, cols, 0.2f);
     }
 
+    /**
+     * Load an animation from its texture
+     *
+     * @param texture the frames of the animation
+     * @param rows the num of rows of the animation
+     * @param cols the num of cols of the animation
+     * @param frameDuration the duration of a frame
+     * @return
+     */
     public static Animation loadAnimation(Texture texture, int rows, int cols, float frameDuration) {
 
         TextureRegion[][] tmp = TextureRegion.split(texture, texture.getWidth() /
