@@ -6,7 +6,7 @@ package it.simone.davide.cardtd.classes;
 public interface Damageable {
     /**
      * @param damage
-     * @return id diead or not
+     * @return id dead or not
      */
     boolean damage(float damage);
 }
