@@ -9,66 +9,103 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class per standardizzare i font utilizzati
+ * Utility class to simplify the management of the fonts
  */
 public class FontType {
 
+    /**
+     * The list of all fonts
+     */
     private static final List<FontType> fontTypes = new ArrayList<>();
 
-    public static FontType LOGO, OPTIONS, MONEY;
+    /**
+     * The font type used for the game name in the main menu
+     */
+    public static FontType LOGO;
+
+    /**
+     * The font type used for the option labels in the option menu
+     */
+    public static FontType OPTIONS;
+
+    /**
+     * The font type used to specify the number of money in the game
+     */
+    public static FontType MONEY;
+
+    /**
+     * The name of the file of the font
+     */
+    private final String fileName;
+
+    /**
+     * The font size
+     */
+    private final int size;
+
+    /**
+     * The font color
+     */
+    private final Color color;
 
     static {
 
-        LOGO = new FontType("LOGO", "Rundown.ttf", 150, Color.WHITE);
-        OPTIONS = new FontType("OPTIONS", "Rundown1.ttf", 100, Color.WHITE);
-        MONEY = new FontType("MONEY", "Roboto-Regular.ttf", 25, Color.WHITE);
+        LOGO = new FontType("Rundown.ttf", 150, Color.WHITE);
+        OPTIONS = new FontType("Rundown1.ttf", 100, Color.WHITE);
+        MONEY = new FontType("Roboto-Regular.ttf", 25, Color.WHITE);
         fontTypes.add(LOGO);
         fontTypes.add(OPTIONS);
         fontTypes.add(MONEY);
     }
 
-    private final String fontName;
-    private final String typename;
-    private final int size;
-    private final Color color;
-
-    FontType(String typename, String fontName, int size, Color color) {
-        this.fontName = fontName;
+    /**
+     * Create a new font type
+     *
+     * @param fileName The name of the file of the font
+     * @param size The font size
+     * @param color The font color
+     */
+    FontType(String fileName, int size, Color color) {
+        this.fileName = fileName;
         this.size = size;
         this.color = color;
-        this.typename = typename;
 
     }
 
-    public String getFontName() {
-        return fontName;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
+    /**
+     * Getter for the font color
+     *
+     * @return the font color
+     */
     public Color getColor() {
 
         return color;
     }
 
+    /**
+     * Loads the font
+     */
     public static void loadFonts() {
         for (FontType fontType : fontTypes) {
 
             FreeTypeFontLoaderParameter titleParam = new FreeTypeFontLoaderParameter();
-            titleParam.fontFileName = fontType.fontName;
+            titleParam.fontFileName = fontType.fileName;
             titleParam.fontParameters.size = fontType.size;
 
-            CardTDGame.assetManager.load(fontType.fontName, BitmapFont.class, titleParam);
+            CardTDGame.assetManager.load(fontType.fileName, BitmapFont.class, titleParam);
 
         }
 
     }
 
+    /**
+     * Returns the bit map font
+     *
+     * @return the bit map font
+     */
     public BitmapFont getBitMapFont() {
 
-        return CardTDGame.assetManager.get(fontName, BitmapFont.class);
+        return CardTDGame.assetManager.get(fileName, BitmapFont.class);
 
     }
 

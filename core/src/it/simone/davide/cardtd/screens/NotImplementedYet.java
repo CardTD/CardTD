@@ -18,11 +18,21 @@ import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 
+/**
+ * Placeholder screen for not implemented screens
+ */
 public class NotImplementedYet implements Screen {
 
-
+    /**
+     * The stage of the screen
+     */
     private final Stage fillstage;
 
+    /**
+     * Create a new NotImplementedYet screen
+     *
+     * @param backscreen which screen to return to when exiting the options menu
+     */
     public NotImplementedYet(final Screen backscreen) {
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -53,6 +63,9 @@ public class NotImplementedYet implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void show() {
 
@@ -63,6 +76,9 @@ public class NotImplementedYet implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void render(float delta) {
 
@@ -75,6 +91,9 @@ public class NotImplementedYet implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resize(int width, int height) {
 
@@ -82,25 +101,43 @@ public class NotImplementedYet implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void dispose() {
         fillstage.dispose();
     }
+
+    /**
+     * Before exit go back to the "back screen"
+     *
+     * @param backscreen which screen to return to when exiting the options menu
+     */
     public void onExit(Screen backscreen) {
 
         CardTDGame.INSTANCE.setScreen(backscreen);

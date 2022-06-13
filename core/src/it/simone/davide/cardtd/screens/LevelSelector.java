@@ -22,12 +22,26 @@ import it.simone.davide.cardtd.classes.levels.FirstMap;
 import it.simone.davide.cardtd.fontmanagement.FontType;
 import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 
+/**
+ * The level selector screen
+ */
 public class LevelSelector implements Screen, InputProcessor {
 
-    private final Stage fillstage, fitstage;
-    private Button FirstLevel, SecondLevel, ThirdLevel, FourthLevel, FifthLevel, SixthLevel;
+    /**
+     * The stage to set a responsive background
+     */
+    private final Stage fillstage;
 
+    /**
+     * The main stage where there are all the graphic components
+     */
+    private final Stage fitstage;
 
+    /**
+     * Creates a new level selector screen
+     *
+     * @param backscreen which screen to return to when exiting the options menu
+     */
     public LevelSelector(final Screen backscreen) {
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
@@ -58,10 +72,10 @@ public class LevelSelector implements Screen, InputProcessor {
 
         TextureRegionDrawable PrimoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTLEVELICON));
         TextureRegionDrawable PrimoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTLEVELICON_PRESSED));
-        FirstLevel = new Button(PrimoLivello, PrimoLivelloP);
-        FirstLevel.setSize(100, 100);
-        FirstLevel.setPosition(fitstage.getWidth() / 2f - FirstLevel.getWidth() / 2 - 150, fitstage.getHeight() / 2f - FirstLevel.getHeight() / 2 + 75);
-        FirstLevel.addListener(new ClickListener() {
+        Button firstLevel = new Button(PrimoLivello, PrimoLivelloP);
+        firstLevel.setSize(100, 100);
+        firstLevel.setPosition(fitstage.getWidth() / 2f - firstLevel.getWidth() / 2 - 150, fitstage.getHeight() / 2f - firstLevel.getHeight() / 2 + 75);
+        firstLevel.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -70,14 +84,14 @@ public class LevelSelector implements Screen, InputProcessor {
 
             }
         });
-        fitstage.addActor(FirstLevel);
+        fitstage.addActor(firstLevel);
 
         TextureRegionDrawable SecondoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SECONDLEVELICON));
         TextureRegionDrawable SecondoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SECONDLEVELICON_PRESSED));
-        SecondLevel = new Button(SecondoLivello, SecondoLivelloP);
-        SecondLevel.setSize(100, 100);
-        SecondLevel.setPosition(fitstage.getWidth() / 2f - SecondLevel.getWidth() / 2, fitstage.getHeight() / 2f - SecondLevel.getHeight() / 2 + 75);
-        SecondLevel.addListener(new ClickListener() {
+        Button secondLevel = new Button(SecondoLivello, SecondoLivelloP);
+        secondLevel.setSize(100, 100);
+        secondLevel.setPosition(fitstage.getWidth() / 2f - secondLevel.getWidth() / 2, fitstage.getHeight() / 2f - secondLevel.getHeight() / 2 + 75);
+        secondLevel.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -86,14 +100,14 @@ public class LevelSelector implements Screen, InputProcessor {
 
             }
         });
-        fitstage.addActor(SecondLevel);
+        fitstage.addActor(secondLevel);
 
         TextureRegionDrawable TerzoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.THIRDLEVELICON));
         TextureRegionDrawable TerzoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.THIRDLEVELICON_PRESSED));
-        ThirdLevel = new Button(TerzoLivello, TerzoLivelloP);
-        ThirdLevel.setSize(100, 100);
-        ThirdLevel.setPosition(fitstage.getWidth() / 2f - ThirdLevel.getWidth() / 2 + 150, fitstage.getHeight() / 2f - ThirdLevel.getHeight() / 2 + 75);
-        ThirdLevel.addListener(new ClickListener() {
+        Button thirdLevel = new Button(TerzoLivello, TerzoLivelloP);
+        thirdLevel.setSize(100, 100);
+        thirdLevel.setPosition(fitstage.getWidth() / 2f - thirdLevel.getWidth() / 2 + 150, fitstage.getHeight() / 2f - thirdLevel.getHeight() / 2 + 75);
+        thirdLevel.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -102,14 +116,14 @@ public class LevelSelector implements Screen, InputProcessor {
 
             }
         });
-        fitstage.addActor(ThirdLevel);
+        fitstage.addActor(thirdLevel);
 
         TextureRegionDrawable QuartoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FOURTHLEVELICON));
         TextureRegionDrawable QuartoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FOURTHLEVELICON_PRESSED));
-        FourthLevel = new Button(QuartoLivello, QuartoLivelloP);
-        FourthLevel.setSize(100, 100);
-        FourthLevel.setPosition(fitstage.getWidth() / 2f - FourthLevel.getWidth() / 2 - 150, fitstage.getHeight() / 2f - FourthLevel.getHeight() / 2 -75);
-        FourthLevel.addListener(new ClickListener() {
+        Button fourthLevel = new Button(QuartoLivello, QuartoLivelloP);
+        fourthLevel.setSize(100, 100);
+        fourthLevel.setPosition(fitstage.getWidth() / 2f - fourthLevel.getWidth() / 2 - 150, fitstage.getHeight() / 2f - fourthLevel.getHeight() / 2 - 75);
+        fourthLevel.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -117,14 +131,14 @@ public class LevelSelector implements Screen, InputProcessor {
                 CardTDGame.INSTANCE.setScreen(new NotImplementedYet(new LevelSelector(new MainMenu())));
             }
         });
-        fitstage.addActor(FourthLevel);
+        fitstage.addActor(fourthLevel);
 
         TextureRegionDrawable QuintoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIFTHLEVELICON));
         TextureRegionDrawable QuintoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.FIFTHLEVELICON_PRESSED));
-        FifthLevel = new Button(QuintoLivello, QuintoLivelloP);
-        FifthLevel.setSize(100, 100);
-        FifthLevel.setPosition(fitstage.getWidth() / 2f - FifthLevel.getWidth() / 2, fitstage.getHeight() / 2f - FifthLevel.getHeight() / 2 - 75);
-        FifthLevel.addListener(new ClickListener() {
+        Button fifthLevel = new Button(QuintoLivello, QuintoLivelloP);
+        fifthLevel.setSize(100, 100);
+        fifthLevel.setPosition(fitstage.getWidth() / 2f - fifthLevel.getWidth() / 2, fitstage.getHeight() / 2f - fifthLevel.getHeight() / 2 - 75);
+        fifthLevel.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -132,14 +146,14 @@ public class LevelSelector implements Screen, InputProcessor {
                 CardTDGame.INSTANCE.setScreen(new NotImplementedYet(new LevelSelector(new MainMenu())));
             }
         });
-        fitstage.addActor(FifthLevel);
+        fitstage.addActor(fifthLevel);
 
         TextureRegionDrawable SestoLivello = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SIXTHLEVELICON));
         TextureRegionDrawable SestoLivelloP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.SIXTHLEVELICON_PRESSED));
-        SixthLevel = new Button(SestoLivello, SestoLivelloP);
-        SixthLevel.setSize(100, 100);
-        SixthLevel.setPosition(fitstage.getWidth() / 2f - SixthLevel.getWidth() / 2 + 150, fitstage.getHeight() / 2f - SixthLevel.getHeight() / 2 - 75);
-        SixthLevel.addListener(new ClickListener() {
+        Button sixthLevel = new Button(SestoLivello, SestoLivelloP);
+        sixthLevel.setSize(100, 100);
+        sixthLevel.setPosition(fitstage.getWidth() / 2f - sixthLevel.getWidth() / 2 + 150, fitstage.getHeight() / 2f - sixthLevel.getHeight() / 2 - 75);
+        sixthLevel.addListener(new ClickListener() {
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -147,52 +161,77 @@ public class LevelSelector implements Screen, InputProcessor {
                 CardTDGame.INSTANCE.setScreen(new NotImplementedYet(new LevelSelector(new MainMenu())));
             }
         });
-        fitstage.addActor(SixthLevel);
-
+        fitstage.addActor(sixthLevel);
 
     }
 
-
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean keyDown(int keycode) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean keyUp(int keycode) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean keyTyped(char character) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void show() {
 
@@ -204,6 +243,9 @@ public class LevelSelector implements Screen, InputProcessor {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void render(float delta) {
 
@@ -220,6 +262,9 @@ public class LevelSelector implements Screen, InputProcessor {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resize(int width, int height) {
 
@@ -228,21 +273,33 @@ public class LevelSelector implements Screen, InputProcessor {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void dispose() {
 
@@ -251,6 +308,11 @@ public class LevelSelector implements Screen, InputProcessor {
 
     }
 
+    /**
+     * Before exit save on the game preferences the modified values and go back to the "back screen"
+     *
+     * @param backscreen which screen to return to when exiting the options menu
+     */
     public void onExit(Screen backscreen) {
 
         CardTDGame.INSTANCE.setScreen(backscreen);

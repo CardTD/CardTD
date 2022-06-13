@@ -26,12 +26,31 @@ import it.simone.davide.cardtd.screens.MainMenu;
 
 import java.util.List;
 
+/**
+ * The deck menu screen
+ */
 public class DeckMenu implements Screen, InputProcessor {
 
-    private final Stage deckStage, fillstage;
+    /**
+     * The main stage where there are all the graphic components
+     */
+    private final Stage deckStage;
+
+    /**
+     * The stage to set a responsive background
+     */
+    private final Stage fillstage;
+
+    /**
+     * The current deck of the player
+     *
+     * @see CurrentDeck
+     */
     private final CurrentDeck currentDeck;
 
-
+    /**
+     * Creates a new deck menu screen
+     */
     public DeckMenu() {
 
         deckStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
@@ -45,7 +64,7 @@ public class DeckMenu implements Screen, InputProcessor {
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
         fillstage.addActor(table);
 
-        CurrentDeck currentDeck = new CurrentDeck(MainMenu.playerDeck, deckStage);
+        CurrentDeck currentDeck = new CurrentDeck(MainMenu.PLAYERDECK, deckStage);
         AllCards allCards = new AllCards(deckStage);
 
         currentDeck.setIntegrationWith(allCards);
@@ -78,6 +97,9 @@ public class DeckMenu implements Screen, InputProcessor {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void show() {
 
@@ -85,6 +107,9 @@ public class DeckMenu implements Screen, InputProcessor {
 
     }
 
+    /**
+     * Before exit save on the game preferences the modified values and go back to the main menu
+     */
     public void onExit() {
         CardTDGame.INSTANCE.setScreen(new MainMenu());
 
@@ -99,6 +124,9 @@ public class DeckMenu implements Screen, InputProcessor {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
@@ -114,31 +142,50 @@ public class DeckMenu implements Screen, InputProcessor {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
+
     @Override
     public void resize(int width, int height) {
         deckStage.getViewport().update(width, height, true);
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Keys.BACK || keycode == Keys.ESCAPE) {
@@ -150,36 +197,57 @@ public class DeckMenu implements Screen, InputProcessor {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean keyUp(int keycode) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean keyTyped(char character) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public boolean scrolled(float amountX, float amountY) {
         return false;

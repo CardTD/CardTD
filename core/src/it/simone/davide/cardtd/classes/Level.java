@@ -5,7 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -14,7 +18,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -33,6 +41,7 @@ import it.simone.davide.cardtd.GameObjects;
 import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.TileManager;
 import it.simone.davide.cardtd.classes.levels.FirstMap;
+import it.simone.davide.cardtd.classes.waves.Wave;
 import it.simone.davide.cardtd.classes.waves.Waves;
 import it.simone.davide.cardtd.enums.EnemyState;
 import it.simone.davide.cardtd.enums.EnemyType;
@@ -41,48 +50,229 @@ import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
 import it.simone.davide.cardtd.screens.MainMenu;
 import it.simone.davide.cardtd.screens.OptionsMenu;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
+/**
+ * The screen that represents a level
+ */
 public abstract class Level implements Screen, GestureDetector.GestureListener {
-    private static final float WORLD_TO_SCREEN = 1.0f / 100.0f;
-    protected final Stage mainStage, fillstage, overlaystage, pauseStage, gameOverStage;
-    protected TileManager tileManager;
-    protected List<Build> placedStructures = new ArrayList<>();
-    protected List<Enemy> enemies = new ArrayList<>();
+
+    /**
+     * The stage of the game
+     */
+    private final Stage mainStage;
+
+    /**
+     * The stage to set a responsive background
+     */
+    private final Stage fillstage;
+
+    /**
+     * The stage to place the overlay
+     */
+    private final Stage overlaystage;
+
+    /**
+     * The stage to place the pause's components
+     */
+    private final Stage pauseStage;
+
+    /**
+     * The stage to place the game over's components
+     */
+    private final Stage gameOverStage;
+
+    /**
+     * The tile manager
+     */
+    private TileManager tileManager;
+
+    /**
+     * The placed buildings on the game map
+     */
+    private List<Build> placedStructures = new ArrayList<>();
+
+    /**
+     * All the in game enemies
+     */
+    private List<Enemy> enemies = new ArrayList<>();
+
+    /**
+     * The selected card
+     */
     private Card selectedCard;
-    private boolean showEnemyCenter = false, showTiledMapElem = false, isCardDragging = false, isPaused = false, isGameOver = false, isGameWon = false;
+
+    /**
+     * If showing the center of enemies, used for debugging
+     */
+    private boolean showEnemyCenter = false;
+
+    /**
+     * If showing the border of the in game map elements, used for debugging
+     */
+    private boolean showTiledMapElem = false;
+
+    /**
+     * If selected card is being dragged
+     */
+    private boolean isCardDragging = false;
+
+    /**
+     * If the game is in pause
+     */
+    private boolean isPaused = false;
+
+    /**
+     * If the game is in game over
+     */
+    private boolean isGameOver = false;
+
+    /**
+     * If the game is in won phase
+     */
+    private boolean isGameWon = false;
+
+    /**
+     * The camera of the game
+     */
     private OrthographicCamera gameCam = new OrthographicCamera();
+
+    /**
+     * The zoom of the camera
+     */
     private float currentZoom = 1;
-    Build building;
+
+    /**
+     * The building that is being placed dragging the selected card
+     */
+    private Build building;
+
+    /**
+     * ShaderProgram to apply the blur effect
+     */
     private ShaderProgram shader;
+
+    /**
+     * FrameBuffer to apply the blur effect
+     */
     private FrameBuffer fboA;
+
+    /**
+     * FrameBuffer to apply the blur effect
+     */
     private FrameBuffer fboB;
+
+    /**
+     * The pause label shown in pause state
+     */
     private LabelAdapter PauseLabel;
-    private Button option, homeB, resume, pause, reload;
+
+    /**
+     * The pause button
+     */
+    private Button option;
+
+    /**
+     * The home button to go back to the main menu
+     */
+    private Button homeB;
+
+    /**
+     * The resume button
+     */
+    private Button resume;
+
+    /**
+     * The pause button
+     */
+    private Button pause;
+
+    /**
+     * The restart button
+     */
+    private Button reload;
+
+    /**
+     * The queue of the cards
+     */
     private Queue<Card> deckQueue;
 
-    private final Screen screen;
+    /**
+     * The instance of the screen
+     */
+    private final Screen LevelInstance;
 
+    /**
+     * The current balance of the player
+     */
     private int balance;
-    private int iniTialbalance;
-    private LabelAdapter balancaText, gameOverLabel, timer, gameWinLabel;
+
+    /**
+     * The current balance label
+     */
+    private LabelAdapter balanceLabel;
+
+    /**
+     * The game over label
+     */
+    private LabelAdapter gameOverLabel;
+
+    /**
+     * The timer label
+     */
+    private LabelAdapter timer;
+
+    /**
+     * The in game win label
+     */
+    private LabelAdapter gameWinLabel;
+
+    /**
+     * The health bar manager
+     */
     public static HealthBar HEALTHBAR;
+
+    /**
+     * The 4 card shown in game
+     */
     private List<Card> cards = new ArrayList<>();
+
+    /**
+     * The selected building, just to show the building information
+     */
     public static Build SELECTEDBUILDING;
-    public int initialCountDown = 3;
 
-    protected Waves waves;
+    /**
+     * The initial countdown before start thw first wave
+     */
+    private int initialCountDown = 3;
 
+    /**
+     * The waves of the level
+     *
+     * @see Wave
+     */
+    private Waves waves;
+
+    /**
+     * Create a new Level
+     *
+     * @param map the image of the map
+     * @param tiledmap the tiled map of the level
+     */
     public Level(Texture map, TiledMap tiledmap) {
 
-        deckQueue = new LinkedList(MainMenu.playerDeck.getRealDeck());
+        deckQueue = new LinkedList(MainMenu.PLAYERDECK.getRealDeck());
 
-        iniTialbalance = getInitialBalance();
-        balance = iniTialbalance;
+        balance = getInitialBalance();
 
         waves = getWaves();
 
-        screen = this;
+        LevelInstance = this;
         shader = new ShaderProgram(Gdx.files.internal("shaders/blur.vert"), Gdx.files.internal("shaders/blur.frag"));
         fboA = new FrameBuffer(Pixmap.Format.RGBA8888, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, false);
         fboB = new FrameBuffer(Pixmap.Format.RGBA8888, StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT, false);
@@ -159,7 +349,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         gameWinLabel = new LabelAdapter("YOU WON", FontType.LOGO);
         gameWinLabel.toStage(gameOverStage, gameOverStage.getWidth() / 2f - gameWinLabel.getWidth() / 2, gameOverStage.getHeight() / 2f - gameWinLabel.getHeight() / 2 + 200);
 
-
         TextureRegionDrawable optionButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON));
         TextureRegionDrawable optionButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON_PRESSED));
         option = new Button(optionButton, optionButtonP);
@@ -170,7 +359,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                CardTDGame.INSTANCE.setScreen(new OptionsMenu(screen));
+                CardTDGame.INSTANCE.setScreen(new OptionsMenu(LevelInstance));
 
             }
         });
@@ -199,7 +388,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         timer = new LabelAdapter(initialCountDown + "", FontType.MONEY);
         timer.toStage(overlaystage, overlaystage.getWidth() / 2f - timer.getWidth() / 2, overlaystage.getHeight() - timer.getHeight());
 
-
         Timer.Task initialTimerTask = new Timer.Task() {
             @Override
             public void run() {
@@ -213,8 +401,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         };
         Timer.schedule(initialTimerTask, 1f, 1f);
 
-        balancaText = new LabelAdapter(balance + "", FontType.MONEY);
-        balancaText.toStage(overlaystage, 640, 9);
+        balanceLabel = new LabelAdapter(balance + "", FontType.MONEY);
+        balanceLabel.toStage(overlaystage, 640, 9);
 
         AnimatedImage coin = new AnimatedImage(CardTDGame.loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1));
 
@@ -326,10 +514,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         });
 
-
-
         for (int i = 0; i < 4; i++) {
-
 
             Card c = deckQueue.poll();
 
@@ -381,40 +566,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             });
 
             c.addListener(new DragListener() {
-
-             /*   @Override
-                public void dragStart(InputEvent event, float x, float y, int pointer) {
-                    super.dragStart(event, x, y, pointer);
-
-
-                    if (pointer > 0) return;
-
-
-                    Card c = ((Card) event.getTarget());
-
-                    if (!c.isSelected() && selectedCard == null) {
-                        selectedCard = c;
-                        c.setSelected(true);
-                        building = selectedCard.getBuild().clone();
-                        building.debug();
-
-                       building.setPosition(event.getStageX() - building.getWidth() / 2, event.getStageY() - building.getHeight() / 2);
-
-
-                        placedStructures.add(building);
-                        mainStage.addActor(building);
-                        if (!tileManager.canPlace(building.getRectangle())) {
-
-                            building.setColor(Color.RED);
-                        } else {
-
-                            building.setColor(Color.GREEN);
-                        }
-                    }
-
-                }
-
-              */
 
                 @Override
                 public void dragStart(InputEvent event, float x, float y, int pointer) {
@@ -499,7 +650,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
             balance += addBalance;
 
-            balancaText.setText(balance);
+            balanceLabel.setText(balance);
 
         }
 
@@ -540,7 +691,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         } else {
             s.setPosition(i.x, i.y);
         }
-
 
     }
 
@@ -615,7 +765,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         ShapeRenderer s = new ShapeRenderer();
         s.setProjectionMatrix(mainStage.getCamera().combined);
         if (showTiledMapElem) tileManager.render(s);
-
 
         if (SELECTEDBUILDING != null) {
             Circle b = SELECTEDBUILDING.getAttackRangeCircle();
@@ -694,7 +843,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         if (HEALTHBAR.isDead()) {
             boolean f = isGameOver;
             isGameOver = true;
-            if (f != true) {
+            if (!f) {
                 Music c = (CardTDGame.assetManager.get(StaticVariables.GAMEOVERVOICE));
                 c.setVolume(MainMenu.OPTIONS.getFxVolume());
                 c.setLooping(false);
@@ -811,16 +960,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         return true;
     }
 
-    public static void print(String... s) {
-
-        StringBuilder r = new StringBuilder();
-        for (String a : s) {
-            r.append(a).append(", ");
-
-        }
-
-    }
-
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
         if (!isPaused && !isGameOver && !isGameWon) {
@@ -862,22 +1001,24 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         shader.setUniformf("radius", blur);
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        drawTexture(fboA.getColorBufferTexture(), 0.0f, 0.0f, batch);
+        drawTexture(fboA.getColorBufferTexture(), batch);
         batch.flush();
         fboB.end();
 
         // Vertical blur from FBO B to the screen
         shader.setUniformf("dir", 0.0f, 1.0f);
         shader.setUniformf("radius", blur);
-        drawTexture(fboB.getColorBufferTexture(), 0.0f, 0.0f, batch);
+        drawTexture(fboB.getColorBufferTexture(), batch);
         batch.flush();
     }
 
-    private void drawTexture(Texture texture, float x, float y, Batch batch) {
+    private void drawTexture(Texture texture, Batch batch) {
         int width = texture.getWidth();
         int height = texture.getHeight();
 
-        batch.draw(texture, x, y, 0.0f, 0.0f, width, height, WORLD_TO_SCREEN, WORLD_TO_SCREEN, 0.0f, 0, 0, width, height, false, false);
+        float world_to_screen = 1.0f / 100.0f;
+
+        batch.draw(texture, (float) 0.0, (float) 0.0, 0.0f, 0.0f, width, height, 1.0f / 100.0f, 1.0f / 100.0f, 0.0f, 0, 0, width, height, false, false);
     }
 
     public void setShowTiledMapElem(boolean showTiledMapElem) {

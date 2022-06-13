@@ -32,19 +32,31 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * The main menu screen
+ */
 public class MainMenu implements Screen {
 
     /**
-     * Stage che si estende su tutta la schermata
+     * The stage to set a responsive background
      */
     private final Stage fillstage;
 
     /**
-     * Stage che si estende solo per la dimensione specificata del gioco
+     * The main stage where there are all the graphic components
      */
     private final Stage fitstage;
 
-    public static Deck playerDeck = new Deck(12);
+    /**
+     * The deck of the player
+     *
+     * @see Deck
+     */
+    public static Deck PLAYERDECK = new Deck(12);
+
+    /**
+     * The player preferences
+     */
     public static final Options OPTIONS = new Options();
 
     private static long getRandomLong(long min, long max) {
@@ -57,11 +69,10 @@ public class MainMenu implements Screen {
         return rand.nextFloat() * (max - min) + min;
     }
 
-    float y = getRandomLong(600, 800), time = nextFloat(10, 20);
-
+    /**
+     * Create a new main menu screen
+     */
     public MainMenu() {
-
-
 
         MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BACKGROUND_MUSIC));
 
@@ -92,7 +103,6 @@ public class MainMenu implements Screen {
             }
         }, 1, 15000);
 
-        //inserisco le 3 label
         LabelAdapter logo = new LabelAdapter(StaticVariables.GAMENAME, FontType.LOGO);
         logo.toStage(fitstage, StaticVariables.SCREEN_WIDTH / 2f - logo.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - logo.getHeight() / 2 + 200);
         final LabelAdapter options = new LabelAdapter("Options", FontType.OPTIONS);
@@ -109,10 +119,10 @@ public class MainMenu implements Screen {
             String r = prefs.getString(i + "", "blank");
             if (r.equals("blank")) {
 
-                playerDeck.addCard(StaticVariables.BLANK_CARD.clone());
+                PLAYERDECK.addCard(StaticVariables.BLANK_CARD.clone());
             } else {
 
-                playerDeck.addCard(GameObjects.getCardByName(r).clone());
+                PLAYERDECK.addCard(GameObjects.getCardByName(r).clone());
 
             }
 
@@ -183,6 +193,9 @@ public class MainMenu implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void show() {
 
@@ -193,6 +206,9 @@ public class MainMenu implements Screen {
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
@@ -210,6 +226,9 @@ public class MainMenu implements Screen {
         fitstage.draw();
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resize(int width, int height) {
 
@@ -218,21 +237,33 @@ public class MainMenu implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void dispose() {
 
