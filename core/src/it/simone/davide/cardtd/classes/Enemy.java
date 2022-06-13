@@ -54,14 +54,45 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
      */
     private final int speed;
 
-    
+    /**
+     * Money to be added in balance once the enemy is dead
+     */
     private final int moneyonkill;
+
+    /**
+     * The dimension, in pixels, of the attack
+     */
     private final int attackDimension;
+
+    /**
+     * If the enemy has been removed
+     */
     private boolean remove = false;
+
+    /**
+     * The path of the enemy
+     */
     private Path path;
+
+    /**
+     * The center of the enemy
+     */
     private Vector2 center = new Vector2(0, 0);
+
+    /**
+     * If the enemy texture is flipped
+     */
     private boolean isFlipped = false;
 
+    /**
+     * Create a new enemy
+     *
+     * @param hp Health points of the enemy
+     * @param damage The damage the enemy can inflict
+     * @param speed The speed of the enemy
+     * @param moneyonkill Money to be added in balance once the enemy is dead
+     * @param attackDimension The dimension, in pixels, of the attack
+     */
     public Enemy(int hp, int damage, int speed, int moneyonkill, int attackDimension) {
 
         this.hp = hp;
@@ -74,22 +105,35 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * Returns the center of the enemy
+     * @return the center of the enemy
+     */
     public Vector2 getCenter() {
         return center;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setX(float x) {
         super.setX(x);
         center.x = getX() + getFrameWidth() / 2;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setY(float y) {
         super.setY(y);
         center.y = getY() + getHeight() / 2;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
@@ -100,6 +144,12 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * Flip the enemy animation
+     *
+     * @param newX the new coordinate x
+     * @param newY the new coordinate y
+     */
     public void flip(float newX, float newY) {
 
         isFlipped = !isFlipped;
@@ -117,6 +167,11 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * Change the state of the enemy
+     *
+     * @param currentState the new state of the enemy
+     */
     public void setCurrentState(EnemyState currentState) {
 
         if (!currentState.equals(this.currentState)) {
@@ -127,6 +182,11 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * Set the path of the enemy
+     *
+     * @param path the path of the enemy
+     */
     public void setPath(Path path) {
         this.path = path;
     }
@@ -184,7 +244,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(Color.WHITE);
@@ -193,12 +252,11 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
             batch.draw(currentRegion, getX(), getY());
         }
 
-
     }
 
     public Rectangle getRectangle() {
 
-        return new Rectangle(center.x-getHeight()/2, center.y-getHeight()/2, getHeight(), getHeight());
+        return new Rectangle(center.x - getHeight() / 2, center.y - getHeight() / 2, getHeight(), getHeight());
 
     }
 
@@ -207,9 +265,6 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
      */
     @Override
     public boolean damage(float damage) {
-
-
-
 
         int oldHp = hp;
         hp -= damage;

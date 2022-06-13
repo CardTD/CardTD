@@ -95,7 +95,7 @@ public class Deck {
     }
 
     /**
-     *
+     *  Arrange the deck so that at the beginning we are all the cards and after the blank cards
      */
     public void fixDeck() {
 
@@ -108,7 +108,12 @@ public class Deck {
         }
 
     }
-    //TODO
+
+    /**
+     * Return the queue with the cards to use in the game
+     *
+     * @return the queue with the cards to use in the game
+     */
     public Queue getRealDeck() {
         Queue<Card> c;
         List<Card> l = new LinkedList<>();
