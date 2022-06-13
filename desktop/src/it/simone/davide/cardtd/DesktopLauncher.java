@@ -10,8 +10,8 @@ public class DesktopLauncher {
         config.setForegroundFPS(60);
         config.setResizable(true);
         config.setTitle("CardTD");
-         config.setWindowedMode(Lwjgl3ApplicationConfiguration.getDisplayMode().width-100, Lwjgl3ApplicationConfiguration.getDisplayMode().height-100);
-        // config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        //config.setWindowedMode(Lwjgl3ApplicationConfiguration.getDisplayMode().width-100, Lwjgl3ApplicationConfiguration.getDisplayMode().height-100);
+        config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
         new Lwjgl3Application(new CardTDGame(), config);
     }
 }
