@@ -172,8 +172,7 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
     }
 
     /**
-     * @param damage
-     * @return id diead or not
+     * {@inheritDoc}
      */
     @Override
     public boolean damage(float damage) {
