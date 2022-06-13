@@ -5,18 +5,37 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The path an enemy must take
+ */
 public class Path {
 
-    List<MoveVector2> points;
-    int speed;
-    int currentPoint = 0;
+    /**
+     * The movements that an enemy must perform
+     */
+    private List<MoveVector2> points;
 
+    /**
+     * The speed to travel the path
+     */
+    private int speed;
+
+    /**
+     * What point the enemy is on the path
+     */
+    private int currentPoint = 0;
+
+    /**
+     * Create a new path
+     *
+     * @param speed the speed to travel the path
+     * @param list  the list of the points that make up the path
+     */
     public Path(int speed, MoveVector2... list) {
         this.speed = speed;
         this.points = Arrays.asList(list);
 
     }
-
 
     private boolean isPositive(float a) {
 
@@ -24,6 +43,12 @@ public class Path {
 
     }
 
+    /**
+     * The method to call to move the enemy in the path
+     *
+     * @param delta the delta time between 2 frames
+     * @param enemy the enemy to move
+     */
     public void move(float delta, Enemy enemy) {
         MoveVector2 current;
         Vector2 next;
@@ -38,20 +63,18 @@ public class Path {
 
             float movimento = speed * delta;
 
-            current.x -= movimento;
-            current.y -= movimento;
-            if (current.x < 0 && current.y < 0) {
+            current.addToX(-movimento);
+            current.addToY(-movimento);
+            if (current.getX() < 0 && current.getY() < 0) {
 
                 Vector2 l, n;
                 l = current.getRealVector2();
                 currentPoint++;
                 n = points.get(currentPoint).getRealVector2();
 
-
                 if ((isPositive(l.x) && !isPositive(n.x)) || (!isPositive(l.x) && isPositive(n.x))) {
 
-                    enemy.flip(enemy.getX()-enemy.getFrameWidth()+enemy.getWidth(), enemy.getY());
-
+                    enemy.flip(enemy.getX() - enemy.getFrameWidth() + enemy.getWidth(), enemy.getY());
 
                 }
 
@@ -61,39 +84,38 @@ public class Path {
             y = enemy.getY();
             float movX = x, movY = y;
 
-
-            switch (current.direction) {
+            switch (current.getDirection()) {
 
                 case X_Y_NEGATIVE:
-                    if (current.x > 0) {
+                    if (current.getX() > 0) {
                         movX = x - movimento;
                     }
-                    if (current.y > 0) {
+                    if (current.getY() > 0) {
                         movY = y - movimento;
                     }
                     break;
                 case X_Y_POSITIVE:
-                    if (current.x > 0) {
+                    if (current.getX() > 0) {
                         movX = x + movimento;
                     }
-                    if (current.y > 0) {
+                    if (current.getY() > 0) {
                         movY = y + movimento;
                     }
                     break;
                 case X_NEGATIVE_Y_POSITIVE:
-                    if (current.x > 0) {
+                    if (current.getX() > 0) {
                         movX = x - movimento;
                     }
-                    if (current.y > 0) {
+                    if (current.getY() > 0) {
                         movY = y + movimento;
                     }
                     break;
 
                 case X_POSITIVE_Y_NEGATIVE:
-                    if (current.x > 0) {
+                    if (current.getX() > 0) {
                         movX = x + movimento;
                     }
-                    if (current.y > 0) {
+                    if (current.getY() > 0) {
                         movY = y - movimento;
                     }
                     break;

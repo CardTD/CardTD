@@ -12,20 +12,46 @@ import it.simone.davide.cardtd.StaticVariables;
 import it.simone.davide.cardtd.classes.Card;
 import it.simone.davide.cardtd.classes.Deck;
 
+/**
+ * CurrentDeck represents the player’s deck. It also handles interacting with the rest of the cards in the collection ({@link AllCards})
+ *
+ * @see DeckMenu
+ */
 class CurrentDeck {
 
-
+    /**
+     * The deck of the player
+     */
     private final Deck playerDeck;
-    private final Stage stage;
-    private AllCards allCards;
-    private final int offsetX = 8, cardGap = 6, offsetY = 467;
 
+    /**
+     * The stage where are placed the cards
+     */
+    private final Stage stage;
+
+    /**
+     * The rest of the cards in the collection ({@link AllCards})
+     */
+    private AllCards allCards;
+
+    /**
+     * Create a new CurrentDeck
+     *
+     * @param playerDeck the deck of the player
+     * @param stage      the stage where are placed the cards
+     */
     public CurrentDeck(Deck playerDeck, Stage stage) {
         this.playerDeck = playerDeck;
         this.stage = stage;
 
     }
 
+    /**
+     * Set with what object will have to collaborate for moving cards
+     *
+     * @param allCards the object representing the rest of the cards
+     * @see AllCards
+     */
     public void setIntegrationWith(AllCards allCards) {
         this.allCards = allCards;
         toStage();
@@ -36,6 +62,9 @@ class CurrentDeck {
         for (int i = 0; i < 12; i++) {
 
             Card c = playerDeck.getCard(i);
+            int offsetX = 8;
+            int cardGap = 6;
+            int offsetY = 467;
             c.setPosition(offsetX + i * c.getWidth() + i * cardGap, offsetY);
             stage.addActor(c);
 
@@ -63,8 +92,6 @@ class CurrentDeck {
 
                             }
                         }), Actions.removeActor()));
-
-
 
                     }
 
@@ -149,6 +176,11 @@ class CurrentDeck {
         };
     }
 
+    /**
+     * Initially the deck consists of blank cards. The method returns the index of the first blank card and then replaceable
+     *
+     * @return the index of the first blank card or {@code -1}
+     */
     public int getFirstIndexValid() {
 
         for (int i = 0; i < playerDeck.getCards().size(); i++) {
@@ -160,12 +192,24 @@ class CurrentDeck {
         return -1;
     }
 
+    /**
+     * Return the card by its index on the list
+     *
+     * @param i the idex of the card
+     * @return the card
+     */
     public Card getCard(int i) {
 
         return playerDeck.getCards().get(i);
 
     }
 
+    /**
+     * Returns if, during the dragging period, the card is on top of the rest of the cards in the collection
+     *
+     * @param card the card
+     * @return the card on which you are above, or {@code null}
+     */
     public Card overlaps(Card card) {
         for (Card c : playerDeck.getCards()) {
             if (new Rectangle(c.getX(), c.getY(), c.getWidth(), c.getHeight()).overlaps(new Rectangle(card.getX(), card.getY(), card.getWidth(), card.getHeight()))) {
@@ -175,14 +219,24 @@ class CurrentDeck {
         return null;
     }
 
+    /**
+     * Returns the player deck
+     *
+     * @return the player deck
+     */
     public Deck getPlayerDeck() {
         return playerDeck;
     }
 
-    //return a card by name
-    public Card getCardByName(String name){
-        for(Card c : playerDeck.getCards()){
-            if(c.getName().equals(name)){
+    /**
+     * Return the card by its name
+     *
+     * @param name the name of a card
+     * @return the card by its name
+     */
+    public Card getCardByName(String name) {
+        for (Card c : playerDeck.getCards()) {
+            if (c.getName().equals(name)) {
                 return c;
             }
         }

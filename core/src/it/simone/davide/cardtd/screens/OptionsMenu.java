@@ -28,22 +28,38 @@ import it.simone.davide.cardtd.fontmanagement.LabelAdapter;
  */
 public class OptionsMenu implements Screen {
 
-    private SliderStyle uiSliderStyle = new SliderStyle();
-  
-    private Stage stage, backgroundStage;
-    private Skin skin, skinButton;
-    private Slider audioSlider, fxSlider;
+    /**
+     * The stage where there are all settings buttons, slider...
+     */
+    private Stage mainStage;
 
+    /**
+     * The stage to set a responsive background
+     */
+    private Stage backgroundStage;
+
+    /**
+     * The slider for the music volume
+     */
+    private Slider audioSlider;
+
+    /**
+     * The slider for the fx volume
+     */
+    private Slider fxSlider;
+
+    /**
+     * Creates a new option menu screen
+     *
+     * @param backscreen which screen to return to when exiting the options menu
+     */
     public OptionsMenu(final Screen backscreen) {
 
-        skin = new Skin();
         backgroundStage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        stage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
-        Gdx.input.setInputProcessor(stage);
+        mainStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
+        Gdx.input.setInputProcessor(mainStage);
 
-        skin = new Skin();
-        skinButton = new Skin();
-
+        Skin skin = new Skin();
         Texture bg = CardTDGame.assetManager.get(StaticVariables.MAIN_MENU_IMG);
         Table table = new Table();
         table.setFillParent(true);
@@ -52,15 +68,17 @@ public class OptionsMenu implements Screen {
         backgroundStage.addActor(table);
 
         LabelAdapter MusicSlider = new LabelAdapter("Music", FontType.LOGO);
-        MusicSlider.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2);
+        MusicSlider.toStage(mainStage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2);
         LabelAdapter FxSlider = new LabelAdapter("FX", FontType.LOGO);
-        FxSlider.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2 - 200);
+        FxSlider.toStage(mainStage, StaticVariables.SCREEN_WIDTH / 2f - MusicSlider.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - MusicSlider.getHeight() / 2 - 200);
         LabelAdapter button_on_off = new LabelAdapter("Options", FontType.LOGO);
-        button_on_off.toStage(stage, StaticVariables.SCREEN_WIDTH / 2f - button_on_off.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - button_on_off.getHeight() / 2 + 200);
+        button_on_off.toStage(mainStage, StaticVariables.SCREEN_WIDTH / 2f - button_on_off.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - button_on_off.getHeight() / 2 + 200);
 
         skin.add("sliderBack", CardTDGame.assetManager.get(StaticVariables.SLIDER_BACKGROUND));
         skin.add("sliderKnob", CardTDGame.assetManager.get(StaticVariables.SLIDER_KNOB));
 
+
+        SliderStyle uiSliderStyle = new SliderStyle();
         uiSliderStyle.background = skin.getDrawable("sliderBack");
         uiSliderStyle.knob = skin.getDrawable("sliderKnob");
 
@@ -92,17 +110,17 @@ public class OptionsMenu implements Screen {
 
         audioSlider.setPosition(StaticVariables.SCREEN_WIDTH - 500, StaticVariables.SCREEN_HEIGHT - 500);
         audioSlider.setPosition((StaticVariables.SCREEN_WIDTH / 2f - audioSlider.getWidth() / 2) + 200, StaticVariables.SCREEN_HEIGHT / 2f - audioSlider.getHeight() / 2);
-        stage.addActor(audioSlider);
+        mainStage.addActor(audioSlider);
 
         fxSlider.setPosition(StaticVariables.SCREEN_WIDTH - 500, StaticVariables.SCREEN_HEIGHT - 500);
         fxSlider.setPosition((StaticVariables.SCREEN_WIDTH / 2f - fxSlider.getWidth() / 2) + 200, StaticVariables.SCREEN_HEIGHT / 2f - fxSlider.getHeight() / 2 - 200);
-        stage.addActor(fxSlider);
+        mainStage.addActor(fxSlider);
 
         TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON));
         TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
         Button back = new Button(b, bp);
         back.setSize(80, 80);
-        back.setPosition(stage.getWidth() - 100, stage.getHeight() - 100);
+        back.setPosition(mainStage.getWidth() - 100, mainStage.getHeight() - 100);
         back.addListener(new ClickListener() {
 
             @Override
@@ -111,10 +129,13 @@ public class OptionsMenu implements Screen {
                 onExit(backscreen);
             }
         });
-        stage.addActor(back);
+        mainStage.addActor(back);
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void show() {
 
@@ -122,6 +143,9 @@ public class OptionsMenu implements Screen {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
@@ -131,40 +155,60 @@ public class OptionsMenu implements Screen {
         backgroundStage.act(delta);
         backgroundStage.draw();
 
-        stage.getViewport().apply();
-        stage.act(delta);
-        stage.draw();
+        mainStage.getViewport().apply();
+        mainStage.act(delta);
+        mainStage.draw();
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resize(int width, int height) {
 
         backgroundStage.getViewport().update(width, height, true);
-        stage.getViewport().update(width, height, true);
+        mainStage.getViewport().update(width, height, true);
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * {inheritDoc}
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**
+     * Before exit save on the game preferences the modified values and go back to the "back screen"
+     *
+     * @param backscreen which screen to return to when exiting the options menu
+     */
     public void onExit(Screen backscreen) {
 
         MainMenu.OPTIONS.setVolumePref();

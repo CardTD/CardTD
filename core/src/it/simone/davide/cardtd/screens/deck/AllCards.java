@@ -14,14 +14,35 @@ import it.simone.davide.cardtd.classes.Card;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * AllCards represents all cards in the collection. It also manages interaction with the current deck ({@link CurrentDeck})
+ *
+ * @see DeckMenu
+ */
 class AllCards {
 
+    /**
+     * The list of all cards in the collection
+     */
     private final List<Card> allCards = new ArrayList<>();
-    private int rows = 1;
-    private CurrentDeck currentDeck;
-    private final Stage stage;
-    private final float offsetX = 36.5f, cardGap = 19, offsetY = 350 + 10 - 150 - 12.5f;
 
+    /**
+     * The current deck of the player
+     *
+     * @see CurrentDeck
+     */
+    private CurrentDeck currentDeck;
+
+    /**
+     * The stage where are placed the cards
+     */
+    private final Stage stage;
+
+    /**
+     * Create a new AllCards
+     *
+     * @param stage the stage where are placed the cards
+     */
     public AllCards(Stage stage) {
 
         this.stage = stage;
@@ -34,12 +55,17 @@ class AllCards {
         int i = allCards.size();
         while (i > 10) {
             i -= 10;
-            rows++;
 
         }
 
     }
 
+    /**
+     * Set with what object will have to collaborate for moving cards
+     *
+     * @param currentDeck the object representing the current deck of the player
+     * @see CurrentDeck
+     */
     public void setIntegrationWith(CurrentDeck currentDeck) {
         this.currentDeck = currentDeck;
         for (Card c : currentDeck.getPlayerDeck().getCards()) {
@@ -61,6 +87,7 @@ class AllCards {
         for (int i = 0; i < Math.min(20, allCards.size()); i++) {
 
             Card c = allCards.get(i);
+            float offsetY = 350 + 10 - 150 - 12.5f;
             float offY = offsetY;
 
             if (i > 9) {
@@ -72,6 +99,8 @@ class AllCards {
 
             }
 
+            float offsetX = 36.5f;
+            float cardGap = 19;
             c.setPosition(offsetX + offX * c.getWidth() + offX * cardGap, offY);
             stage.addActor(c);
 
@@ -190,6 +219,12 @@ class AllCards {
         };
     }
 
+    /**
+     * Given a card from {@link CurrentDeck}, it returns the same card in the collection
+     *
+     * @param c the card
+     * @return the card in the collection
+     */
     public Card getCard(Card c) {
         for (Card i : allCards) {
             if (c.getName().equals(i.getName())) {
@@ -202,6 +237,12 @@ class AllCards {
         return null;
     }
 
+    /**
+     * Returns if, during the dragging period, the card is on top of the current deck section
+     *
+     * @param card the card
+     * @return the card on which you are above, or {@code null}
+     */
     public Card overlaps(Card card) {
         for (Card c : allCards) {
             if (new Rectangle(c.getX(), c.getY(), c.getWidth(), c.getHeight()).overlaps(new Rectangle(card.getX(), card.getY(), card.getWidth(), card.getHeight()))) {

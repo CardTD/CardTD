@@ -32,7 +32,7 @@ public class Waves extends Actor {
         if (current != null && current.terminated) {
             current = waves.poll();
 
-            if(current == null)
+            if (current == null)
                 terminated = true;
         }
 
@@ -41,8 +41,6 @@ public class Waves extends Actor {
             current.onStage(level);
 
         }
-
-
 
     }
 }
