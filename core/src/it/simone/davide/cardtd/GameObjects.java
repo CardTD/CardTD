@@ -61,24 +61,24 @@ public class GameObjects {
 
         BULLETS = new HashMap<>();
 
-        BULLETS.put(BulletType.ROCK, new RockBullet(CardTDGame.assetManager.<Texture>get(StaticVariables.ROCK), 10));
-        BULLETS.put(BulletType.FIRE, new FireBall(CardTDGame.loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.FIREBALLSHEETS), 6, 1), 5));
-        BULLETS.put(BulletType.SNOW, new SnowBall(CardTDGame.loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.SNOWBALLSHEETS), 6, 1), 5));
-        BULLETS.put(BulletType.AXE, new Axe((CardTDGame.assetManager.<Texture>get(StaticVariables.AXE)), 10));
+        BULLETS.put(BulletType.ROCK, new RockBullet(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.ROCK), 10));
+        BULLETS.put(BulletType.FIRE, new FireBall(CardTDGame.loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.FIREBALLSHEETS), 6, 1), 5));
+        BULLETS.put(BulletType.SNOW, new SnowBall(CardTDGame.loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.SNOWBALLSHEETS), 6, 1), 5));
+        BULLETS.put(BulletType.AXE, new Axe((CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.AXE)), 10));
 
         BUILDINGS = new HashMap<>();
-        BUILDINGS.put(BuildType.FIRETOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRETOWERPLACED), BulletType.FIRE, 200, 1f, 5, 0, 0));
-        BUILDINGS.put(BuildType.ELLETTROTOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.ELETTROTOWERPLACED), BulletType.ROCK, 200, 1f, 3, 0, 0));
-        BUILDINGS.put(BuildType.LASERTOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.LASERTOWERPLACED), BulletType.ROCK, 200, 1f, 1, 3, 0));
-        BUILDINGS.put(BuildType.SNOWTOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.SNOWTOWERPLACED), BulletType.SNOW, 200, 1f, 1, 5, 0));
-        BUILDINGS.put(BuildType.DESERTTOWER, new Build(CardTDGame.assetManager.<Texture>get(StaticVariables.DESERTTOWERPLACED), BulletType.AXE, 200, 1f, 1, 3, 0));
+        BUILDINGS.put(BuildType.FIRETOWER, new Build(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.FIRETOWERPLACED), BulletType.FIRE, 200, 1f, 5, 0, 0));
+        BUILDINGS.put(BuildType.ELLETTROTOWER, new Build(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.ELETTROTOWERPLACED), BulletType.ROCK, 200, 1f, 3, 0, 0));
+        BUILDINGS.put(BuildType.LASERTOWER, new Build(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.LASERTOWERPLACED), BulletType.ROCK, 200, 1f, 1, 3, 0));
+        BUILDINGS.put(BuildType.SNOWTOWER, new Build(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.SNOWTOWERPLACED), BulletType.SNOW, 200, 1f, 1, 5, 0));
+        BUILDINGS.put(BuildType.DESERTTOWER, new Build(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.DESERTTOWERPLACED), BulletType.AXE, 200, 1f, 1, 3, 0));
 
         CARDS = new HashMap<>();
-        CARDS.put(CardType.FIRE_TOWER, new Card("FireTower", CardTDGame.assetManager.<Texture>get(StaticVariables.FIRETOWERCARD), BuildType.FIRETOWER, 100));
-        CARDS.put(CardType.ELETTRO_TOWER, new Card("ElettroTower", CardTDGame.assetManager.<Texture>get(StaticVariables.ELETTROTOWERCARD), BuildType.ELLETTROTOWER, 250));
-        CARDS.put(CardType.LASER_TOWER, new Card("LaserTower", CardTDGame.assetManager.<Texture>get(StaticVariables.LASERTOWERCARD), BuildType.LASERTOWER, 500));
-        CARDS.put(CardType.SNOW_TOWER, new Card("SnowTower", CardTDGame.assetManager.<Texture>get(StaticVariables.SNOWTOWERCARD), BuildType.SNOWTOWER, 400));
-        CARDS.put(CardType.DESERT_TOWER, new Card("DesertTower", CardTDGame.assetManager.<Texture>get(StaticVariables.DESERTTOWERCARD), BuildType.DESERTTOWER, 350));
+        CARDS.put(CardType.FIRE_TOWER, new Card("FireTower", CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.FIRETOWERCARD), BuildType.FIRETOWER, 100));
+        CARDS.put(CardType.ELETTRO_TOWER, new Card("ElettroTower", CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.ELETTROTOWERCARD), BuildType.ELLETTROTOWER, 250));
+        CARDS.put(CardType.LASER_TOWER, new Card("LaserTower", CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.LASERTOWERCARD), BuildType.LASERTOWER, 500));
+        CARDS.put(CardType.SNOW_TOWER, new Card("SnowTower", CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.SNOWTOWERCARD), BuildType.SNOWTOWER, 400));
+        CARDS.put(CardType.DESERT_TOWER, new Card("DesertTower", CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.DESERTTOWERCARD), BuildType.DESERTTOWER, 350));
 
     }
 

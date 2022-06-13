@@ -36,7 +36,7 @@ public class FirstMap extends Level {
     public FirstMap(Texture map, TiledMap tiledmap) {
         super(map, tiledmap);
 
-        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.FIRST_MAP_BGMUSIC));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.ASSETSMANAGER.get(StaticVariables.FIRST_MAP_BGMUSIC));
 
         setShowTiledMapElem(false);
         setShowEnemyCenter(false);

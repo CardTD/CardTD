@@ -381,7 +381,7 @@ public class StaticVariables {
     static {
 
         //load the black cards
-        Texture i = CardTDGame.assetManager.get(CARDSLOT);
+        Texture i = CardTDGame.ASSETSMANAGER.get(CARDSLOT);
         BLANK_CARD = new Card("blank", i, null, 0);
 
     }

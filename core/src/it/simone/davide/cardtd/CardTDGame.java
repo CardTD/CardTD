@@ -25,7 +25,7 @@ public class CardTDGame extends Game {
     /**
      * The assets' manager of the game
      */
-    public static AssetManager assetManager;
+    public static AssetManager ASSETSMANAGER;
 
     /**
      * The instance of the {@link Game} class
@@ -40,17 +40,17 @@ public class CardTDGame extends Game {
     @Override
     public void create() {
         INSTANCE = this;
-        assetManager = new AssetManager();
+        ASSETSMANAGER = new AssetManager();
 
         // set the font loaders
         FileHandleResolver resolver = new InternalFileHandleResolver();
-        assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-        assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
-        assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
+        ASSETSMANAGER.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        ASSETSMANAGER.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+        ASSETSMANAGER.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 
         loadAssets();
 
-        assetManager.finishLoading();
+        ASSETSMANAGER.finishLoading();
         new GameObjects();
         setScreen(new MainMenu());
 
@@ -59,87 +59,87 @@ public class CardTDGame extends Game {
     private void loadAssets() {
 
         //load main menu bg
-        assetManager.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.MAIN_MENU_IMG, Texture.class);
 
-        assetManager.load(StaticVariables.CARDSLOT, Texture.class);
-        assetManager.load(StaticVariables.SHIP, Texture.class);
-        assetManager.load(StaticVariables.DECKMENU, Texture.class);
-        assetManager.load(StaticVariables.DECKBG, Texture.class);
-        assetManager.load(StaticVariables.BACKBUTTON, Texture.class);
-        assetManager.load(StaticVariables.BACKBUTTON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.PAUSEBUTTON, Texture.class);
-        assetManager.load(StaticVariables.PAUSEBUTTON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.RESUMEBUTTON, Texture.class);
-        assetManager.load(StaticVariables.RESUMEBUTTON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.RELOADBUTTON, Texture.class);
-        assetManager.load(StaticVariables.RELOADBUTTON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.OPTIONBUTTON, Texture.class);
-        assetManager.load(StaticVariables.OPTIONBUTTON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.HOMEBUTTON, Texture.class);
-        assetManager.load(StaticVariables.HOMEBUTTON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.CARDSLOT, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SHIP, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.DECKMENU, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.DECKBG, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.BACKBUTTON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.BACKBUTTON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.PAUSEBUTTON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.PAUSEBUTTON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.RESUMEBUTTON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.RESUMEBUTTON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.RELOADBUTTON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.RELOADBUTTON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.OPTIONBUTTON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.OPTIONBUTTON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.HOMEBUTTON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.HOMEBUTTON_PRESSED, Texture.class);
 
-        assetManager.load(StaticVariables.FIRSTMAP, Texture.class);
-        assetManager.load(StaticVariables.TMXMAP, TiledMap.class);
-        assetManager.load(StaticVariables.MAP_OVERLAY, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIRSTMAP, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.TMXMAP, TiledMap.class);
+        ASSETSMANAGER.load(StaticVariables.MAP_OVERLAY, Texture.class);
 
-        assetManager.load(StaticVariables.FIRSTLEVELICON, Texture.class);
-        assetManager.load(StaticVariables.FIRSTLEVELICON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.SECONDLEVELICON, Texture.class);
-        assetManager.load(StaticVariables.SECONDLEVELICON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.THIRDLEVELICON, Texture.class);
-        assetManager.load(StaticVariables.THIRDLEVELICON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.FOURTHLEVELICON, Texture.class);
-        assetManager.load(StaticVariables.FOURTHLEVELICON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.FIFTHLEVELICON, Texture.class);
-        assetManager.load(StaticVariables.FIFTHLEVELICON_PRESSED, Texture.class);
-        assetManager.load(StaticVariables.SIXTHLEVELICON, Texture.class);
-        assetManager.load(StaticVariables.SIXTHLEVELICON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIRSTLEVELICON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIRSTLEVELICON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SECONDLEVELICON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SECONDLEVELICON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.THIRDLEVELICON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.THIRDLEVELICON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FOURTHLEVELICON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FOURTHLEVELICON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIFTHLEVELICON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIFTHLEVELICON_PRESSED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SIXTHLEVELICON, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SIXTHLEVELICON_PRESSED, Texture.class);
 
-        assetManager.load(StaticVariables.TOASTER_IDLE, Texture.class);
-        assetManager.load(StaticVariables.TOASTER_ATTACK, Texture.class);
-        assetManager.load(StaticVariables.TOASTER_DEATH, Texture.class);
-        assetManager.load(StaticVariables.TOASTER_RUN, Texture.class);
-        assetManager.load(StaticVariables.TOASTER_DAMAGED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.TOASTER_IDLE, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.TOASTER_ATTACK, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.TOASTER_DEATH, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.TOASTER_RUN, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.TOASTER_DAMAGED, Texture.class);
 
-        assetManager.load(StaticVariables.STORMHEAD_IDLE, Texture.class);
-        assetManager.load(StaticVariables.STORMHEAD_ATTACK, Texture.class);
-        assetManager.load(StaticVariables.STORMHEAD_DEATH, Texture.class);
-        assetManager.load(StaticVariables.STORMHEAD_RUN, Texture.class);
-        assetManager.load(StaticVariables.STORMHEAD_DAMAGED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.STORMHEAD_IDLE, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.STORMHEAD_ATTACK, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.STORMHEAD_DEATH, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.STORMHEAD_RUN, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.STORMHEAD_DAMAGED, Texture.class);
 
-        assetManager.load(StaticVariables.SPIRITBOXER_IDLE, Texture.class);
-        assetManager.load(StaticVariables.SPIRITBOXER_ATTACK, Texture.class);
-        assetManager.load(StaticVariables.SPIRITBOXER_DEATH, Texture.class);
-        assetManager.load(StaticVariables.SPIRITBOXER_RUN, Texture.class);
-        assetManager.load(StaticVariables.SPIRITBOXER_DAMAGED, Texture.class);
-        assetManager.load(StaticVariables.COIN, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SPIRITBOXER_IDLE, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SPIRITBOXER_ATTACK, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SPIRITBOXER_DEATH, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SPIRITBOXER_RUN, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SPIRITBOXER_DAMAGED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.COIN, Texture.class);
 
-        assetManager.load(StaticVariables.FIRETOWERCARD, Texture.class);
-        assetManager.load(StaticVariables.ELETTROTOWERCARD, Texture.class);
-        assetManager.load(StaticVariables.LASERTOWERCARD, Texture.class);
-        assetManager.load(StaticVariables.SNOWTOWERCARD, Texture.class);
-        assetManager.load(StaticVariables.DESERTTOWERCARD, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIRETOWERCARD, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.ELETTROTOWERCARD, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.LASERTOWERCARD, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SNOWTOWERCARD, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.DESERTTOWERCARD, Texture.class);
 
-        assetManager.load(StaticVariables.FIRETOWERPLACED, Texture.class);
-        assetManager.load(StaticVariables.ELETTROTOWERPLACED, Texture.class);
-        assetManager.load(StaticVariables.LASERTOWERPLACED, Texture.class);
-        assetManager.load(StaticVariables.SNOWTOWERPLACED, Texture.class);
-        assetManager.load(StaticVariables.DESERTTOWERPLACED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIRETOWERPLACED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.ELETTROTOWERPLACED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.LASERTOWERPLACED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SNOWTOWERPLACED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.DESERTTOWERPLACED, Texture.class);
 
-        assetManager.load(StaticVariables.SNOWBALLSHEETS, Texture.class);
-        assetManager.load(StaticVariables.FIREBALLSHEETS, Texture.class);
-        assetManager.load(StaticVariables.AXE, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SNOWBALLSHEETS, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.FIREBALLSHEETS, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.AXE, Texture.class);
 
-        assetManager.load(StaticVariables.SLIDER_BACKGROUND, Texture.class);
-        assetManager.load(StaticVariables.SLIDER_KNOB, Texture.class);
-        assetManager.load(StaticVariables.BACKGROUND_MUSIC, Music.class);
-        assetManager.load(StaticVariables.GAMEOVERVOICE, Music.class);
-        assetManager.load(StaticVariables.FIRST_MAP_BGMUSIC, Music.class);
+        ASSETSMANAGER.load(StaticVariables.SLIDER_BACKGROUND, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.SLIDER_KNOB, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.BACKGROUND_MUSIC, Music.class);
+        ASSETSMANAGER.load(StaticVariables.GAMEOVERVOICE, Music.class);
+        ASSETSMANAGER.load(StaticVariables.FIRST_MAP_BGMUSIC, Music.class);
 
-        assetManager.load(StaticVariables.ROCK, Texture.class);
-        assetManager.load(StaticVariables.HEALT_BAR_BOTTOMLAYED, Texture.class);
-        assetManager.load(StaticVariables.HEALT_BAR_UPPERLAYED, Texture.class);
-        assetManager.load(StaticVariables.HEALT_BAR_MIDLAYED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.ROCK, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.HEALT_BAR_BOTTOMLAYED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.HEALT_BAR_UPPERLAYED, Texture.class);
+        ASSETSMANAGER.load(StaticVariables.HEALT_BAR_MIDLAYED, Texture.class);
 
         FontType.loadFonts();
 

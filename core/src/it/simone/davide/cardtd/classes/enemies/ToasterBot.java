@@ -34,23 +34,23 @@ public class ToasterBot extends Enemy {
     public void loadAnimations() {
         int rows = 1, cols = 5;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.TOASTER_IDLE), rows, cols, EnemyState.IDLE);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.TOASTER_IDLE), rows, cols, EnemyState.IDLE);
 
         cols = 8;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.TOASTER_RUN), rows, cols, EnemyState.RUN);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.TOASTER_RUN), rows, cols, EnemyState.RUN);
 
         cols = 11;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.TOASTER_ATTACK), rows, cols, EnemyState.ATTACK);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.TOASTER_ATTACK), rows, cols, EnemyState.ATTACK);
 
         cols = 8;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.TOASTER_DEATH), rows, cols, EnemyState.DYING);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.TOASTER_DEATH), rows, cols, EnemyState.DYING);
 
         cols = 2;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.TOASTER_DAMAGED), rows, cols, EnemyState.DAMAGED);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.TOASTER_DAMAGED), rows, cols, EnemyState.DAMAGED);
 
         setCurrentState(EnemyState.RUN);
     }

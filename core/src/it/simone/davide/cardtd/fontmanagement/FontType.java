@@ -16,7 +16,7 @@ public class FontType {
     /**
      * The list of all fonts
      */
-    private static final List<FontType> fontTypes = new ArrayList<>();
+    private static final List<FontType> FONT_TYPES = new ArrayList<>();
 
     /**
      * The font type used for the game name in the main menu
@@ -53,9 +53,9 @@ public class FontType {
         LOGO = new FontType("Rundown.ttf", 150, Color.WHITE);
         OPTIONS = new FontType("Rundown1.ttf", 100, Color.WHITE);
         MONEY = new FontType("Roboto-Regular.ttf", 25, Color.WHITE);
-        fontTypes.add(LOGO);
-        fontTypes.add(OPTIONS);
-        fontTypes.add(MONEY);
+        FONT_TYPES.add(LOGO);
+        FONT_TYPES.add(OPTIONS);
+        FONT_TYPES.add(MONEY);
     }
 
     /**
@@ -86,13 +86,13 @@ public class FontType {
      * Loads the font
      */
     public static void loadFonts() {
-        for (FontType fontType : fontTypes) {
+        for (FontType fontType : FONT_TYPES) {
 
             FreeTypeFontLoaderParameter titleParam = new FreeTypeFontLoaderParameter();
             titleParam.fontFileName = fontType.fileName;
             titleParam.fontParameters.size = fontType.size;
 
-            CardTDGame.assetManager.load(fontType.fileName, BitmapFont.class, titleParam);
+            CardTDGame.ASSETSMANAGER.load(fontType.fileName, BitmapFont.class, titleParam);
 
         }
 
@@ -105,7 +105,7 @@ public class FontType {
      */
     public BitmapFont getBitMapFont() {
 
-        return CardTDGame.assetManager.get(fileName, BitmapFont.class);
+        return CardTDGame.ASSETSMANAGER.get(fileName, BitmapFont.class);
 
     }
 
