@@ -15,7 +15,7 @@ public class AnimatedImage extends Image {
     /**
      * The animation that is going to be animated, the frame of the animation
      */
-    protected Animation animation = null;
+    protected Animation animation;
 
     /**
      * The initial stateTime of the animation

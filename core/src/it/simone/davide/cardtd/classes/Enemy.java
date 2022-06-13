@@ -191,6 +191,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         this.path = path;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -244,6 +247,9 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         batch.setColor(Color.WHITE);
@@ -254,6 +260,11 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
     }
 
+    /**
+     * Gets the overlay of the enemy rectangle
+     *
+     * @return the overlay of the enemy rectangle
+     */
     public Rectangle getRectangle() {
 
         return new Rectangle(center.x - getHeight() / 2, center.y - getHeight() / 2, getHeight(), getHeight());
@@ -283,15 +294,31 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         return false;
     }
 
+    /**
+     * Check if the enemy is dead
+     *
+     * @return if the enemy is dead
+     */
     public boolean isDead() {
         return currentState.equals(EnemyState.DYING);
     }
 
+    /**
+     * Loads the animation of the enemy
+     *
+     * @param texture the texture of the enemy
+     * @param rows the rows of the animated tile
+     * @param cols the cols of the animated tile
+     * @param enemyState the enemy state (Es. Dying)
+     */
     public void loadAnimation(Texture texture, int rows, int cols, EnemyState enemyState) {
 
         animations.put(enemyState, CardTDGame.loadAnimation(texture, rows, cols));
     }
 
+    /**
+     * Sets che current state of the enemy to DYING
+     */
     public void die() {
 
         setCurrentState(EnemyState.DYING);
@@ -299,39 +326,92 @@ public abstract class Enemy extends Actor implements Cloneable, Damageable {
         hp = -1;
     }
 
+    /**
+     * Checks if it can remove the enemy
+     *
+     * @return if it can remove the enemy
+     */
     public boolean canRemove() {
         return remove;
     }
 
+    /**
+     * Return the shallow copy of the enemy
+     *
+     * @return the shallowed copy of the enemy
+     */
     @Override
     public abstract Enemy clone();
 
+    /**
+     * Loads the animation of the enemy
+     */
     public abstract void loadAnimations();
 
+    /**
+     * Gets the real height of the enemy
+     *
+     * @return the real height of the enemy
+     */
     @Override
     public abstract float getHeight();
 
+    /**
+     * Gets the real width of the enemy
+     *
+     * @return the real width of the enemy
+     */
     @Override
     public abstract float getWidth();
 
+    /**
+     * Gets all frame with (in pixels) of the enemy
+     *
+     * @return
+     */
     public abstract float getFrameWidth();
 
+    /**
+     * Gets the hp of the enemy
+     *
+     * @return the hp of the enemy
+     */
     public int getHp() {
         return hp;
     }
 
+    /**
+     * Gets the damage the enemy does to the tower
+     *
+     * @return the damage the enemy does to the tower
+     */
     public int getDamage() {
         return damage;
     }
 
+    /**
+     * Gets the speed of the enemy
+     *
+     * @return the speed of the enemy
+     */
     public int getSpeed() {
         return speed;
     }
 
+    /**
+     * Gets the money on death of enemy
+     *
+     * @return the money on death of enemy
+     */
     public int getMoneyonkill() {
         return moneyonkill;
     }
 
+    /**
+     * Gets the attack dimension of the enemy
+     *
+     * @return the attack dimension of the enemy
+     */
     public int getAttackDimension() {
         return attackDimension;
     }
