@@ -1,5 +1,5 @@
 # CardTD
-The game was created as a thesis for the examination of OOP for UNIMORE
+The game was created as a thesis for the [exam of OOP](https://github.com/nbicocchi/ooprogramming) for [UNIMORE](https://www.unimore.it/)
 <br>The game is a tower defense with cards. Compose your deck and place towers to defend your castle.
 
 <hr>
