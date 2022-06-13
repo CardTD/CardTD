@@ -57,12 +57,12 @@ public class HealthBar extends Image implements Damageable {
         this.maxHealth = maxHealth;
         health = maxHealth;
 
-        NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_BOTTOMLAYED), 5, 5, 4, 4);
+        NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.HEALT_BAR_BOTTOMLAYED), 5, 5, 4, 4);
 
-        Texture texture = CardTDGame.assetManager.get(StaticVariables.HEALT_BAR_MIDLAYED);
+        Texture texture = CardTDGame.ASSETSMANAGER.get(StaticVariables.HEALT_BAR_MIDLAYED);
         loadingBarPatch = new TextureRegion(texture);
 
-        NinePatch sopra = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_UPPERLAYED), 5, 5, 4, 4);
+        NinePatch sopra = new NinePatch(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.HEALT_BAR_UPPERLAYED), 5, 5, 4, 4);
 
         loadingBarBackground = new NinePatchDrawable(loadingBarBackgroundPatch);
         upSide = new NinePatchDrawable(sopra);

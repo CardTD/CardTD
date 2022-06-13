@@ -60,7 +60,7 @@ public class OptionsMenu implements Screen {
         Gdx.input.setInputProcessor(mainStage);
 
         Skin skin = new Skin();
-        Texture bg = CardTDGame.assetManager.get(StaticVariables.MAIN_MENU_IMG);
+        Texture bg = CardTDGame.ASSETSMANAGER.get(StaticVariables.MAIN_MENU_IMG);
         Table table = new Table();
         table.setFillParent(true);
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
@@ -74,8 +74,8 @@ public class OptionsMenu implements Screen {
         LabelAdapter button_on_off = new LabelAdapter("Options", FontType.LOGO);
         button_on_off.toStage(mainStage, StaticVariables.SCREEN_WIDTH / 2f - button_on_off.getWidth() / 2, StaticVariables.SCREEN_HEIGHT / 2f - button_on_off.getHeight() / 2 + 200);
 
-        skin.add("sliderBack", CardTDGame.assetManager.get(StaticVariables.SLIDER_BACKGROUND));
-        skin.add("sliderKnob", CardTDGame.assetManager.get(StaticVariables.SLIDER_KNOB));
+        skin.add("sliderBack", CardTDGame.ASSETSMANAGER.get(StaticVariables.SLIDER_BACKGROUND));
+        skin.add("sliderKnob", CardTDGame.ASSETSMANAGER.get(StaticVariables.SLIDER_KNOB));
 
 
         SliderStyle uiSliderStyle = new SliderStyle();
@@ -116,8 +116,8 @@ public class OptionsMenu implements Screen {
         fxSlider.setPosition((StaticVariables.SCREEN_WIDTH / 2f - fxSlider.getWidth() / 2) + 200, StaticVariables.SCREEN_HEIGHT / 2f - fxSlider.getHeight() / 2 - 200);
         mainStage.addActor(fxSlider);
 
-        TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON));
-        TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
+        TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.BACKBUTTON));
+        TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
         Button back = new Button(b, bp);
         back.setSize(80, 80);
         back.setPosition(mainStage.getWidth() - 100, mainStage.getHeight() - 100);

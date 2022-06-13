@@ -36,7 +36,7 @@ public class NotImplementedYet implements Screen {
     public NotImplementedYet(final Screen backscreen) {
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        Texture bg = CardTDGame.assetManager.get(StaticVariables.MAIN_MENU_IMG);
+        Texture bg = CardTDGame.ASSETSMANAGER.get(StaticVariables.MAIN_MENU_IMG);
         Table table = new Table();
         table.setFillParent(true);
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
@@ -46,8 +46,8 @@ public class NotImplementedYet implements Screen {
         LabelAdapter select_level = new LabelAdapter("NOT IMPLEMENTED YET", FontType.OPTIONS);
         select_level.toStage(fillstage, fillstage.getWidth() / 2f - select_level.getWidth() / 2, fillstage.getHeight() / 2f - select_level.getHeight() / 2 + 200);
 
-        TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON));
-        TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
+        TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.BACKBUTTON));
+        TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
         Button back = new Button(b, bp);
         back.setSize(100, 100);
         back.setPosition(fillstage.getWidth() - 150, fillstage.getHeight() - 150);

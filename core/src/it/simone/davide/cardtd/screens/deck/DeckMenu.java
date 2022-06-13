@@ -54,11 +54,11 @@ public class DeckMenu implements Screen, InputProcessor {
     public DeckMenu() {
 
         deckStage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
-        deckStage.addActor(new Image(CardTDGame.assetManager.<Texture>get(StaticVariables.DECKMENU)));
+        deckStage.addActor(new Image(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.DECKMENU)));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
-        Texture bg = CardTDGame.assetManager.get(StaticVariables.DECKBG);
+        Texture bg = CardTDGame.ASSETSMANAGER.get(StaticVariables.DECKBG);
         Table table = new Table();
         table.setFillParent(true);
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
@@ -70,8 +70,8 @@ public class DeckMenu implements Screen, InputProcessor {
         currentDeck.setIntegrationWith(allCards);
         allCards.setIntegrationWith(currentDeck);
 
-        TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON));
-        TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
+        TextureRegionDrawable b = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.BACKBUTTON));
+        TextureRegionDrawable bp = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.BACKBUTTON_PRESSED));
 
         Button back = new Button(b, bp);
         back.setSize(80, 80);

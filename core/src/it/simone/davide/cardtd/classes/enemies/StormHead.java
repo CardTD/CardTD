@@ -44,23 +44,23 @@ public class StormHead extends Enemy {
     public void loadAnimations() {
         int rows = 9, cols = 1;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.STORMHEAD_IDLE), rows, cols, EnemyState.IDLE);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.STORMHEAD_IDLE), rows, cols, EnemyState.IDLE);
 
         rows = 10;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.STORMHEAD_RUN), rows, cols, EnemyState.RUN);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.STORMHEAD_RUN), rows, cols, EnemyState.RUN);
 
         rows = 21;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.STORMHEAD_ATTACK), rows, cols, EnemyState.ATTACK);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.STORMHEAD_ATTACK), rows, cols, EnemyState.ATTACK);
 
         rows = 9;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.STORMHEAD_DEATH), rows, cols, EnemyState.DYING);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.STORMHEAD_DEATH), rows, cols, EnemyState.DYING);
 
         rows = 2;
 
-        loadAnimation(CardTDGame.assetManager.<Texture>get(StaticVariables.STORMHEAD_DAMAGED), rows, cols, EnemyState.DAMAGED);
+        loadAnimation(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.STORMHEAD_DAMAGED), rows, cols, EnemyState.DAMAGED);
 
         setCurrentState(EnemyState.RUN);
     }

@@ -74,13 +74,13 @@ public class MainMenu implements Screen {
      */
     public MainMenu() {
 
-        MainMenu.OPTIONS.setMusic((Music) CardTDGame.assetManager.get(StaticVariables.BACKGROUND_MUSIC));
+        MainMenu.OPTIONS.setMusic((Music) CardTDGame.ASSETSMANAGER.get(StaticVariables.BACKGROUND_MUSIC));
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         fitstage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
 
         //faccio in modo che il bg si estende su tutto lo schermo e lo setto
-        Texture bg = CardTDGame.assetManager.get(StaticVariables.MAIN_MENU_IMG);
+        Texture bg = CardTDGame.ASSETSMANAGER.get(StaticVariables.MAIN_MENU_IMG);
         Table table = new Table();
         table.setFillParent(true);
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
@@ -92,7 +92,7 @@ public class MainMenu implements Screen {
             @Override
             public void run() {
 
-                final Image nave = new Image((Texture) CardTDGame.assetManager.get(StaticVariables.SHIP));
+                final Image nave = new Image((Texture) CardTDGame.ASSETSMANAGER.get(StaticVariables.SHIP));
                 nave.setPosition(-500, 600);
                 nave.setScale(nextFloat(0.2f, 0.5f));
 

@@ -287,8 +287,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         pauseStage = new Stage(new ScreenViewport());
         gameOverStage = new Stage(new ScreenViewport());
 
-        TextureRegionDrawable resumeButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RESUMEBUTTON));
-        TextureRegionDrawable resumeButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
+        TextureRegionDrawable resumeButton = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.RESUMEBUTTON));
+        TextureRegionDrawable resumeButtonP = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
         resume = new Button(resumeButton, resumeButtonP);
         resume.setSize(100, 100);
         resume.setPosition(pauseStage.getWidth() - 150, pauseStage.getHeight() - 150);
@@ -303,8 +303,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         });
         pauseStage.addActor(resume);
 
-        TextureRegionDrawable reloadButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RELOADBUTTON));
-        TextureRegionDrawable reloadButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.RELOADBUTTON_PRESSED));
+        TextureRegionDrawable reloadButton = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.RELOADBUTTON));
+        TextureRegionDrawable reloadButtonP = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.RELOADBUTTON_PRESSED));
         reload = new Button(reloadButton, reloadButtonP);
         reload.setSize(150, 150);
         reload.setPosition(pauseStage.getWidth() / 2f - reload.getWidth() / 2 + 100, pauseStage.getHeight() / 2f - reload.getHeight() / 2);
@@ -314,14 +314,14 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
 
-                CardTDGame.INSTANCE.setScreen(new FirstMap(CardTDGame.assetManager.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.assetManager.<TiledMap>get(StaticVariables.TMXMAP)));
+                CardTDGame.INSTANCE.setScreen(new FirstMap(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.FIRSTMAP), CardTDGame.ASSETSMANAGER.<TiledMap>get(StaticVariables.TMXMAP)));
 
             }
         });
         gameOverStage.addActor(reload);
 
-        TextureRegionDrawable pauseButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON));
-        TextureRegionDrawable pauseButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
+        TextureRegionDrawable pauseButton = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.PAUSEBUTTON));
+        TextureRegionDrawable pauseButtonP = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.PAUSEBUTTON_PRESSED));
         pause = new Button(pauseButton, pauseButtonP);
         pause.setSize(100, 100);
         pause.setPosition(pauseStage.getWidth() - 150, pauseStage.getHeight() - 150);
@@ -349,8 +349,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         gameWinLabel = new LabelAdapter("YOU WON", FontType.LOGO);
         gameWinLabel.toStage(gameOverStage, gameOverStage.getWidth() / 2f - gameWinLabel.getWidth() / 2, gameOverStage.getHeight() / 2f - gameWinLabel.getHeight() / 2 + 200);
 
-        TextureRegionDrawable optionButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON));
-        TextureRegionDrawable optionButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.OPTIONBUTTON_PRESSED));
+        TextureRegionDrawable optionButton = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.OPTIONBUTTON));
+        TextureRegionDrawable optionButtonP = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.OPTIONBUTTON_PRESSED));
         option = new Button(optionButton, optionButtonP);
         option.setSize(150, 150);
         option.setPosition(pauseStage.getWidth() / 2f - option.getWidth() / 2 + 100, pauseStage.getHeight() / 2f - option.getHeight() / 2);
@@ -365,8 +365,8 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         });
         pauseStage.addActor(option);
 
-        TextureRegionDrawable homeButton = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.HOMEBUTTON));
-        TextureRegionDrawable homeButtonP = new TextureRegionDrawable(CardTDGame.assetManager.<Texture>get(StaticVariables.HOMEBUTTON_PRESSED));
+        TextureRegionDrawable homeButton = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.HOMEBUTTON));
+        TextureRegionDrawable homeButtonP = new TextureRegionDrawable(CardTDGame.ASSETSMANAGER.<Texture>get(StaticVariables.HOMEBUTTON_PRESSED));
         homeB = new Button(homeButton, homeButtonP);
         homeB.setSize(150, 150);
         homeB.setPosition(pauseStage.getWidth() / 2f - homeB.getWidth() / 2 - 100, pauseStage.getHeight() / 2f - homeB.getHeight() / 2);
@@ -383,7 +383,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         pauseStage.addActor(homeB);
 
         overlaystage = new Stage(new FitViewport(StaticVariables.SCREEN_WIDTH, StaticVariables.SCREEN_HEIGHT));
-        overlaystage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.MAP_OVERLAY)));
+        overlaystage.addActor(new Image((Texture) CardTDGame.ASSETSMANAGER.get(StaticVariables.MAP_OVERLAY)));
 
         timer = new LabelAdapter(initialCountDown + "", FontType.MONEY);
         timer.toStage(overlaystage, overlaystage.getWidth() / 2f - timer.getWidth() / 2, overlaystage.getHeight() - timer.getHeight());
@@ -404,7 +404,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         balanceLabel = new LabelAdapter(balance + "", FontType.MONEY);
         balanceLabel.toStage(overlaystage, 640, 9);
 
-        AnimatedImage coin = new AnimatedImage(CardTDGame.loadAnimation((Texture) CardTDGame.assetManager.get(StaticVariables.COIN), 8, 1));
+        AnimatedImage coin = new AnimatedImage(CardTDGame.loadAnimation((Texture) CardTDGame.ASSETSMANAGER.get(StaticVariables.COIN), 8, 1));
 
         coin.scaleBy(-0.75f);
         coin.setPosition(580, 10);
@@ -423,7 +423,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         PauseLabel.toStage(pauseStage, pauseStage.getWidth() / 2f - PauseLabel.getWidth() / 2, pauseStage.getHeight() / 2f - PauseLabel.getHeight() / 2 + 200);
 
         fillstage = new Stage(new FillViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        Texture bg = CardTDGame.assetManager.get(StaticVariables.DECKBG);
+        Texture bg = CardTDGame.ASSETSMANAGER.get(StaticVariables.DECKBG);
         Table table = new Table();
         table.setFillParent(true);
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
@@ -892,7 +892,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
             boolean f = isGameOver;
             isGameOver = true;
             if (!f) {
-                Music c = (CardTDGame.assetManager.get(StaticVariables.GAMEOVERVOICE));
+                Music c = (CardTDGame.ASSETSMANAGER.get(StaticVariables.GAMEOVERVOICE));
                 c.setVolume(MainMenu.OPTIONS.getFxVolume());
                 c.setLooping(false);
                 c.play();
