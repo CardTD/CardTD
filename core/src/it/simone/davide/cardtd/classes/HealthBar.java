@@ -10,15 +10,47 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import it.simone.davide.cardtd.CardTDGame;
 import it.simone.davide.cardtd.StaticVariables;
 
-public class HealthBar extends Image {
+/**
+ * The class that manages the main tower’s life bar
+ */
+public class HealthBar extends Image implements Damageable {
 
-    private NinePatchDrawable loadingBarBackground, sopraB;
+    /**
+     * The {@link NinePatchDrawable} of the background of the bar
+     */
+    private NinePatchDrawable loadingBarBackground;
+
+    /**
+     * The {@link NinePatchDrawable} of the top part of the bar
+     */
+    private NinePatchDrawable upSide;
+
+    /**
+     * The image of the red part of the bar
+     */
     private TextureRegion loadingBarPatch;
 
+    /**
+     * The current health of the tower
+     */
     private float health;
+
+    /**
+     * The max health of the tower
+     */
     private float maxHealth;
+
+    /**
+     * The percentage of the bar
+     * Values between {@code 0} and {@code 1}
+     */
     private float progress = 1;
 
+    /**
+     * Create a new health bar
+     *
+     * @param maxHealth the max health of the tower
+     */
     public HealthBar(float maxHealth) {
 
         super(new Texture(Gdx.files.internal("Sotto.png")));
@@ -27,15 +59,18 @@ public class HealthBar extends Image {
 
         NinePatch loadingBarBackgroundPatch = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_BOTTOMLAYED), 5, 5, 4, 4);
 
-        Texture texture = CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_MIDLAYED);
+        Texture texture = CardTDGame.assetManager.get(StaticVariables.HEALT_BAR_MIDLAYED);
         loadingBarPatch = new TextureRegion(texture);
 
         NinePatch sopra = new NinePatch(CardTDGame.assetManager.<Texture>get(StaticVariables.HEALT_BAR_UPPERLAYED), 5, 5, 4, 4);
 
         loadingBarBackground = new NinePatchDrawable(loadingBarBackgroundPatch);
-        sopraB = new NinePatchDrawable(sopra);
+        upSide = new NinePatchDrawable(sopra);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
@@ -48,19 +83,31 @@ public class HealthBar extends Image {
             batch.draw(s, (s.getRegionX() + getX()), (s.getRegionY() + getY()), s.getRegionWidth(), s.getRegionHeight());
 
         }
-        sopraB.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
+        upSide.draw(batch, getX(), getY(), getWidth() * getScaleX(), getHeight() * getScaleY());
 
     }
 
-    public void damage(float removelife) {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean damage(float removelife) {
         health -= removelife;
         if (health < 0) {
+
             health = 0;
+            return true;
         }
         progress = health / maxHealth;
 
+        return false;
     }
 
+    /**
+     * Returns if the main tower id dead
+     *
+     * @return if the main tower id dead
+     */
     public boolean isDead() {
         return health <= 0;
     }

@@ -261,7 +261,7 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
     /**
      * Create a new Level
      *
-     * @param map the image of the map
+     * @param map      the image of the map
      * @param tiledmap the tiled map of the level
      */
     public Level(Texture map, TiledMap tiledmap) {
@@ -429,8 +429,6 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         table.background(new TextureRegionDrawable(new TextureRegion(bg)));
         fillstage.addActor(table);
         tileManager = new TileManager(tiledmap, placedStructures);
-
-        //  mainStage.addActor(new Image((Texture) CardTDGame.assetManager.get(StaticVariables.IN_GAME_DECK)));
 
         mainStage.addListener(new DragListener() {
 
@@ -643,8 +641,18 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
+    /**
+     * Returns the level's waves. Used in the constructor to get the level's waves
+     *
+     * @return the level's waves
+     */
     public abstract Waves getWaves();
 
+    /**
+     * Update the balance
+     *
+     * @param addBalance add money to balance
+     */
     public void updateBalance(int addBalance) {
         if (addBalance != 0) {
 
@@ -656,6 +664,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void show() {
 
@@ -673,10 +684,20 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
+    /**
+     * Returns the overlay stage
+     *
+     * @return the overlay stage
+     */
     public Stage getOverlaystage() {
         return overlaystage;
     }
 
+    /**
+     * Add enemy to the game. It will spawn in the {@link #getStartPostision(EnemyType)}
+     *
+     * @param enemyType enemy to add
+     */
     public void addEnemy(EnemyType enemyType) {
         Enemy s = ((Enemy) GameObjects.ENEMIES.get(enemyType)).clone();
         Vector2 i = getStartPostision(enemyType);
@@ -694,14 +715,41 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
+    /**
+     * Return the position where spawn the enemies. The position can be different for enemy type
+     *
+     * @param enemyType the enemy type
+     * @return the position where the enemy have to spawn
+     */
     public abstract Vector2 getStartPostision(EnemyType enemyType);
 
+    /**
+     * Return the path of the enemy have to do. The path can be different for enemy type
+     *
+     * @param enemyType the enemy type
+     * @return the path of the enemy have to do
+     */
     public abstract Path getPath(EnemyType enemyType);
 
-    public abstract boolean attackCheck(Enemy e, Polygon p);
+    /**
+     * Check if the enemy have to attack the main tower
+     *
+     * @param enemy the enemy
+     * @param p     the polygon of the tower
+     * @return if the enemy have to attack the main tower
+     */
+    public abstract boolean attackCheck(Enemy enemy, Polygon p);
 
+    /**
+     * Return if the enemy’s texture needs to be flipped when it spawns
+     *
+     * @return if the enemy’s texture needs to be flipped
+     */
     public abstract boolean isFlippedEnemy();
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void render(float delta) {
         if (!isGameOver && !isGameWon)
@@ -860,68 +908,108 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
     }
 
-    public void blur(Stage a) {
-        a.getBatch().begin();
+    /**
+     * Apply a blur effect in a stage
+     *
+     * @param stage a stage
+     */
+    public void blur(Stage stage) {
+        stage.getBatch().begin();
         fboA.begin();
         Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        a.getBatch().setShader(null);
-        a.getBatch().flush();
+        stage.getBatch().setShader(null);
+        stage.getBatch().flush();
         fboA.end();
-        applyBlur(4.0f, a.getBatch());
-        a.getBatch().end();
+        applyBlur(4.0f, stage.getBatch());
+        stage.getBatch().end();
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resize(int width, int height) {
         mainStage.getViewport().update(width, height, true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void pause() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resume() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void hide() {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void dispose() {
 
     }
 
+    /**
+     * Set if the center of the enemy must be shown
+     *
+     * @param showEnemyCenter if the center of the enemy must be shown
+     */
     public void setShowEnemyCenter(boolean showEnemyCenter) {
         this.showEnemyCenter = showEnemyCenter;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean tap(float x, float y, int count, int button) {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean longPress(float x, float y) {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
         if (!isPaused && !isGameOver && !isGameWon) {
@@ -946,6 +1034,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean zoom(float initialDistance, float distance) {
         if (!isPaused && !isGameOver && !isGameWon) {
@@ -960,6 +1051,9 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
         if (!isPaused && !isGameOver && !isGameWon) {
@@ -970,12 +1064,18 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean pinch(Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer) {
 
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void pinchStop() {
 
@@ -1018,13 +1118,23 @@ public abstract class Level implements Screen, GestureDetector.GestureListener {
 
         float world_to_screen = 1.0f / 100.0f;
 
-        batch.draw(texture, (float) 0.0, (float) 0.0, 0.0f, 0.0f, width, height, 1.0f / 100.0f, 1.0f / 100.0f, 0.0f, 0, 0, width, height, false, false);
+        batch.draw(texture, (float) 0.0, (float) 0.0, 0.0f, 0.0f, width, height, world_to_screen, world_to_screen, 0.0f, 0, 0, width, height, false, false);
     }
 
+    /**
+     * Set if the tiled map elements of the map must be shown
+     *
+     * @param showTiledMapElem if the tiled map elements of the map must be shown
+     */
     public void setShowTiledMapElem(boolean showTiledMapElem) {
         this.showTiledMapElem = showTiledMapElem;
     }
 
+    /**
+     * Returns the initial balance. Used in the constructor to get the initial balance
+     *
+     * @return the initial balance
+     */
     public abstract int getInitialBalance();
 }
 

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -15,15 +14,47 @@ import it.simone.davide.cardtd.enums.EnemyState;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class that represents an enemy
+ */
 public abstract class Enemy extends Actor implements Cloneable, Damageable {
 
-    protected Map<EnemyState, Animation<TextureRegion>> animations;
-    protected EnemyState currentState;
-    protected TextureRegion currentRegion;
-    protected float time = 0f;
+    /**
+     * The animations, one for each state
+     */
+    private Map<EnemyState, Animation<TextureRegion>> animations;
+
+    /**
+     * Current state of the enemy
+     */
+    private EnemyState currentState;
+
+    /**
+     * The region of the enemy
+     */
+    private TextureRegion currentRegion;
+
+    /**
+     * The time that defines the frame of the animations
+     */
+    private float time = 0f;
+
+    /**
+     * Health points of the enemy
+     */
     private int hp;
+
+    /**
+     * The damage the enemy can inflict
+     */
     private final int damage;
+
+    /**
+     * The speed of the enemy
+     */
     private final int speed;
+
+    
     private final int moneyonkill;
     private final int attackDimension;
     private boolean remove = false;

@@ -78,17 +78,17 @@ public class FirstMap extends Level {
     /**
      * Check if an enemy are close enough to attack the tower
      *
-     * @param e the real enemy to check
+     * @param enemy the real enemy to check
      * @param p the polygon of the tower
      * @return if an enemy are close enough to attack the tower
      */
     @Override
-    public boolean attackCheck(Enemy e, Polygon p) {
+    public boolean attackCheck(Enemy enemy, Polygon p) {
 
         Rectangle r = p.getBoundingRectangle();
 
-        if (e.getX() < r.getX() + r.getWidth()) {
-            return !e.isDead();
+        if (enemy.getX() < r.getX() + r.getWidth()) {
+            return !enemy.isDead();
 
         }
 
