@@ -1,6 +1,12 @@
 package it.simone.davide.cardtd.classes;
 
+/**
+ * This interface represents a damaging entity
+ */
 public interface Damageable {
-
-    public boolean damage(float damage);
+    /**
+     * @param damage
+     * @return id diead or not
+     */
+    boolean damage(float damage);
 }

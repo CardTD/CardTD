@@ -17,21 +17,84 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Manage the structure of the level
+ *
+ * @see Image
+ */
 public class Build extends Image {
 
+    /**
+     * The range attack that the structure will have
+     */
     private final float attackRange;
+
+    /**
+     * The attack speed that the structure will have
+     */
     private final float attackSpeed;
+
+    /**
+     * The texture of the structure
+     */
     private final Texture texture;
+
+    /**
+     * The target that the structure will attack
+     */
     private Enemy target = null;
+
+    /**
+     * The list of all available bullets
+     */
     private final List<Bullet> bulletList = new ArrayList<>();
+
+    /**
+     * The range of attack of the structure
+     */
     private Circle attackRangeCircle;
+
+    /**
+     * The bullet that the structure will use
+     */
     private final Bullet bullet;
+
+    /**
+     * The type of bullet that the structure will use
+     */
     private final BulletType bulletType;
+
+    /**
+     * The time the structure will wait before attacking again
+     */
     private float time = 0;
+
+    /**
+     * Specifies whether the structure is placed or not
+     */
     private boolean isPlaced = false;
+
+    /**
+     * The damage that the structure will do to the enemy
+     */
     private final int damage;
+
+    /**
+     * The instance of the build
+     */
     private Build instance;
 
+    /**
+     * Create a new build
+     *
+     * @param texture     the texture of the build
+     * @param bulletType  the bulletType of the structure is going to use
+     * @param attackRange the attackRange of the structure
+     * @param attackSpeed the attackSpeed of the structure
+     * @param damage      the damage that the structure will do to the enemy
+     * @param x           the x position of the structure
+     * @param y           the u position of the structure
+     */
     public Build(Texture texture, BulletType bulletType, int attackRange, float attackSpeed, int damage, int x, int y) {
         super(texture);
         instance = this;
@@ -46,6 +109,12 @@ public class Build extends Image {
         setPosition(x, y);
     }
 
+    /**
+     * Setting the position of the structure
+     *
+     * @param x the x position of the structure
+     * @param y the y position of the structure
+     */
     @Override
     public void setPosition(float x, float y) {
         if (isPlaced)
@@ -57,15 +126,28 @@ public class Build extends Image {
 
     }
 
+    /**
+     * Returns the outline of the rectangle of the structure
+     *
+     * @return the rectangle of the structure
+     */
     public Rectangle getRectangle() {
 
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
+    /**
+     * Return if structure is placed or not
+     *
+     * @return if structure is placed or not
+     */
     public boolean isPlaced() {
         return isPlaced;
     }
 
+    /**
+     * Place the structure on the field
+     */
     public void place() {
         isPlaced = true;
 
@@ -89,12 +171,22 @@ public class Build extends Image {
 
     }
 
+    /**
+     * Set the target of the structure
+     *
+     * @param target the enemy that the structure will attack
+     */
     public void setTarget(Enemy target) {
         if (this.target == null) {
             this.target = target;
         }
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param delta Time in seconds since the last frame.
+     */
     @Override
     public void act(float delta) {
         if (isPlaced) {
@@ -129,13 +221,17 @@ public class Build extends Image {
 
     }
 
+    /**
+     * Returns the attack range of the circle of structure
+     *
+     * @return the attack range of the circle of structure
+     */
     public Circle getAttackRangeCircle() {
         return attackRangeCircle;
     }
 
     /**
-     * @param enemies
-     * @return the sum of money
+     * {@inheritDoc}
      */
     public int hitEnemies(List<Enemy> enemies) {
         int somma = 0;
@@ -151,13 +247,14 @@ public class Build extends Image {
         return somma;
     }
 
+    /**
+     * Create a shallow copy of the structure
+     *
+     * @return the shallowed copy
+     */
     public Build clone() {
 
         return new Build(texture, bulletType, (int) attackRange, attackSpeed, damage, (int) getX(), (int) getY());
 
-    }
-
-    public float getAttackRange() {
-        return attackRange;
     }
 }
