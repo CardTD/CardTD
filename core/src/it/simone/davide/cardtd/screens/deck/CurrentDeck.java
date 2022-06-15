@@ -76,7 +76,7 @@ class CurrentDeck {
                     super.clicked(event, x, y);
 
                     final Card c = ((Card) event.getTarget());
-                    if (!c.getName().equals("blank") && !c.isSelected()) {
+                    if (!c.getName().equals("blank") ) {
                         final Card r = allCards.getCard(c);
 
                         final Card clone = c.clone();
